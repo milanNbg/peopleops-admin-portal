@@ -122,6 +122,11 @@
   padding: 32px;
 }
 
+.dashboard-page {
+  display: grid;
+  gap: 24px;
+}
+
 .welcome-panel {
   max-width: 760px;
   padding: 32px;
@@ -130,6 +135,140 @@
   background: #ffffff;
   box-shadow: 0 18px 45px rgba(15, 23, 42, 0.06);
   text-align: left;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.metric-card,
+.dashboard-card {
+  border: 1px solid #dce3ee;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.05);
+}
+
+.metric-card {
+  padding: 20px;
+}
+
+.metric-label,
+.metric-trend,
+.activity-list p {
+  margin: 0;
+}
+
+.metric-label {
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.metric-value {
+  display: block;
+  margin-top: 10px;
+  color: #0f172a;
+  font-size: 30px;
+  line-height: 1;
+}
+
+.metric-trend {
+  margin-top: 10px;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 24px;
+}
+
+.dashboard-card {
+  padding: 24px;
+}
+
+.section-heading {
+  margin-bottom: 18px;
+}
+
+.section-heading h3 {
+  margin: 4px 0 0;
+  color: #0f172a;
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.overview-list {
+  display: grid;
+  gap: 14px;
+}
+
+.overview-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  color: #526173;
+  font-size: 15px;
+}
+
+.overview-row strong {
+  color: #0f172a;
+}
+
+.activity-list {
+  display: grid;
+  gap: 16px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.activity-list li {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 12px;
+  color: #526173;
+  font-size: 15px;
+}
+
+.activity-list span {
+  color: #2563eb;
+  font-weight: 800;
+}
+
+.department-table {
+  display: grid;
+  overflow-x: auto;
+}
+
+.department-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 1.3fr) repeat(2, minmax(110px, 0.7fr)) minmax(160px, 1fr);
+  min-width: 680px;
+  padding: 14px 0;
+  border-top: 1px solid #e8edf5;
+  color: #526173;
+  font-size: 15px;
+}
+
+.department-row span:first-child {
+  color: #0f172a;
+  font-weight: 750;
+}
+
+.department-row-header {
+  padding-top: 0;
+  border-top: 0;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 
 .eyebrow {
@@ -184,6 +323,11 @@ h2 {
 
   .main-content {
     padding: 24px;
+  }
+
+  .metric-grid,
+  .dashboard-grid {
+    grid-template-columns: 1fr;
   }
 
   .welcome-panel {

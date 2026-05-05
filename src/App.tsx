@@ -4,6 +4,7 @@ import { MainContent } from './components/layout/MainContent'
 import { Sidebar } from './components/layout/Sidebar'
 import { Topbar } from './components/layout/Topbar'
 import { navigationItems } from './data/navigation'
+import { DashboardPage } from './features/dashboard/DashboardPage'
 
 function App() {
   return (
@@ -11,7 +12,9 @@ function App() {
       sidebar={<Sidebar navigationItems={navigationItems} />}
       topbar={<Topbar />}
     >
-      <MainContent />
+      <MainContent>
+        <DashboardPage />
+      </MainContent>
     </AppLayout>
   )
 }
