@@ -1,0 +1,133 @@
+.employees-page {
+  display: grid;
+  gap: 24px;
+}
+
+.employees-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.result-count {
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.employee-controls {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.4fr) repeat(3, minmax(150px, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.field span {
+  color: #475569;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  min-height: 40px;
+  border: 1px solid #dce3ee;
+  border-radius: 7px;
+  padding: 0 12px;
+  color: #172033;
+  background: #ffffff;
+  font: inherit;
+  font-size: 14px;
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: #2563eb;
+  outline: 3px solid #dbeafe;
+}
+
+.employee-table {
+  display: grid;
+  overflow-x: auto;
+}
+
+.employee-row {
+  display: grid;
+  grid-template-columns:
+    minmax(210px, 1.4fr) minmax(140px, 0.9fr) minmax(190px, 1.2fr)
+    minmax(140px, 0.9fr) minmax(120px, 0.7fr) minmax(120px, 0.8fr);
+  min-width: 940px;
+  padding: 16px 0;
+  border-top: 1px solid #e8edf5;
+  color: #526173;
+  font-size: 15px;
+}
+
+.employee-row span {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+}
+
+.employee-row strong {
+  display: block;
+  color: #0f172a;
+  font-weight: 800;
+}
+
+.employee-row small {
+  display: block;
+  margin-top: 4px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.employee-row span:first-child {
+  display: block;
+}
+
+.employee-row-header {
+  padding-top: 0;
+  border-top: 0;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.empty-state {
+  padding: 32px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  text-align: center;
+  background: #f8fafc;
+}
+
+.empty-state h4 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 18px;
+}
+
+.empty-state p {
+  margin: 8px 0 0;
+  color: #64748b;
+  font-size: 15px;
+}
+
+@media (max-width: 820px) {
+  .employees-heading {
+    flex-direction: column;
+  }
+
+  .employee-controls {
+    grid-template-columns: 1fr;
+  }
+}

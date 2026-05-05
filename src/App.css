@@ -127,11 +127,6 @@
   gap: 24px;
 }
 
-.employees-page {
-  display: grid;
-  gap: 24px;
-}
-
 .welcome-panel {
   max-width: 760px;
   padding: 32px;
@@ -277,55 +272,6 @@
 }
 
 .department-row-header {
-  padding-top: 0;
-  border-top: 0;
-  color: #64748b;
-  font-size: 13px;
-  font-weight: 800;
-  text-transform: uppercase;
-}
-
-.employee-table {
-  display: grid;
-  overflow-x: auto;
-}
-
-.employee-row {
-  display: grid;
-  grid-template-columns:
-    minmax(210px, 1.4fr) minmax(140px, 0.9fr) minmax(190px, 1.2fr)
-    minmax(140px, 0.9fr) minmax(120px, 0.7fr) minmax(120px, 0.8fr);
-  min-width: 940px;
-  padding: 16px 0;
-  border-top: 1px solid #e8edf5;
-  color: #526173;
-  font-size: 15px;
-}
-
-.employee-row span {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-}
-
-.employee-row strong {
-  display: block;
-  color: #0f172a;
-  font-weight: 800;
-}
-
-.employee-row small {
-  display: block;
-  margin-top: 4px;
-  color: #64748b;
-  font-size: 13px;
-}
-
-.employee-row span:first-child {
-  display: block;
-}
-
-.employee-row-header {
   padding-top: 0;
   border-top: 0;
   color: #64748b;
