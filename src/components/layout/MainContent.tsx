@@ -5,7 +5,7 @@ type MainContentProps = {
 }
 
 export const MainContent = ({ children }: MainContentProps) => (
-  <main className="main-content" id="dashboard">
+  <main className="main-content">
     {children}
   </main>
 )

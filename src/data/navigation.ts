@@ -1,13 +1,12 @@
 export type NavigationItem = {
-  href: string
-  isActive?: boolean
   label: string
+  path: string
 }
 
 export const navigationItems: NavigationItem[] = [
-  { href: '#dashboard', isActive: true, label: 'Dashboard' },
-  { href: '#dashboard', label: 'Employees' },
-  { href: '#dashboard', label: 'Departments' },
-  { href: '#dashboard', label: 'Roles' },
-  { href: '#dashboard', label: 'Reports' },
+  { label: 'Dashboard', path: '/dashboard' },
+  { label: 'Employees', path: '/employees' },
+  { label: 'Departments', path: '/departments' },
+  { label: 'Roles', path: '/roles' },
+  { label: 'Reports', path: '/reports' },
 ]
