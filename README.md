@@ -1,73 +1,108 @@
-# React + TypeScript + Vite
+# PeopleOps Admin Portal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive front-end admin dashboard built with React, TypeScript and Vite.
 
-Currently, two official plugins are available:
+The goal of this project is to demonstrate a clean, scalable and production-oriented front-end architecture for a People Operations / HR management platform.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Overview
 
-## React Compiler
+PeopleOps Admin Portal is a front-end application focused on managing people operations data such as employees, departments, roles, activity metrics and admin workflows.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This project is built as a portfolio-level React application with a strong focus on:
 
-## Expanding the ESLint configuration
+- clean component architecture
+- TypeScript-first development
+- responsive dashboard UI
+- reusable UI patterns
+- scalable folder structure
+- mock API/data layer
+- maintainable styling
+- professional enterprise-style design
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- React
+- TypeScript
+- Vite
+- CSS Modules / modern CSS
+- Mock data layer
+- ESLint
+- Git & GitHub
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Planned Tech / Enhancements
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- React Router
+- Reusable form components
+- Advanced filtering
+- Responsive data tables
+- Dashboard charts
+- Dark mode support
+- Unit tests
+
+## Planned Features
+
+- Dashboard overview page
+- Employees management page
+- Departments page
+- Roles and permissions page
+- Activity / audit log page
+- Search and filtering
+- Responsive sidebar navigation
+- Reusable cards, tables and form components
+- Loading, empty and error states
+- Mock API service layer
+
+## Project Structure
+
+```txt
+src/
+  assets/
+  components/
+    layout/
+    ui/
+  data/
+  features/
+    dashboard/
+    employees/
+    departments/
+    roles/
+  hooks/
+  routes/
+  services/
+  types/
+  utils/
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Getting Started
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Install dependencies:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+Run the development server:
+
+```bash
+npm run dev
+```
+
+Build the project:
+
+```bash
+npm run build
+```
+
+Preview production build:
+
+```bash
+npm run preview
+```
+
+## Purpose
+
+This project is part of my front-end portfolio and demonstrates how I approach modern React application development, component architecture, TypeScript usage, responsive UI implementation and Git-based workflow.
+
+## Status
+
+In development.
