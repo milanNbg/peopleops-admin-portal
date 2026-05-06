@@ -1,0 +1,58 @@
+import type { Report } from '../types/report'
+
+export const reports: Report[] = [
+  {
+    category: 'Workforce',
+    generatedDate: 'May 01, 2026',
+    id: 'report-workforce-health',
+    name: 'Workforce Health Overview',
+    owner: 'Lena Ortiz',
+    period: 'Q2 2026 to date',
+    status: 'Ready',
+  },
+  {
+    category: 'Compliance',
+    generatedDate: 'Apr 29, 2026',
+    id: 'report-compliance-readiness',
+    name: 'Compliance Readiness Review',
+    owner: 'Priya Shah',
+    period: 'April 2026',
+    status: 'Review',
+  },
+  {
+    category: 'Hiring',
+    generatedDate: 'Apr 26, 2026',
+    id: 'report-hiring-pipeline',
+    name: 'Hiring Pipeline Summary',
+    owner: 'Owen Brooks',
+    period: 'Last 30 days',
+    status: 'Ready',
+  },
+  {
+    category: 'Retention',
+    generatedDate: 'Apr 18, 2026',
+    id: 'report-retention-risk',
+    name: 'Retention Risk Snapshot',
+    owner: 'Avery Stone',
+    period: 'Q1 2026',
+    status: 'Scheduled',
+  },
+  {
+    category: 'Payroll readiness',
+    generatedDate: 'Apr 15, 2026',
+    id: 'report-payroll-readiness',
+    name: 'Payroll Readiness Checklist',
+    owner: 'Nina Patel',
+    period: 'May 2026 cycle',
+    status: 'Review',
+  },
+  {
+    category: 'Workforce',
+    generatedDate: 'Apr 08, 2026',
+    id: 'report-location-distribution',
+    name: 'Location Distribution Report',
+    owner: 'Maya Chen',
+    period: 'Q1 2026',
+    status: 'Ready',
+  },
+]
