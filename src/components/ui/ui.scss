@@ -1,0 +1,230 @@
+.welcome-panel {
+  max-width: 47.5rem;
+  padding: 2rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-panel);
+  text-align: left;
+}
+
+.placeholder-page {
+  max-width: 47.5rem;
+  padding: 2rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-panel);
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.metric-card,
+.dashboard-card {
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.metric-card {
+  padding: 1.25rem;
+}
+
+.metric-label,
+.metric-trend {
+  margin: 0;
+}
+
+.metric-label {
+  color: var(--color-subtle);
+  font-size: 0.875rem;
+  font-weight: 650;
+}
+
+.metric-value {
+  display: block;
+  margin-top: 0.625rem;
+  color: var(--color-heading);
+  font-size: 1.875rem;
+  line-height: 1;
+}
+
+.metric-trend {
+  margin-top: 0.625rem;
+  color: var(--color-accent);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.dashboard-card {
+  min-width: 0;
+  padding: 1.5rem;
+}
+
+.state-card {
+  display: grid;
+  justify-items: start;
+  gap: 0.625rem;
+  padding: 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.state-card p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.9375rem;
+}
+
+.state-card h3 {
+  margin: 0;
+  color: var(--color-heading);
+  font-size: 1.125rem;
+}
+
+.state-card-error {
+  border-color: var(--color-danger-border);
+  background: var(--color-danger-surface);
+}
+
+.loading-indicator {
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 0.1875rem solid var(--color-focus);
+  border-top-color: var(--color-accent);
+  border-radius: 999rem;
+  animation: spin 0.8s linear infinite;
+}
+
+.section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.125rem;
+}
+
+.section-heading > div {
+  min-width: 0;
+}
+
+.section-heading h3 {
+  margin: 0.25rem 0 0;
+  color: var(--color-heading);
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+
+.eyebrow,
+.intro {
+  margin: 0;
+}
+
+.eyebrow {
+  color: var(--color-accent);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.intro {
+  max-width: 35rem;
+  margin: 1rem 0 0;
+  color: var(--color-muted);
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+.status-badge,
+.department-status,
+.role-status,
+.report-status {
+  display: inline-flex;
+  min-width: 5.125rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3125rem 0.625rem;
+  border-radius: 999rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.status-badge-active,
+.department-status-active,
+.role-status-active,
+.report-status-ready {
+  color: var(--color-success-text);
+  background: var(--color-success-soft);
+}
+
+.status-badge-inactive,
+.role-status-draft {
+  color: var(--color-muted);
+  background: var(--color-neutral-soft);
+}
+
+.status-badge-on-leave,
+.department-status-planning,
+.role-status-review,
+.report-status-review {
+  color: var(--color-warning-text);
+  background: var(--color-warning-soft);
+}
+
+.department-status-hiring,
+.report-status-scheduled {
+  color: var(--color-accent-strong);
+  background: var(--color-focus);
+}
+
+.data-table-empty-cell {
+  grid-column: 1 / -1;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 68.75rem) and (min-width: 51.3125rem) {
+  .metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 51.25rem) {
+  .metric-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .welcome-panel,
+  .placeholder-page {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 40rem) {
+  .welcome-panel,
+  .dashboard-card,
+  .metric-card,
+  .state-card {
+    padding: 1.125rem;
+  }
+
+  .section-heading {
+    flex-direction: column;
+  }
+
+  .intro {
+    font-size: 1rem;
+  }
+}
