@@ -3,9 +3,15 @@ import type { Employee } from '../../../types/employee'
 
 type EmployeeTableProps = {
   employees: Employee[]
+  onSelectEmployee: (employee: Employee) => void
+  selectedEmployeeId?: string
 }
 
-export const EmployeeTable = ({ employees }: EmployeeTableProps) => (
+export const EmployeeTable = ({
+  employees,
+  onSelectEmployee,
+  selectedEmployeeId,
+}: EmployeeTableProps) => (
   <div className="employee-table" role="table" aria-label="Employee directory">
     <div className="employee-row employee-row-header" role="row">
       <span role="columnheader">Employee name</span>
@@ -17,7 +23,14 @@ export const EmployeeTable = ({ employees }: EmployeeTableProps) => (
     </div>
 
     {employees.map((employee) => (
-      <div className="employee-row" role="row" key={employee.id}>
+      <button
+        className="employee-row employee-row-selectable"
+        type="button"
+        role="row"
+        key={employee.id}
+        onClick={() => onSelectEmployee(employee)}
+        aria-selected={selectedEmployeeId === employee.id}
+      >
         <span role="cell">
           <strong>{employee.name}</strong>
           <small>{employee.email}</small>
@@ -29,7 +42,7 @@ export const EmployeeTable = ({ employees }: EmployeeTableProps) => (
           <StatusBadge status={employee.status} />
         </span>
         <span role="cell">{employee.startDate}</span>
-      </div>
+      </button>
     ))}
   </div>
 )

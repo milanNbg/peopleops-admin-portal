@@ -3,6 +3,7 @@ import { ErrorState } from '../../components/ui/ErrorState'
 import { LoadingState } from '../../components/ui/LoadingState'
 import { getEmployees } from '../../services/employeesService'
 import type { Employee } from '../../types/employee'
+import { EmployeeDetailPanel } from './components/EmployeeDetailPanel'
 import { EmployeeEmptyState } from './components/EmployeeEmptyState'
 import { EmployeeFilters } from './components/EmployeeFilters'
 import { EmployeeTable } from './components/EmployeeTable'
@@ -13,6 +14,7 @@ export const EmployeesPage = () => {
   const [employees, setEmployees] = useState<Employee[]>([])
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null)
 
   const {
     departments,
@@ -88,7 +90,19 @@ export const EmployeesPage = () => {
             />
 
             {filteredEmployees.length > 0 ? (
-              <EmployeeTable employees={filteredEmployees} />
+              <>
+                <EmployeeTable
+                  employees={filteredEmployees}
+                  onSelectEmployee={setSelectedEmployee}
+                  selectedEmployeeId={selectedEmployee?.id}
+                />
+                {selectedEmployee ? (
+                  <EmployeeDetailPanel
+                    employee={selectedEmployee}
+                    onClose={() => setSelectedEmployee(null)}
+                  />
+                ) : null}
+              </>
             ) : (
               <EmployeeEmptyState />
             )}
