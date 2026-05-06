@@ -30,7 +30,7 @@ export const EmployeeDetailPanel = ({
         className="detail-close-button"
         type="button"
         onClick={onClose}
-        aria-label="Close employee detail panel"
+        aria-label={`Close details for ${employee.name}`}
       >
         Close
       </button>

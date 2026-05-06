@@ -27,6 +27,7 @@ export const Sidebar = ({ navigationItems }: SidebarProps) => {
         className="sidebar-toggle"
         type="button"
         onClick={toggleSidebar}
+        aria-controls="primary-navigation"
         aria-expanded={!isSidebarCollapsed}
         aria-label={
           isSidebarCollapsed
@@ -37,7 +38,7 @@ export const Sidebar = ({ navigationItems }: SidebarProps) => {
         {isSidebarCollapsed ? 'Expand' : 'Collapse'}
       </button>
 
-      <nav className="sidebar-nav">
+      <nav className="sidebar-nav" id="primary-navigation">
         {navigationItems.map((item) => (
           <NavLink
             className={({ isActive }) =>

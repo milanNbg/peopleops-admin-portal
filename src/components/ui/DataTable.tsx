@@ -13,6 +13,7 @@ type DataTableProps<TData> = {
   data: TData[]
   emptyMessage: string
   getRowKey: (row: TData) => string
+  getRowLabel?: (row: TData) => string
   headerRowClassName: string
   onRowSelect?: (row: TData) => void
   rowClassName: string
@@ -26,12 +27,19 @@ export const DataTable = <TData,>({
   data,
   emptyMessage,
   getRowKey,
+  getRowLabel,
   headerRowClassName,
   onRowSelect,
   rowClassName,
   selectedRowKey,
 }: DataTableProps<TData>) => (
-  <div className={className} role="table" aria-label={ariaLabel}>
+  <div
+    className={className}
+    role="table"
+    aria-label={ariaLabel}
+    aria-colcount={columns.length}
+    aria-rowcount={data.length + 1}
+  >
     <div className={headerRowClassName} role="row">
       {columns.map((column) => (
         <span role="columnheader" key={column.key}>
@@ -57,6 +65,7 @@ export const DataTable = <TData,>({
               role="row"
               key={rowKey}
               onClick={() => onRowSelect(row)}
+              aria-label={getRowLabel?.(row)}
               aria-selected={selectedRowKey === rowKey}
             >
               {rowContent}

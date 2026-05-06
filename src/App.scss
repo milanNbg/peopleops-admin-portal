@@ -7,6 +7,11 @@
   transition: grid-template-columns 0.2s ease;
 }
 
+:where(a, button, input, select):focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
 .app-shell.sidebar-collapsed {
   grid-template-columns: 96px 1fr;
 }
@@ -72,6 +77,9 @@
 
 .sidebar-toggle,
 .theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 36px;
   border: 1px solid var(--color-border);
   border-radius: 7px;
@@ -98,6 +106,12 @@
 .theme-toggle:focus-visible {
   border-color: var(--color-accent);
   color: var(--color-accent-strong);
+}
+
+.sidebar-toggle:focus-visible,
+.theme-toggle:focus-visible,
+.nav-link:focus-visible {
+  outline-offset: 2px;
 }
 
 .sidebar-collapsed .sidebar-toggle {
@@ -166,6 +180,10 @@
   background: var(--color-surface);
 }
 
+.top-header > div:first-child {
+  min-width: 0;
+}
+
 .top-header h1 {
   margin: 4px 0 0;
   color: var(--color-heading);
@@ -177,6 +195,8 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .workspace-status {
@@ -297,6 +317,7 @@
 
 .dashboard-card {
   padding: 24px;
+  min-width: 0;
 }
 
 .state-card {
@@ -337,7 +358,15 @@
 }
 
 .section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
   margin-bottom: 18px;
+}
+
+.section-heading > div {
+  min-width: 0;
 }
 
 .section-heading h3 {
@@ -389,6 +418,9 @@
 .department-table {
   display: grid;
   overflow-x: auto;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
 }
 
 .department-row {
@@ -422,6 +454,9 @@
 .departments-table {
   display: grid;
   overflow-x: auto;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
 }
 
 .departments-row {
@@ -484,6 +519,9 @@
 .roles-table {
   display: grid;
   overflow-x: auto;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
 }
 
 .roles-row {
@@ -547,6 +585,9 @@
 .reports-table {
   display: grid;
   overflow-x: auto;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
 }
 
 .reports-row {
@@ -739,6 +780,79 @@ h2 {
 
   h2 {
     font-size: 28px;
+  }
+}
+
+@media (max-width: 1100px) and (min-width: 821px) {
+  .metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .sidebar {
+    padding: 20px 16px;
+  }
+
+  .brand {
+    padding: 0;
+  }
+
+  .top-header {
+    gap: 18px;
+    padding: 20px 16px;
+  }
+
+  .top-header h1 {
+    font-size: 24px;
+  }
+
+  .header-actions,
+  .workspace-status,
+  .theme-toggle {
+    width: 100%;
+  }
+
+  .theme-toggle {
+    justify-content: center;
+  }
+
+  .main-content {
+    padding: 16px;
+  }
+
+  .dashboard-page,
+  .departments-page,
+  .roles-page,
+  .reports-page {
+    gap: 16px;
+  }
+
+  .welcome-panel,
+  .dashboard-card,
+  .metric-card,
+  .state-card {
+    padding: 18px;
+  }
+
+  .metric-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-heading {
+    flex-direction: column;
+  }
+
+  h2 {
+    font-size: 26px;
+  }
+
+  .intro {
+    font-size: 16px;
   }
 }
 

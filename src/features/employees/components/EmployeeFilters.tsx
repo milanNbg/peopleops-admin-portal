@@ -23,6 +23,7 @@ export const EmployeeFilters = ({
     <label className="field">
       <span>Search</span>
       <input
+        aria-label="Search employees by name, role, or location"
         onChange={(event) =>
           dispatch({ type: 'setSearch', value: event.target.value })
         }
@@ -35,6 +36,7 @@ export const EmployeeFilters = ({
     <label className="field">
       <span>Department</span>
       <select
+        aria-label="Filter employees by department"
         onChange={(event) =>
           dispatch({ type: 'setDepartment', value: event.target.value })
         }
@@ -51,6 +53,7 @@ export const EmployeeFilters = ({
     <label className="field">
       <span>Status</span>
       <select
+        aria-label="Filter employees by status"
         onChange={(event) =>
           dispatch({ type: 'setStatus', value: event.target.value })
         }
@@ -67,6 +70,7 @@ export const EmployeeFilters = ({
     <label className="field">
       <span>Sort by</span>
       <select
+        aria-label="Sort employees"
         onChange={(event) =>
           dispatch({
             type: 'setSortBy',

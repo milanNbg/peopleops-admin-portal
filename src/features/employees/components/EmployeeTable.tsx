@@ -57,6 +57,7 @@ export const EmployeeTable = ({
     columns={employeeColumns}
     data={employees}
     emptyMessage="No employees found."
+    getRowLabel={(employee) => `View details for ${employee.name}`}
     getRowKey={(employee) => employee.id}
     headerRowClassName="employee-row employee-row-header"
     onRowSelect={onSelectEmployee}

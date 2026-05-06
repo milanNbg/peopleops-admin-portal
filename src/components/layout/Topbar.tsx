@@ -21,6 +21,7 @@ export const Topbar = () => {
           type="button"
           onClick={toggleTheme}
           aria-label={`Switch to ${nextThemeLabel}`}
+          aria-pressed={themeMode === 'dark'}
         >
           {nextThemeLabel}
         </button>
