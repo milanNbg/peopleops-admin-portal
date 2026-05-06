@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
+import { Card } from '../../components/ui/Card'
 import { ErrorState } from '../../components/ui/ErrorState'
 import { LoadingState } from '../../components/ui/LoadingState'
 import { MetricCard } from '../../components/ui/MetricCard'
+import { PageHeader } from '../../components/ui/PageHeader'
+import { SectionHeader } from '../../components/ui/SectionHeader'
 import {
   getDashboardMetrics,
   getDepartmentSummaries,
@@ -66,14 +69,14 @@ export const DashboardPage = () => {
 
   return (
     <div className="dashboard-page">
-      <section className="welcome-panel" aria-labelledby="portal-title">
-        <p className="eyebrow">Overview</p>
-        <h2 id="portal-title">PeopleOps Admin Portal</h2>
-        <p className="intro">
-          Monitor workforce health, staffing momentum, and department activity
-          from one front-end admin dashboard.
-        </p>
-      </section>
+      <PageHeader
+        eyebrow="Overview"
+        title="PeopleOps Admin Portal"
+        titleId="portal-title"
+      >
+        Monitor workforce health, staffing momentum, and department activity
+        from one front-end admin dashboard.
+      </PageHeader>
 
       {isLoading ? (
         <LoadingState message="Loading dashboard data..." />
@@ -93,11 +96,12 @@ export const DashboardPage = () => {
           </section>
 
           <div className="dashboard-grid">
-            <section className="dashboard-card" aria-labelledby="workforce-title">
-              <div className="section-heading">
-                <p className="eyebrow">Workforce</p>
-                <h3 id="workforce-title">Workforce overview</h3>
-              </div>
+            <Card labelledBy="workforce-title">
+              <SectionHeader
+                eyebrow="Workforce"
+                title="Workforce overview"
+                titleId="workforce-title"
+              />
               <div className="overview-list">
                 {workforceOverview.map((item) => (
                   <div className="overview-row" key={item.label}>
@@ -106,13 +110,14 @@ export const DashboardPage = () => {
                   </div>
                 ))}
               </div>
-            </section>
+            </Card>
 
-            <section className="dashboard-card" aria-labelledby="activity-title">
-              <div className="section-heading">
-                <p className="eyebrow">Activity</p>
-                <h3 id="activity-title">Recent activity</h3>
-              </div>
+            <Card labelledBy="activity-title">
+              <SectionHeader
+                eyebrow="Activity"
+                title="Recent activity"
+                titleId="activity-title"
+              />
               <ul className="activity-list">
                 {recentActivities.map((activity) => (
                   <li key={`${activity.time}-${activity.description}`}>
@@ -121,14 +126,15 @@ export const DashboardPage = () => {
                   </li>
                 ))}
               </ul>
-            </section>
+            </Card>
           </div>
 
-          <section className="dashboard-card" aria-labelledby="departments-title">
-            <div className="section-heading">
-              <p className="eyebrow">Departments</p>
-              <h3 id="departments-title">Department summary</h3>
-            </div>
+          <Card labelledBy="departments-title">
+            <SectionHeader
+              eyebrow="Departments"
+              title="Department summary"
+              titleId="departments-title"
+            />
             <div
               className="department-table"
               role="table"
@@ -149,7 +155,7 @@ export const DashboardPage = () => {
                 </div>
               ))}
             </div>
-          </section>
+          </Card>
         </>
       )}
     </div>

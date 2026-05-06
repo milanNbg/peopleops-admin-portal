@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
+import { Card } from '../../components/ui/Card'
 import { ErrorState } from '../../components/ui/ErrorState'
 import { LoadingState } from '../../components/ui/LoadingState'
 import { MetricCard } from '../../components/ui/MetricCard'
+import { PageHeader } from '../../components/ui/PageHeader'
+import { SectionHeader } from '../../components/ui/SectionHeader'
 import { getDepartments } from '../../services/departmentsService'
 import type { Department, DepartmentStatus } from '../../types/department'
 
@@ -68,14 +71,14 @@ export const DepartmentsPage = () => {
 
   return (
     <div className="departments-page">
-      <section className="welcome-panel" aria-labelledby="departments-title">
-        <p className="eyebrow">Organization</p>
-        <h2 id="departments-title">Departments</h2>
-        <p className="intro">
-          Review department ownership, headcount distribution, and hiring needs
-          across the organization.
-        </p>
-      </section>
+      <PageHeader
+        eyebrow="Organization"
+        title="Departments"
+        titleId="departments-title"
+      >
+        Review department ownership, headcount distribution, and hiring needs
+        across the organization.
+      </PageHeader>
 
       {isLoading ? (
         <LoadingState message="Loading department data..." />
@@ -106,14 +109,12 @@ export const DepartmentsPage = () => {
             />
           </section>
 
-          <section
-            className="dashboard-card"
-            aria-labelledby="department-list-title"
-          >
-            <div className="section-heading">
-              <p className="eyebrow">Structure</p>
-              <h3 id="department-list-title">Department overview</h3>
-            </div>
+          <Card labelledBy="department-list-title">
+            <SectionHeader
+              eyebrow="Structure"
+              title="Department overview"
+              titleId="department-list-title"
+            />
 
             <div
               className="departments-table"
@@ -148,7 +149,7 @@ export const DepartmentsPage = () => {
                 </div>
               ))}
             </div>
-          </section>
+          </Card>
         </>
       )}
     </div>

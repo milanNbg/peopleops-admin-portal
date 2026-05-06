@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
+import { Card } from '../../components/ui/Card'
 import { ErrorState } from '../../components/ui/ErrorState'
 import { LoadingState } from '../../components/ui/LoadingState'
+import { PageHeader } from '../../components/ui/PageHeader'
+import { SectionHeader } from '../../components/ui/SectionHeader'
 import { getEmployees } from '../../services/employeesService'
 import type { Employee } from '../../types/employee'
 import { EmployeeDetailPanel } from './components/EmployeeDetailPanel'
@@ -56,25 +59,23 @@ export const EmployeesPage = () => {
 
   return (
     <div className="employees-page">
-      <section className="welcome-panel" aria-labelledby="employees-title">
-        <p className="eyebrow">Directory</p>
-        <h2 id="employees-title">Employees</h2>
-        <p className="intro">
-          Review employee records, assignments, locations, and current employment
-          status across the organization.
-        </p>
-      </section>
+      <PageHeader eyebrow="Directory" title="Employees" titleId="employees-title">
+        Review employee records, assignments, locations, and current employment
+        status across the organization.
+      </PageHeader>
 
-      <section className="dashboard-card" aria-labelledby="employee-table-title">
-        <div className="section-heading employees-heading">
-          <div>
-            <p className="eyebrow">People records</p>
-            <h3 id="employee-table-title">Employee directory</h3>
-          </div>
-          <span className="result-count">
-            {filteredEmployees.length} of {totalEmployees} employees
-          </span>
-        </div>
+      <Card labelledBy="employee-table-title">
+        <SectionHeader
+          actions={
+            <span className="result-count">
+              {filteredEmployees.length} of {totalEmployees} employees
+            </span>
+          }
+          className="employees-heading"
+          eyebrow="People records"
+          title="Employee directory"
+          titleId="employee-table-title"
+        />
 
         {isLoading ? (
           <LoadingState message="Loading employee records..." />
@@ -108,7 +109,7 @@ export const EmployeesPage = () => {
             )}
           </>
         )}
-      </section>
+      </Card>
     </div>
   )
 }

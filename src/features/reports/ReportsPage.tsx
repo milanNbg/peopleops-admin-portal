@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
+import { Card } from '../../components/ui/Card'
 import { ErrorState } from '../../components/ui/ErrorState'
 import { LoadingState } from '../../components/ui/LoadingState'
 import { MetricCard } from '../../components/ui/MetricCard'
+import { PageHeader } from '../../components/ui/PageHeader'
+import { SectionHeader } from '../../components/ui/SectionHeader'
 import { getReports } from '../../services/reportsService'
 import type { Report, ReportStatus } from '../../types/report'
 
@@ -64,14 +67,10 @@ export const ReportsPage = () => {
 
   return (
     <div className="reports-page">
-      <section className="welcome-panel" aria-labelledby="reports-title">
-        <p className="eyebrow">Insights</p>
-        <h2 id="reports-title">Reports</h2>
-        <p className="intro">
-          Track recurring PeopleOps reports across workforce, compliance,
-          hiring, retention, and payroll readiness workflows.
-        </p>
-      </section>
+      <PageHeader eyebrow="Insights" title="Reports" titleId="reports-title">
+        Track recurring PeopleOps reports across workforce, compliance, hiring,
+        retention, and payroll readiness workflows.
+      </PageHeader>
 
       {isLoading ? (
         <LoadingState message="Loading report data..." />
@@ -102,11 +101,12 @@ export const ReportsPage = () => {
             />
           </section>
 
-          <section className="dashboard-card" aria-labelledby="report-list-title">
-            <div className="section-heading">
-              <p className="eyebrow">Report catalog</p>
-              <h3 id="report-list-title">Reports overview</h3>
-            </div>
+          <Card labelledBy="report-list-title">
+            <SectionHeader
+              eyebrow="Report catalog"
+              title="Reports overview"
+              titleId="report-list-title"
+            />
 
             <div
               className="reports-table"
@@ -141,7 +141,7 @@ export const ReportsPage = () => {
                 </div>
               ))}
             </div>
-          </section>
+          </Card>
         </>
       )}
     </div>

@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
+import { Card } from '../../components/ui/Card'
 import { ErrorState } from '../../components/ui/ErrorState'
 import { LoadingState } from '../../components/ui/LoadingState'
 import { MetricCard } from '../../components/ui/MetricCard'
+import { PageHeader } from '../../components/ui/PageHeader'
+import { SectionHeader } from '../../components/ui/SectionHeader'
 import { getRoles } from '../../services/rolesService'
 import type { Role, RoleStatus } from '../../types/role'
 
@@ -66,14 +69,10 @@ export const RolesPage = () => {
 
   return (
     <div className="roles-page">
-      <section className="welcome-panel" aria-labelledby="roles-title">
-        <p className="eyebrow">Access</p>
-        <h2 id="roles-title">Roles</h2>
-        <p className="intro">
-          Review role definitions, access levels, and permission coverage across
-          the PeopleOps workspace.
-        </p>
-      </section>
+      <PageHeader eyebrow="Access" title="Roles" titleId="roles-title">
+        Review role definitions, access levels, and permission coverage across
+        the PeopleOps workspace.
+      </PageHeader>
 
       {isLoading ? (
         <LoadingState message="Loading role data..." />
@@ -104,11 +103,12 @@ export const RolesPage = () => {
             />
           </section>
 
-          <section className="dashboard-card" aria-labelledby="role-list-title">
-            <div className="section-heading">
-              <p className="eyebrow">Role catalog</p>
-              <h3 id="role-list-title">Roles overview</h3>
-            </div>
+          <Card labelledBy="role-list-title">
+            <SectionHeader
+              eyebrow="Role catalog"
+              title="Roles overview"
+              titleId="role-list-title"
+            />
 
             <div className="roles-table" role="table" aria-label="Roles overview">
               <div className="roles-row roles-row-header" role="row">
@@ -141,7 +141,7 @@ export const RolesPage = () => {
                 </div>
               ))}
             </div>
-          </section>
+          </Card>
         </>
       )}
     </div>
