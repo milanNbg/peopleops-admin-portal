@@ -215,6 +215,11 @@
   gap: 24px;
 }
 
+.roles-page {
+  display: grid;
+  gap: 24px;
+}
+
 .welcome-panel {
   max-width: 760px;
   padding: 32px;
@@ -465,6 +470,69 @@
 .department-status-planning {
   color: var(--color-warning-text);
   background: var(--color-warning-soft);
+}
+
+.roles-table {
+  display: grid;
+  overflow-x: auto;
+}
+
+.roles-row {
+  display: grid;
+  grid-template-columns:
+    minmax(190px, 1.3fr) minmax(150px, 1fr) minmax(130px, 0.8fr)
+    repeat(2, minmax(110px, 0.7fr)) minmax(110px, 0.8fr)
+    minmax(140px, 0.9fr);
+  min-width: 980px;
+  padding: 14px 0;
+  border-top: 1px solid var(--color-border-soft);
+  color: var(--color-muted);
+  font-size: 15px;
+}
+
+.roles-row span {
+  display: flex;
+  align-items: center;
+}
+
+.roles-row span:first-child {
+  color: var(--color-heading);
+  font-weight: 750;
+}
+
+.roles-row-header {
+  padding-top: 0;
+  border-top: 0;
+  color: var(--color-subtle);
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.role-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 82px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.role-status-active {
+  color: var(--color-success-text);
+  background: var(--color-success-soft);
+}
+
+.role-status-review {
+  color: var(--color-warning-text);
+  background: var(--color-warning-soft);
+}
+
+.role-status-draft {
+  color: var(--color-muted);
+  background: var(--color-neutral-soft);
 }
 
 .status-badge {
