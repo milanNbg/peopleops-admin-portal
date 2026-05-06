@@ -1,5 +1,5 @@
 import { BrowserRouter } from 'react-router-dom'
-import './App.css'
+import './App.scss'
 import { AppLayout } from './components/layout/AppLayout'
 import { MainContent } from './components/layout/MainContent'
 import { Sidebar } from './components/layout/Sidebar'

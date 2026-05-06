@@ -2,7 +2,7 @@ import { employees } from '../../data/employees'
 import { EmployeeEmptyState } from './components/EmployeeEmptyState'
 import { EmployeeFilters } from './components/EmployeeFilters'
 import { EmployeeTable } from './components/EmployeeTable'
-import './EmployeesPage.css'
+import './EmployeesPage.scss'
 import { useEmployeeFilters } from './hooks/useEmployeeFilters'
 
 export const EmployeesPage = () => {
