@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Card } from '../../components/ui/Card'
+import { DataTable, type DataTableColumn } from '../../components/ui/DataTable'
 import { ErrorState } from '../../components/ui/ErrorState'
 import { LoadingState } from '../../components/ui/LoadingState'
 import { MetricCard } from '../../components/ui/MetricCard'
@@ -13,6 +14,52 @@ const roleStatusClassNames: Record<RoleStatus, string> = {
   Draft: 'draft',
   Review: 'review',
 }
+
+const roleColumns: DataTableColumn<Role>[] = [
+  {
+    header: 'Role',
+    key: 'name',
+    render: (role) => role.name,
+  },
+  {
+    header: 'Department',
+    key: 'department',
+    render: (role) => role.department,
+  },
+  {
+    header: 'Access level',
+    key: 'accessLevel',
+    render: (role) => role.accessLevel,
+  },
+  {
+    header: 'Assigned',
+    key: 'assignedEmployees',
+    render: (role) => role.assignedEmployees,
+  },
+  {
+    header: 'Permissions',
+    key: 'permissionsCount',
+    render: (role) => role.permissionsCount,
+  },
+  {
+    header: 'Status',
+    key: 'status',
+    render: (role) => (
+      <span
+        className={`role-status role-status-${
+          roleStatusClassNames[role.status]
+        }`}
+      >
+        {role.status}
+      </span>
+    ),
+  },
+  {
+    header: 'Last updated',
+    key: 'lastUpdated',
+    render: (role) => role.lastUpdated,
+  },
+]
 
 export const RolesPage = () => {
   const [roles, setRoles] = useState<Role[]>([])
@@ -110,37 +157,16 @@ export const RolesPage = () => {
               titleId="role-list-title"
             />
 
-            <div className="roles-table" role="table" aria-label="Roles overview">
-              <div className="roles-row roles-row-header" role="row">
-                <span role="columnheader">Role</span>
-                <span role="columnheader">Department</span>
-                <span role="columnheader">Access level</span>
-                <span role="columnheader">Assigned</span>
-                <span role="columnheader">Permissions</span>
-                <span role="columnheader">Status</span>
-                <span role="columnheader">Last updated</span>
-              </div>
-
-              {roles.map((role) => (
-                <div className="roles-row" role="row" key={role.id}>
-                  <span role="cell">{role.name}</span>
-                  <span role="cell">{role.department}</span>
-                  <span role="cell">{role.accessLevel}</span>
-                  <span role="cell">{role.assignedEmployees}</span>
-                  <span role="cell">{role.permissionsCount}</span>
-                  <span role="cell">
-                    <span
-                      className={`role-status role-status-${
-                        roleStatusClassNames[role.status]
-                      }`}
-                    >
-                      {role.status}
-                    </span>
-                  </span>
-                  <span role="cell">{role.lastUpdated}</span>
-                </div>
-              ))}
-            </div>
+            <DataTable
+              ariaLabel="Roles overview"
+              className="roles-table"
+              columns={roleColumns}
+              data={roles}
+              emptyMessage="No roles found."
+              getRowKey={(role) => role.id}
+              headerRowClassName="roles-row roles-row-header"
+              rowClassName="roles-row"
+            />
           </Card>
         </>
       )}

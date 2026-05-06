@@ -1,0 +1,81 @@
+import type { ReactNode } from 'react'
+
+export type DataTableColumn<TData> = {
+  header: string
+  key: string
+  render: (row: TData) => ReactNode
+}
+
+type DataTableProps<TData> = {
+  ariaLabel: string
+  className: string
+  columns: DataTableColumn<TData>[]
+  data: TData[]
+  emptyMessage: string
+  getRowKey: (row: TData) => string
+  headerRowClassName: string
+  onRowSelect?: (row: TData) => void
+  rowClassName: string
+  selectedRowKey?: string
+}
+
+export const DataTable = <TData,>({
+  ariaLabel,
+  className,
+  columns,
+  data,
+  emptyMessage,
+  getRowKey,
+  headerRowClassName,
+  onRowSelect,
+  rowClassName,
+  selectedRowKey,
+}: DataTableProps<TData>) => (
+  <div className={className} role="table" aria-label={ariaLabel}>
+    <div className={headerRowClassName} role="row">
+      {columns.map((column) => (
+        <span role="columnheader" key={column.key}>
+          {column.header}
+        </span>
+      ))}
+    </div>
+
+    {data.length > 0 ? (
+      data.map((row) => {
+        const rowKey = getRowKey(row)
+        const rowContent = columns.map((column) => (
+          <span role="cell" key={column.key}>
+            {column.render(row)}
+          </span>
+        ))
+
+        if (onRowSelect) {
+          return (
+            <button
+              className={rowClassName}
+              type="button"
+              role="row"
+              key={rowKey}
+              onClick={() => onRowSelect(row)}
+              aria-selected={selectedRowKey === rowKey}
+            >
+              {rowContent}
+            </button>
+          )
+        }
+
+        return (
+          <div className={rowClassName} role="row" key={rowKey}>
+            {rowContent}
+          </div>
+        )
+      })
+    ) : (
+      <div className={rowClassName} role="row">
+        <span role="cell" className="data-table-empty-cell">
+          {emptyMessage}
+        </span>
+      </div>
+    )}
+  </div>
+)

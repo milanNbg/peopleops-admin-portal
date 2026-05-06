@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Card } from '../../components/ui/Card'
+import { DataTable, type DataTableColumn } from '../../components/ui/DataTable'
 import { ErrorState } from '../../components/ui/ErrorState'
 import { LoadingState } from '../../components/ui/LoadingState'
 import { MetricCard } from '../../components/ui/MetricCard'
@@ -13,6 +14,47 @@ const departmentStatusClassNames: Record<DepartmentStatus, string> = {
   Hiring: 'hiring',
   Planning: 'planning',
 }
+
+const departmentColumns: DataTableColumn<Department>[] = [
+  {
+    header: 'Department',
+    key: 'name',
+    render: (department) => department.name,
+  },
+  {
+    header: 'Lead',
+    key: 'lead',
+    render: (department) => department.lead,
+  },
+  {
+    header: 'Headcount',
+    key: 'headcount',
+    render: (department) => department.headcount,
+  },
+  {
+    header: 'Open roles',
+    key: 'openRoles',
+    render: (department) => department.openRoles,
+  },
+  {
+    header: 'Region',
+    key: 'location',
+    render: (department) => department.location,
+  },
+  {
+    header: 'Status',
+    key: 'status',
+    render: (department) => (
+      <span
+        className={`department-status department-status-${
+          departmentStatusClassNames[department.status]
+        }`}
+      >
+        {department.status}
+      </span>
+    ),
+  },
+]
 
 export const DepartmentsPage = () => {
   const [departments, setDepartments] = useState<Department[]>([])
@@ -116,39 +158,16 @@ export const DepartmentsPage = () => {
               titleId="department-list-title"
             />
 
-            <div
+            <DataTable
+              ariaLabel="Departments overview"
               className="departments-table"
-              role="table"
-              aria-label="Departments overview"
-            >
-              <div className="departments-row departments-row-header" role="row">
-                <span role="columnheader">Department</span>
-                <span role="columnheader">Lead</span>
-                <span role="columnheader">Headcount</span>
-                <span role="columnheader">Open roles</span>
-                <span role="columnheader">Region</span>
-                <span role="columnheader">Status</span>
-              </div>
-
-              {departments.map((department) => (
-                <div className="departments-row" role="row" key={department.id}>
-                  <span role="cell">{department.name}</span>
-                  <span role="cell">{department.lead}</span>
-                  <span role="cell">{department.headcount}</span>
-                  <span role="cell">{department.openRoles}</span>
-                  <span role="cell">{department.location}</span>
-                  <span role="cell">
-                    <span
-                      className={`department-status department-status-${
-                        departmentStatusClassNames[department.status]
-                      }`}
-                    >
-                      {department.status}
-                    </span>
-                  </span>
-                </div>
-              ))}
-            </div>
+              columns={departmentColumns}
+              data={departments}
+              emptyMessage="No departments found."
+              getRowKey={(department) => department.id}
+              headerRowClassName="departments-row departments-row-header"
+              rowClassName="departments-row"
+            />
           </Card>
         </>
       )}

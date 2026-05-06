@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Card } from '../../components/ui/Card'
+import { DataTable, type DataTableColumn } from '../../components/ui/DataTable'
 import { ErrorState } from '../../components/ui/ErrorState'
 import { LoadingState } from '../../components/ui/LoadingState'
 import { MetricCard } from '../../components/ui/MetricCard'
@@ -13,6 +14,47 @@ const reportStatusClassNames: Record<ReportStatus, string> = {
   Review: 'review',
   Scheduled: 'scheduled',
 }
+
+const reportColumns: DataTableColumn<Report>[] = [
+  {
+    header: 'Report',
+    key: 'name',
+    render: (report) => report.name,
+  },
+  {
+    header: 'Category',
+    key: 'category',
+    render: (report) => report.category,
+  },
+  {
+    header: 'Owner',
+    key: 'owner',
+    render: (report) => report.owner,
+  },
+  {
+    header: 'Status',
+    key: 'status',
+    render: (report) => (
+      <span
+        className={`report-status report-status-${
+          reportStatusClassNames[report.status]
+        }`}
+      >
+        {report.status}
+      </span>
+    ),
+  },
+  {
+    header: 'Generated',
+    key: 'generatedDate',
+    render: (report) => report.generatedDate,
+  },
+  {
+    header: 'Period',
+    key: 'period',
+    render: (report) => report.period,
+  },
+]
 
 export const ReportsPage = () => {
   const [reports, setReports] = useState<Report[]>([])
@@ -108,39 +150,16 @@ export const ReportsPage = () => {
               titleId="report-list-title"
             />
 
-            <div
+            <DataTable
+              ariaLabel="Reports overview"
               className="reports-table"
-              role="table"
-              aria-label="Reports overview"
-            >
-              <div className="reports-row reports-row-header" role="row">
-                <span role="columnheader">Report</span>
-                <span role="columnheader">Category</span>
-                <span role="columnheader">Owner</span>
-                <span role="columnheader">Status</span>
-                <span role="columnheader">Generated</span>
-                <span role="columnheader">Period</span>
-              </div>
-
-              {reports.map((report) => (
-                <div className="reports-row" role="row" key={report.id}>
-                  <span role="cell">{report.name}</span>
-                  <span role="cell">{report.category}</span>
-                  <span role="cell">{report.owner}</span>
-                  <span role="cell">
-                    <span
-                      className={`report-status report-status-${
-                        reportStatusClassNames[report.status]
-                      }`}
-                    >
-                      {report.status}
-                    </span>
-                  </span>
-                  <span role="cell">{report.generatedDate}</span>
-                  <span role="cell">{report.period}</span>
-                </div>
-              ))}
-            </div>
+              columns={reportColumns}
+              data={reports}
+              emptyMessage="No reports found."
+              getRowKey={(report) => report.id}
+              headerRowClassName="reports-row reports-row-header"
+              rowClassName="reports-row"
+            />
           </Card>
         </>
       )}

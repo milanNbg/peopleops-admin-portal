@@ -1,3 +1,4 @@
+import { DataTable, type DataTableColumn } from '../../../components/ui/DataTable'
 import { StatusBadge } from '../../../components/ui/StatusBadge'
 import type { Employee } from '../../../types/employee'
 
@@ -7,42 +8,59 @@ type EmployeeTableProps = {
   selectedEmployeeId?: string
 }
 
+const employeeColumns: DataTableColumn<Employee>[] = [
+  {
+    header: 'Employee name',
+    key: 'name',
+    render: (employee) => (
+      <>
+        <strong>{employee.name}</strong>
+        <small>{employee.email}</small>
+      </>
+    ),
+  },
+  {
+    header: 'Department',
+    key: 'department',
+    render: (employee) => employee.department,
+  },
+  {
+    header: 'Role',
+    key: 'role',
+    render: (employee) => employee.role,
+  },
+  {
+    header: 'Location',
+    key: 'location',
+    render: (employee) => employee.location,
+  },
+  {
+    header: 'Status',
+    key: 'status',
+    render: (employee) => <StatusBadge status={employee.status} />,
+  },
+  {
+    header: 'Start date',
+    key: 'startDate',
+    render: (employee) => employee.startDate,
+  },
+]
+
 export const EmployeeTable = ({
   employees,
   onSelectEmployee,
   selectedEmployeeId,
 }: EmployeeTableProps) => (
-  <div className="employee-table" role="table" aria-label="Employee directory">
-    <div className="employee-row employee-row-header" role="row">
-      <span role="columnheader">Employee name</span>
-      <span role="columnheader">Department</span>
-      <span role="columnheader">Role</span>
-      <span role="columnheader">Location</span>
-      <span role="columnheader">Status</span>
-      <span role="columnheader">Start date</span>
-    </div>
-
-    {employees.map((employee) => (
-      <button
-        className="employee-row employee-row-selectable"
-        type="button"
-        role="row"
-        key={employee.id}
-        onClick={() => onSelectEmployee(employee)}
-        aria-selected={selectedEmployeeId === employee.id}
-      >
-        <span role="cell">
-          <strong>{employee.name}</strong>
-          <small>{employee.email}</small>
-        </span>
-        <span role="cell">{employee.department}</span>
-        <span role="cell">{employee.role}</span>
-        <span role="cell">{employee.location}</span>
-        <span role="cell">
-          <StatusBadge status={employee.status} />
-        </span>
-        <span role="cell">{employee.startDate}</span>
-      </button>
-    ))}
-  </div>
+  <DataTable
+    ariaLabel="Employee directory"
+    className="employee-table"
+    columns={employeeColumns}
+    data={employees}
+    emptyMessage="No employees found."
+    getRowKey={(employee) => employee.id}
+    headerRowClassName="employee-row employee-row-header"
+    onRowSelect={onSelectEmployee}
+    rowClassName="employee-row employee-row-selectable"
+    selectedRowKey={selectedEmployeeId}
+  />
 )

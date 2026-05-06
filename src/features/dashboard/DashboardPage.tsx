@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Card } from '../../components/ui/Card'
+import { DataTable, type DataTableColumn } from '../../components/ui/DataTable'
 import { ErrorState } from '../../components/ui/ErrorState'
 import { LoadingState } from '../../components/ui/LoadingState'
 import { MetricCard } from '../../components/ui/MetricCard'
@@ -17,6 +18,29 @@ import type {
   RecentActivity,
   WorkforceOverviewItem,
 } from '../../types/dashboard'
+
+const departmentSummaryColumns: DataTableColumn<DepartmentSummary>[] = [
+  {
+    header: 'Department',
+    key: 'name',
+    render: (department) => department.name,
+  },
+  {
+    header: 'Headcount',
+    key: 'headcount',
+    render: (department) => department.headcount,
+  },
+  {
+    header: 'Open roles',
+    key: 'openRoles',
+    render: (department) => department.openRoles,
+  },
+  {
+    header: 'Lead',
+    key: 'lead',
+    render: (department) => department.lead,
+  },
+]
 
 export const DashboardPage = () => {
   const [dashboardMetrics, setDashboardMetrics] = useState<DashboardMetric[]>([])
@@ -135,26 +159,16 @@ export const DashboardPage = () => {
               title="Department summary"
               titleId="departments-title"
             />
-            <div
+            <DataTable
+              ariaLabel="Department summary"
               className="department-table"
-              role="table"
-              aria-label="Department summary"
-            >
-              <div className="department-row department-row-header" role="row">
-                <span role="columnheader">Department</span>
-                <span role="columnheader">Headcount</span>
-                <span role="columnheader">Open roles</span>
-                <span role="columnheader">Lead</span>
-              </div>
-              {departmentSummaries.map((department) => (
-                <div className="department-row" role="row" key={department.name}>
-                  <span role="cell">{department.name}</span>
-                  <span role="cell">{department.headcount}</span>
-                  <span role="cell">{department.openRoles}</span>
-                  <span role="cell">{department.lead}</span>
-                </div>
-              ))}
-            </div>
+              columns={departmentSummaryColumns}
+              data={departmentSummaries}
+              emptyMessage="No department summaries found."
+              getRowKey={(department) => department.name}
+              headerRowClassName="department-row department-row-header"
+              rowClassName="department-row"
+            />
           </Card>
         </>
       )}

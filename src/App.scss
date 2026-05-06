@@ -406,6 +406,10 @@
   font-weight: 750;
 }
 
+.data-table-empty-cell {
+  grid-column: 1 / -1;
+}
+
 .department-row-header {
   padding-top: 0;
   border-top: 0;
