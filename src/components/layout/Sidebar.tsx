@@ -1,35 +1,60 @@
 import { NavLink } from 'react-router-dom'
+import { useAppUi } from '../../context/AppUiContext'
 import type { NavigationItem } from '../../data/navigation'
 
 type SidebarProps = {
   navigationItems: NavigationItem[]
 }
 
-export const Sidebar = ({ navigationItems }: SidebarProps) => (
-  <aside className="sidebar" aria-label="Primary navigation">
-    <div className="brand">
-      <div className="brand-mark" aria-hidden="true">
-        PO
-      </div>
-      <div>
-        <p className="brand-name">PeopleOps</p>
-        <p className="brand-subtitle">Admin Portal</p>
-      </div>
-    </div>
+const getNavigationInitial = (label: string) => label.charAt(0)
 
-    <nav className="sidebar-nav">
-      {navigationItems.map((item) => (
-        <NavLink
-          className={({ isActive }) =>
-            isActive ? 'nav-link active' : 'nav-link'
-          }
-          end={item.path === '/dashboard'}
-          key={item.label}
-          to={item.path}
-        >
-          {item.label}
-        </NavLink>
-      ))}
-    </nav>
-  </aside>
-)
+export const Sidebar = ({ navigationItems }: SidebarProps) => {
+  const { isSidebarCollapsed, toggleSidebar } = useAppUi()
+
+  return (
+    <aside className="sidebar" aria-label="Primary navigation">
+      <div className="brand">
+        <div className="brand-mark" aria-hidden="true">
+          PO
+        </div>
+        <div className="brand-copy">
+          <p className="brand-name">PeopleOps</p>
+          <p className="brand-subtitle">Admin Portal</p>
+        </div>
+      </div>
+
+      <button
+        className="sidebar-toggle"
+        type="button"
+        onClick={toggleSidebar}
+        aria-expanded={!isSidebarCollapsed}
+        aria-label={
+          isSidebarCollapsed
+            ? 'Expand sidebar navigation'
+            : 'Collapse sidebar navigation'
+        }
+      >
+        {isSidebarCollapsed ? 'Expand' : 'Collapse'}
+      </button>
+
+      <nav className="sidebar-nav">
+        {navigationItems.map((item) => (
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? 'nav-link active' : 'nav-link'
+            }
+            end={item.path === '/dashboard'}
+            key={item.label}
+            title={isSidebarCollapsed ? item.label : undefined}
+            to={item.path}
+          >
+            <span className="nav-initial" aria-hidden="true">
+              {getNavigationInitial(item.label)}
+            </span>
+            <span className="nav-label">{item.label}</span>
+          </NavLink>
+        ))}
+      </nav>
+    </aside>
+  )
+}

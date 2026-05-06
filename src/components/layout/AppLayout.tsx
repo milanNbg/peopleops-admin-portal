@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { useAppUi } from '../../context/AppUiContext'
 
 type AppLayoutProps = {
   children: ReactNode
@@ -6,9 +7,13 @@ type AppLayoutProps = {
   topbar: ReactNode
 }
 
-export function AppLayout({ children, sidebar, topbar }: AppLayoutProps) {
+export const AppLayout = ({ children, sidebar, topbar }: AppLayoutProps) => {
+  const { isSidebarCollapsed } = useAppUi()
+
   return (
-    <div className="app-shell">
+    <div
+      className={`app-shell${isSidebarCollapsed ? ' sidebar-collapsed' : ''}`}
+    >
       {sidebar}
 
       <div className="workspace">
