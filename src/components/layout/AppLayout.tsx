@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { useAppUi } from '../../context/AppUiContext'
+import { useAppUi } from '../../hooks/useAppUi'
 
 type AppLayoutProps = {
   children: ReactNode

@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { useAppUi } from '../../context/AppUiContext'
+import { useAppUi } from '../../hooks/useAppUi'
 import type { NavigationItem } from '../../data/navigation'
 
 type SidebarProps = {

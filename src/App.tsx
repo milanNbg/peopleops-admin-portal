@@ -4,7 +4,7 @@ import { AppLayout } from './components/layout/AppLayout'
 import { MainContent } from './components/layout/MainContent'
 import { Sidebar } from './components/layout/Sidebar'
 import { Topbar } from './components/layout/Topbar'
-import { AppUiProvider } from './context/AppUiContext'
+import { AppUiProvider } from './context/AppUiProvider'
 import { navigationItems } from './data/navigation'
 import { AppRoutes } from './routes/AppRoutes'
 
