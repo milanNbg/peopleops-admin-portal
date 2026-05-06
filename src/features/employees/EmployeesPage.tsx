@@ -1,4 +1,4 @@
-import { employees } from '../../data/employees'
+import { getEmployees } from '../../services/employeesService'
 import { EmployeeEmptyState } from './components/EmployeeEmptyState'
 import { EmployeeFilters } from './components/EmployeeFilters'
 import { EmployeeTable } from './components/EmployeeTable'
@@ -6,6 +6,7 @@ import './EmployeesPage.scss'
 import { useEmployeeFilters } from './hooks/useEmployeeFilters'
 
 export const EmployeesPage = () => {
+  const employees = getEmployees()
   const {
     departments,
     dispatch,
