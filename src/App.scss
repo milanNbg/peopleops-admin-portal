@@ -127,6 +127,11 @@
   gap: 24px;
 }
 
+.departments-page {
+  display: grid;
+  gap: 24px;
+}
+
 .welcome-panel {
   max-width: 760px;
   padding: 32px;
@@ -315,6 +320,68 @@
   font-size: 13px;
   font-weight: 800;
   text-transform: uppercase;
+}
+
+.departments-table {
+  display: grid;
+  overflow-x: auto;
+}
+
+.departments-row {
+  display: grid;
+  grid-template-columns:
+    minmax(170px, 1.2fr) minmax(150px, 1fr) repeat(2, minmax(110px, 0.7fr))
+    minmax(150px, 1fr) minmax(120px, 0.8fr);
+  min-width: 860px;
+  padding: 14px 0;
+  border-top: 1px solid #e8edf5;
+  color: #526173;
+  font-size: 15px;
+}
+
+.departments-row span {
+  display: flex;
+  align-items: center;
+}
+
+.departments-row span:first-child {
+  color: #0f172a;
+  font-weight: 750;
+}
+
+.departments-row-header {
+  padding-top: 0;
+  border-top: 0;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.department-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 82px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.department-status-active {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.department-status-hiring {
+  color: #1d4ed8;
+  background: #dbeafe;
+}
+
+.department-status-planning {
+  color: #92400e;
+  background: #fef3c7;
 }
 
 .status-badge {
