@@ -4,11 +4,28 @@ import {
   recentActivities,
   workforceOverview,
 } from '../data/dashboard'
+import { mockDelay } from '../utils/mockDelay'
 
-export const getDashboardMetrics = () => dashboardMetrics
+export const getDashboardMetrics = async () => {
+  await mockDelay()
 
-export const getWorkforceOverview = () => workforceOverview
+  return dashboardMetrics
+}
 
-export const getRecentActivities = () => recentActivities
+export const getWorkforceOverview = async () => {
+  await mockDelay()
 
-export const getDepartmentSummaries = () => departmentSummaries
+  return workforceOverview
+}
+
+export const getRecentActivities = async () => {
+  await mockDelay()
+
+  return recentActivities
+}
+
+export const getDepartmentSummaries = async () => {
+  await mockDelay()
+
+  return departmentSummaries
+}

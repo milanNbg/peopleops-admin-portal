@@ -1,4 +1,8 @@
+import { useEffect, useState } from 'react'
+import { ErrorState } from '../../components/ui/ErrorState'
+import { LoadingState } from '../../components/ui/LoadingState'
 import { getEmployees } from '../../services/employeesService'
+import type { Employee } from '../../types/employee'
 import { EmployeeEmptyState } from './components/EmployeeEmptyState'
 import { EmployeeFilters } from './components/EmployeeFilters'
 import { EmployeeTable } from './components/EmployeeTable'
@@ -6,7 +10,10 @@ import './EmployeesPage.scss'
 import { useEmployeeFilters } from './hooks/useEmployeeFilters'
 
 export const EmployeesPage = () => {
-  const employees = getEmployees()
+  const [employees, setEmployees] = useState<Employee[]>([])
+  const [error, setError] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
   const {
     departments,
     dispatch,
@@ -15,6 +22,35 @@ export const EmployeesPage = () => {
     statuses,
     totalEmployees,
   } = useEmployeeFilters(employees)
+
+  useEffect(() => {
+    let isMounted = true
+
+    const loadEmployees = async () => {
+      try {
+        const employeeData = await getEmployees()
+
+        if (isMounted) {
+          setEmployees(employeeData)
+          setError(null)
+        }
+      } catch {
+        if (isMounted) {
+          setError('Employee records could not be loaded. Please try again later.')
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false)
+        }
+      }
+    }
+
+    loadEmployees()
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   return (
     <div className="employees-page">
@@ -38,17 +74,25 @@ export const EmployeesPage = () => {
           </span>
         </div>
 
-        <EmployeeFilters
-          departments={departments}
-          dispatch={dispatch}
-          filters={filters}
-          statuses={statuses}
-        />
-
-        {filteredEmployees.length > 0 ? (
-          <EmployeeTable employees={filteredEmployees} />
+        {isLoading ? (
+          <LoadingState message="Loading employee records..." />
+        ) : error ? (
+          <ErrorState message={error} title="Employee data unavailable" />
         ) : (
-          <EmployeeEmptyState />
+          <>
+            <EmployeeFilters
+              departments={departments}
+              dispatch={dispatch}
+              filters={filters}
+              statuses={statuses}
+            />
+
+            {filteredEmployees.length > 0 ? (
+              <EmployeeTable employees={filteredEmployees} />
+            ) : (
+              <EmployeeEmptyState />
+            )}
+          </>
         )}
       </section>
     </div>
