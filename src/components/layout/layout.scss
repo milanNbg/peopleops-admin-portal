@@ -111,6 +111,10 @@
   padding: 0 0.75rem;
 }
 
+.sidebar-toggle-label-mobile {
+  display: none;
+}
+
 .theme-toggle {
   padding: 0 0.75rem;
 }
@@ -297,6 +301,14 @@
     display: none;
   }
 
+  .sidebar-toggle-label-desktop {
+    display: none;
+  }
+
+  .sidebar-toggle-label-mobile {
+    display: inline;
+  }
+
   .sidebar-nav {
     display: flex;
     overflow-x: auto;
@@ -304,7 +316,7 @@
   }
 
   .sidebar-collapsed .sidebar-nav {
-    width: auto;
+    display: none;
   }
 
   .nav-link,

@@ -31,11 +31,16 @@ export const Sidebar = ({ navigationItems }: SidebarProps) => {
         aria-expanded={!isSidebarCollapsed}
         aria-label={
           isSidebarCollapsed
-            ? 'Expand sidebar navigation'
-            : 'Collapse sidebar navigation'
+            ? 'Show navigation menu'
+            : 'Hide navigation menu'
         }
       >
-        {isSidebarCollapsed ? 'Expand' : 'Collapse'}
+        <span className="sidebar-toggle-label-desktop">
+          {isSidebarCollapsed ? 'Expand' : 'Collapse'}
+        </span>
+        <span className="sidebar-toggle-label-mobile">
+          {isSidebarCollapsed ? 'Menu' : 'Hide menu'}
+        </span>
       </button>
 
       <nav
