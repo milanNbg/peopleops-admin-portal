@@ -8,9 +8,9 @@ import {
   MetricCard,
   PageHeader,
   SectionHeader,
-} from '../../components/ui'
-import { getRoles } from '../../services/rolesService'
-import type { Role, RoleStatus } from '../../types/role'
+} from '@/components/ui'
+import { getRoles } from '@/services/rolesService'
+import type { Role, RoleStatus } from '@/types/role'
 
 const roleStatusClassNames: Record<RoleStatus, string> = {
   Active: 'active',

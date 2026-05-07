@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom'
-import { useAppUi } from '../../hooks/useAppUi'
+import { useAppUi } from '@/hooks/useAppUi'
 
 const routeTitles: Record<string, string> = {
   '/dashboard': 'Dashboard',

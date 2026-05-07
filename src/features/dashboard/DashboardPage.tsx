@@ -8,19 +8,19 @@ import {
   MetricCard,
   PageHeader,
   SectionHeader,
-} from '../../components/ui'
+} from '@/components/ui'
 import {
   getDashboardMetrics,
   getDepartmentSummaries,
   getRecentActivities,
   getWorkforceOverview,
-} from '../../services/dashboardService'
+} from '@/services/dashboardService'
 import type {
   DashboardMetric,
   DepartmentSummary,
   RecentActivity,
   WorkforceOverviewItem,
-} from '../../types/dashboard'
+} from '@/types/dashboard'
 
 const departmentSummaryColumns: DataTableColumn<DepartmentSummary>[] = [
   {

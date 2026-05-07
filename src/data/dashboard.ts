@@ -3,7 +3,7 @@ import type {
   DepartmentSummary,
   RecentActivity,
   WorkforceOverviewItem,
-} from '../types/dashboard'
+} from '@/types/dashboard'
 
 export const dashboardMetrics: DashboardMetric[] = [
   { label: 'Total employees', trend: '+12 this quarter', value: '248' },

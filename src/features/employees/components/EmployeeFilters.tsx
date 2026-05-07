@@ -4,7 +4,7 @@ import type {
   EmployeeFiltersState,
   SortOption,
 } from '../hooks/useEmployeeFilters'
-import type { EmployeeStatus } from '../../../types/employee'
+import type { EmployeeStatus } from '@/types/employee'
 
 type EmployeeFiltersProps = {
   departments: string[]

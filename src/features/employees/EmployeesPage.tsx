@@ -5,9 +5,9 @@ import {
   LoadingState,
   PageHeader,
   SectionHeader,
-} from '../../components/ui'
-import { getEmployees } from '../../services/employeesService'
-import type { Employee } from '../../types/employee'
+} from '@/components/ui'
+import { getEmployees } from '@/services/employeesService'
+import type { Employee } from '@/types/employee'
 import { EmployeeDetailPanel } from './components/EmployeeDetailPanel'
 import { EmployeeEmptyState } from './components/EmployeeEmptyState'
 import { EmployeeFilters } from './components/EmployeeFilters'

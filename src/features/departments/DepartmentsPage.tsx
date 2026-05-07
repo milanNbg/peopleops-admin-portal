@@ -8,9 +8,9 @@ import {
   MetricCard,
   PageHeader,
   SectionHeader,
-} from '../../components/ui'
-import { getDepartments } from '../../services/departmentsService'
-import type { Department, DepartmentStatus } from '../../types/department'
+} from '@/components/ui'
+import { getDepartments } from '@/services/departmentsService'
+import type { Department, DepartmentStatus } from '@/types/department'
 
 const departmentStatusClassNames: Record<DepartmentStatus, string> = {
   Active: 'active',

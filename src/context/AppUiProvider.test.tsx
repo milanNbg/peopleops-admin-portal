@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { useAppUi } from '../hooks/useAppUi'
+import { useAppUi } from '@/hooks/useAppUi'
 import { AppUiProvider } from './AppUiProvider'
 
 const AppUiHarness = () => {

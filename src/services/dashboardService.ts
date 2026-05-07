@@ -3,8 +3,8 @@ import {
   departmentSummaries,
   recentActivities,
   workforceOverview,
-} from '../data/dashboard'
-import { mockDelay } from '../utils/mockDelay'
+} from '@/data/dashboard'
+import { mockDelay } from '@/utils/mockDelay'
 
 export const getDashboardMetrics = async () => {
   await mockDelay()

@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { AppUiContext } from '../context/AppUiContext'
+import { AppUiContext } from '@/context/AppUiContext'
 
 export const useAppUi = () => {
   const context = useContext(AppUiContext)

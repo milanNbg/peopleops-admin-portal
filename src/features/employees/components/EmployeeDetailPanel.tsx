@@ -1,5 +1,5 @@
-import { StatusBadge } from '../../../components/ui'
-import type { Employee } from '../../../types/employee'
+import { StatusBadge } from '@/components/ui'
+import type { Employee } from '@/types/employee'
 
 type EmployeeDetailPanelProps = {
   employee: Employee

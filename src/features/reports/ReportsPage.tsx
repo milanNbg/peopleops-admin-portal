@@ -8,9 +8,9 @@ import {
   MetricCard,
   PageHeader,
   SectionHeader,
-} from '../../components/ui'
-import { getReports } from '../../services/reportsService'
-import type { Report, ReportStatus } from '../../types/report'
+} from '@/components/ui'
+import { getReports } from '@/services/reportsService'
+import type { Report, ReportStatus } from '@/types/report'
 
 const reportStatusClassNames: Record<ReportStatus, string> = {
   Ready: 'ready',
