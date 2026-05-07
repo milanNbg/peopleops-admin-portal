@@ -1,5 +1,7 @@
-import { useMemo, useReducer } from 'react'
+import { useCallback, useMemo, useReducer } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
+import type { Dispatch } from 'react'
 import type { Employee, EmployeeStatus } from '@/types/employee'
 
 export type SortOption = 'name' | 'startDate'
@@ -17,12 +19,14 @@ export type EmployeeFiltersAction =
   | { type: 'setSortBy'; value: SortOption }
   | { type: 'setStatus'; value: string }
 
-const initialFilters: EmployeeFiltersState = {
+export const defaultEmployeeFilters: EmployeeFiltersState = {
   department: 'All',
   search: '',
   sortBy: 'name',
   status: 'All',
 }
+
+const sortOptions: SortOption[] = ['name', 'startDate']
 
 const employeeFiltersReducer = (
   state: EmployeeFiltersState,
@@ -47,6 +51,54 @@ const statuses: Array<EmployeeStatus | 'All'> = [
   'On Leave',
 ]
 
+const getSearchParamValue = (
+  searchParams: URLSearchParams,
+  key: 'department' | 'search' | 'status',
+) => searchParams.get(key)?.trim() ?? defaultEmployeeFilters[key]
+
+export const getEmployeeFiltersFromSearchParams = (
+  searchParams: URLSearchParams,
+): EmployeeFiltersState => {
+  const sortBy = searchParams.get('sort')?.trim() ?? defaultEmployeeFilters.sortBy
+
+  return {
+    department: getSearchParamValue(searchParams, 'department'),
+    search: getSearchParamValue(searchParams, 'search'),
+    sortBy: sortOptions.includes(sortBy as SortOption)
+      ? (sortBy as SortOption)
+      : defaultEmployeeFilters.sortBy,
+    status: getSearchParamValue(searchParams, 'status'),
+  }
+}
+
+export const setEmployeeFilterSearchParams = (
+  searchParams: URLSearchParams,
+  filters: EmployeeFiltersState,
+) => {
+  const nextSearchParams = new URLSearchParams(searchParams)
+
+  const updateParam = (
+    key: string,
+    value: string,
+    defaultValue: string,
+  ) => {
+    const trimmedValue = value.trim()
+
+    if (trimmedValue === defaultValue) {
+      nextSearchParams.delete(key)
+    } else {
+      nextSearchParams.set(key, trimmedValue)
+    }
+  }
+
+  updateParam('department', filters.department, defaultEmployeeFilters.department)
+  updateParam('search', filters.search, defaultEmployeeFilters.search)
+  updateParam('sort', filters.sortBy, defaultEmployeeFilters.sortBy)
+  updateParam('status', filters.status, defaultEmployeeFilters.status)
+
+  return nextSearchParams
+}
+
 const sortEmployees = (employeeList: Employee[], sortBy: SortOption) =>
   [...employeeList].sort((firstEmployee, secondEmployee) => {
     if (sortBy === 'startDate') {
@@ -59,7 +111,29 @@ const sortEmployees = (employeeList: Employee[], sortBy: SortOption) =>
   })
 
 export const useEmployeeFilters = (employeeList: Employee[]) => {
-  const [filters, dispatch] = useReducer(employeeFiltersReducer, initialFilters)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [filters, baseDispatch] = useReducer(
+    employeeFiltersReducer,
+    searchParams,
+    getEmployeeFiltersFromSearchParams,
+  )
+
+  const dispatch: Dispatch<EmployeeFiltersAction> = useCallback(
+    (action) => {
+      const nextFilters = employeeFiltersReducer(filters, action)
+      const nextSearchParams = setEmployeeFilterSearchParams(
+        searchParams,
+        nextFilters,
+      )
+
+      baseDispatch(action)
+
+      if (nextSearchParams.toString() !== searchParams.toString()) {
+        setSearchParams(nextSearchParams, { replace: true })
+      }
+    },
+    [filters, searchParams, setSearchParams],
+  )
 
   const departments = useMemo(
     () => [

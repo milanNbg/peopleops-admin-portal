@@ -1,8 +1,10 @@
-import { render, screen } from '@testing-library/react'
+import { cleanup, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, expect, it } from 'vitest'
+import { MemoryRouter, useLocation } from 'react-router-dom'
+import { afterEach, describe, expect, it } from 'vitest'
 
 import type { Employee } from '@/types/employee'
+import type { ReactNode } from 'react'
 
 import { useEmployeeFilters } from './useEmployeeFilters'
 
@@ -35,6 +37,7 @@ const employees: Employee[] = [
 
 const EmployeeFiltersHarness = () => {
   const { dispatch, filteredEmployees } = useEmployeeFilters(employees)
+  const { search } = useLocation()
 
   return (
     <div>
@@ -56,18 +59,36 @@ const EmployeeFiltersHarness = () => {
       >
         Active only
       </button>
+      <button
+        type="button"
+        onClick={() => dispatch({ type: 'setSortBy', value: 'startDate' })}
+      >
+        Sort by start date
+      </button>
       <output aria-label="filtered employees">
         {filteredEmployees.map((employee) => employee.name).join(', ')}
       </output>
+      <output aria-label="query string">{search}</output>
     </div>
   )
 }
 
+const renderEmployeeFilters = (initialEntry = '/employees') =>
+  render(<EmployeeFiltersHarness />, {
+    wrapper: ({ children }: { children: ReactNode }) => (
+      <MemoryRouter initialEntries={[initialEntry]}>{children}</MemoryRouter>
+    ),
+  })
+
 describe('useEmployeeFilters', () => {
+  afterEach(() => {
+    cleanup()
+  })
+
   it('filters employees by search, department and status', async () => {
     const user = userEvent.setup()
 
-    render(<EmployeeFiltersHarness />)
+    renderEmployeeFilters()
 
     await user.click(screen.getByRole('button', { name: 'Search Avery' }))
     expect(screen.getByLabelText('filtered employees')).toHaveTextContent(
@@ -79,5 +100,33 @@ describe('useEmployeeFilters', () => {
 
     await user.click(screen.getByRole('button', { name: 'Active only' }))
     expect(screen.getByLabelText('filtered employees')).toHaveTextContent('')
+  })
+
+  it('initializes filters from the URL query string', () => {
+    renderEmployeeFilters('/employees?search=mina&department=Finance')
+
+    expect(screen.getByLabelText('filtered employees')).toHaveTextContent(
+      'Mina Patel',
+    )
+  })
+
+  it('updates the URL query string when filters change', async () => {
+    const user = userEvent.setup()
+
+    renderEmployeeFilters()
+
+    await user.click(screen.getByRole('button', { name: 'Search Avery' }))
+    await user.click(screen.getByRole('button', { name: 'Finance only' }))
+    await user.click(screen.getByRole('button', { name: 'Sort by start date' }))
+
+    expect(screen.getByLabelText('query string')).toHaveTextContent(
+      'search=avery',
+    )
+    expect(screen.getByLabelText('query string')).toHaveTextContent(
+      'department=Finance',
+    )
+    expect(screen.getByLabelText('query string')).toHaveTextContent(
+      'sort=startDate',
+    )
   })
 })
