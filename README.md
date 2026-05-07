@@ -4,6 +4,10 @@ A modern, responsive, front-end-only admin dashboard for People Operations and H
 
 PeopleOps Admin Portal is designed as a portfolio-level React application with a professional enterprise SaaS interface, feature-based architecture, mock service layer and reusable UI patterns.
 
+## Live Demo
+
+View the deployed app: https://peopleops-admin-portal.vercel.app/dashboard
+
 ## Tech Stack
 
 - React

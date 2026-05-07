@@ -6,8 +6,6 @@ type SidebarProps = {
   navigationItems: NavigationItem[]
 }
 
-const getNavigationInitial = (label: string) => label.charAt(0)
-
 export const Sidebar = ({ navigationItems }: SidebarProps) => {
   const { isSidebarCollapsed, toggleSidebar } = useAppUi()
 
@@ -46,11 +44,12 @@ export const Sidebar = ({ navigationItems }: SidebarProps) => {
             }
             end={item.path === '/dashboard'}
             key={item.label}
+            aria-label={item.label}
             title={isSidebarCollapsed ? item.label : undefined}
             to={item.path}
           >
             <span className="nav-initial" aria-hidden="true">
-              {getNavigationInitial(item.label)}
+              {item.shortLabel}
             </span>
             <span className="nav-label">{item.label}</span>
           </NavLink>
