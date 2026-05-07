@@ -82,6 +82,10 @@ export const EmployeesPage = () => {
     totalEmployees,
   } = useEmployeeFilters(employees)
 
+  const selectedFilteredEmployee = selectedEmployee
+    ? filteredEmployees.find((employee) => employee.id === selectedEmployee.id)
+    : null
+
   return (
     <div className="employees-page">
       {isLoading ? (
@@ -125,12 +129,12 @@ export const EmployeesPage = () => {
                   <>
                     <EmployeeTable
                       employees={filteredEmployees}
-                      selectedEmployeeId={selectedEmployee?.id}
+                      selectedEmployeeId={selectedFilteredEmployee?.id}
                       onSelectEmployee={setSelectedEmployee}
                     />
-                    {selectedEmployee ? (
+                    {selectedFilteredEmployee ? (
                       <EmployeeDetailPanel
-                        employee={selectedEmployee}
+                        employee={selectedFilteredEmployee}
                         onClose={() => setSelectedEmployee(null)}
                       />
                     ) : null}
