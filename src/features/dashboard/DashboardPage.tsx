@@ -4,6 +4,7 @@ import {
   ErrorState,
   MetricCard,
   PageHeader,
+  PageHeaderSkeleton,
   SectionHeader,
   SkeletonBlock,
   SkeletonCardGrid,
@@ -82,6 +83,7 @@ const loadDashboardData = async (): Promise<DashboardPageData> => {
 const DashboardSkeleton = () => (
   <div className="dashboard-skeleton" role="status" aria-live="polite">
     <span className="visually-hidden">Loading dashboard data...</span>
+    <PageHeaderSkeleton />
 
     <SkeletonCardGrid />
 
@@ -164,21 +166,31 @@ export const DashboardPage = () => {
 
   return (
     <div className="dashboard-page">
-      <PageHeader
-        eyebrow="Overview"
-        title="PeopleOps Admin Portal"
-        titleId="portal-title"
-      >
-        Monitor workforce health, staffing momentum, and department activity
-        from one front-end admin dashboard.
-      </PageHeader>
-
       {isLoading ? (
         <DashboardSkeleton />
       ) : error ? (
-        <ErrorState message={error} title="Dashboard data unavailable" />
+        <>
+          <PageHeader
+            eyebrow="Overview"
+            title="PeopleOps Admin Portal"
+            titleId="portal-title"
+          >
+            Monitor workforce health, staffing momentum, and department activity
+            from one front-end admin dashboard.
+          </PageHeader>
+          <ErrorState message={error} title="Dashboard data unavailable" />
+        </>
       ) : (
         <>
+          <PageHeader
+            eyebrow="Overview"
+            title="PeopleOps Admin Portal"
+            titleId="portal-title"
+          >
+            Monitor workforce health, staffing momentum, and department activity
+            from one front-end admin dashboard.
+          </PageHeader>
+
           <section className="metric-grid" aria-label="Key PeopleOps metrics">
             {dashboardMetrics.map((metric) => (
               <MetricCard

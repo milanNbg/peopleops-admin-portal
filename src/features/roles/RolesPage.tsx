@@ -6,6 +6,7 @@ import {
   ErrorState,
   MetricCard,
   PageHeader,
+  PageHeaderSkeleton,
   SectionHeader,
   SkeletonBlock,
   SkeletonCardGrid,
@@ -72,6 +73,7 @@ const roleColumns: DataTableColumn<Role>[] = [
 const RolesSkeleton = () => (
   <div className="roles-skeleton" role="status" aria-live="polite">
     <span className="visually-hidden">Loading role data...</span>
+    <PageHeaderSkeleton />
     <SkeletonCardGrid />
     <Card labelledBy="roles-skeleton-table-title">
       <span className="visually-hidden" id="roles-skeleton-table-title">
@@ -129,58 +131,62 @@ export const RolesPage = () => {
 
   return (
     <div className="roles-page">
-      <PageHeader eyebrow="Access" title="Roles" titleId="roles-title">
-        Review role definitions, access levels, and permission coverage across
-        the PeopleOps workspace.
-      </PageHeader>
-
       {isLoading ? (
         <RolesSkeleton />
-      ) : error ? (
-        <ErrorState message={error} title="Role data unavailable" />
       ) : (
         <>
-          <section className="metric-grid" aria-label="Role summary">
-            <MetricCard
-              label="Configured roles"
-              trend="Access profiles"
-              value={String(roleSummary.totalRoles)}
-            />
-            <MetricCard
-              label="Assigned employees"
-              trend="Across active roles"
-              value={String(roleSummary.assignedEmployees)}
-            />
-            <MetricCard
-              label="Permissions"
-              trend="Total permission rules"
-              value={String(roleSummary.permissionsCount)}
-            />
-            <MetricCard
-              label="In review"
-              trend="Needs access audit"
-              value={String(roleSummary.rolesInReview)}
-            />
-          </section>
+          <PageHeader eyebrow="Access" title="Roles" titleId="roles-title">
+            Review role definitions, access levels, and permission coverage
+            across the PeopleOps workspace.
+          </PageHeader>
 
-          <Card labelledBy="role-list-title">
-            <SectionHeader
-              eyebrow="Role catalog"
-              title="Roles overview"
-              titleId="role-list-title"
-            />
+          {error ? (
+            <ErrorState message={error} title="Role data unavailable" />
+          ) : (
+            <>
+              <section className="metric-grid" aria-label="Role summary">
+                <MetricCard
+                  label="Configured roles"
+                  trend="Access profiles"
+                  value={String(roleSummary.totalRoles)}
+                />
+                <MetricCard
+                  label="Assigned employees"
+                  trend="Across active roles"
+                  value={String(roleSummary.assignedEmployees)}
+                />
+                <MetricCard
+                  label="Permissions"
+                  trend="Total permission rules"
+                  value={String(roleSummary.permissionsCount)}
+                />
+                <MetricCard
+                  label="In review"
+                  trend="Needs access audit"
+                  value={String(roleSummary.rolesInReview)}
+                />
+              </section>
 
-            <DataTable
-              ariaLabel="Roles overview"
-              className="roles-table"
-              columns={roleColumns}
-              data={roles}
-              emptyMessage="No roles found."
-              getRowKey={(role) => role.id}
-              headerRowClassName="roles-row roles-row-header"
-              rowClassName="roles-row"
-            />
-          </Card>
+              <Card labelledBy="role-list-title">
+                <SectionHeader
+                  eyebrow="Role catalog"
+                  title="Roles overview"
+                  titleId="role-list-title"
+                />
+
+                <DataTable
+                  ariaLabel="Roles overview"
+                  className="roles-table"
+                  columns={roleColumns}
+                  data={roles}
+                  emptyMessage="No roles found."
+                  getRowKey={(role) => role.id}
+                  headerRowClassName="roles-row roles-row-header"
+                  rowClassName="roles-row"
+                />
+              </Card>
+            </>
+          )}
         </>
       )}
     </div>

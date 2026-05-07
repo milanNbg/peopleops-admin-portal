@@ -236,6 +236,20 @@
 
 .employees-skeleton {
   display: grid;
+  gap: 1.5rem;
+}
+
+.employees-skeleton-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.125rem;
+}
+
+.employees-skeleton-heading > div {
+  display: grid;
+  gap: 0.5rem;
 }
 
 .employees-skeleton-label {
@@ -248,6 +262,11 @@
   height: 2.5rem;
 }
 
+.employees-skeleton-count {
+  width: 8.75rem;
+  height: 0.875rem;
+}
+
 @media (max-width: 68.75rem) {
   .employee-controls {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -256,6 +275,10 @@
 
 @media (max-width: 51.25rem) {
   .employees-heading {
+    flex-direction: column;
+  }
+
+  .employees-skeleton-heading {
     flex-direction: column;
   }
 
@@ -277,6 +300,10 @@
   .employee-detail-panel,
   .empty-state {
     padding: 1.125rem;
+  }
+
+  .employees-skeleton {
+    gap: 1rem;
   }
 }
 

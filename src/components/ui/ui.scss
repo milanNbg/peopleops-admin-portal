@@ -167,6 +167,27 @@
   width: 54%;
 }
 
+.page-header-skeleton {
+  display: grid;
+  gap: 0.875rem;
+}
+
+.page-header-skeleton-title {
+  width: min(100%, 22rem);
+  height: 2rem;
+}
+
+.page-header-skeleton-intro {
+  width: min(100%, 35rem);
+  height: 1rem;
+  margin-top: 0.25rem;
+}
+
+.page-header-skeleton-intro-short {
+  width: min(72%, 25rem);
+  height: 1rem;
+}
+
 .section-heading {
   display: flex;
   align-items: flex-start;

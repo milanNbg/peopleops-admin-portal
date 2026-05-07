@@ -6,6 +6,7 @@ import {
   ErrorState,
   MetricCard,
   PageHeader,
+  PageHeaderSkeleton,
   SectionHeader,
   SkeletonBlock,
   SkeletonCardGrid,
@@ -67,6 +68,7 @@ const reportColumns: DataTableColumn<Report>[] = [
 const ReportsSkeleton = () => (
   <div className="reports-skeleton" role="status" aria-live="polite">
     <span className="visually-hidden">Loading report data...</span>
+    <PageHeaderSkeleton />
     <SkeletonCardGrid />
     <Card labelledBy="reports-skeleton-table-title">
       <span className="visually-hidden" id="reports-skeleton-table-title">
@@ -121,58 +123,62 @@ export const ReportsPage = () => {
 
   return (
     <div className="reports-page">
-      <PageHeader eyebrow="Insights" title="Reports" titleId="reports-title">
-        Track recurring PeopleOps reports across workforce, compliance, hiring,
-        retention, and payroll readiness workflows.
-      </PageHeader>
-
       {isLoading ? (
         <ReportsSkeleton />
-      ) : error ? (
-        <ErrorState message={error} title="Report data unavailable" />
       ) : (
         <>
-          <section className="metric-grid" aria-label="Report summary">
-            <MetricCard
-              label="Reports"
-              trend="Available report views"
-              value={String(reportSummary.totalReports)}
-            />
-            <MetricCard
-              label="Ready"
-              trend="Generated and available"
-              value={String(reportSummary.readyReports)}
-            />
-            <MetricCard
-              label="In review"
-              trend="Awaiting validation"
-              value={String(reportSummary.reportsInReview)}
-            />
-            <MetricCard
-              label="Categories"
-              trend="Coverage areas"
-              value={String(reportSummary.categories)}
-            />
-          </section>
+          <PageHeader eyebrow="Insights" title="Reports" titleId="reports-title">
+            Track recurring PeopleOps reports across workforce, compliance,
+            hiring, retention, and payroll readiness workflows.
+          </PageHeader>
 
-          <Card labelledBy="report-list-title">
-            <SectionHeader
-              eyebrow="Report catalog"
-              title="Reports overview"
-              titleId="report-list-title"
-            />
+          {error ? (
+            <ErrorState message={error} title="Report data unavailable" />
+          ) : (
+            <>
+              <section className="metric-grid" aria-label="Report summary">
+                <MetricCard
+                  label="Reports"
+                  trend="Available report views"
+                  value={String(reportSummary.totalReports)}
+                />
+                <MetricCard
+                  label="Ready"
+                  trend="Generated and available"
+                  value={String(reportSummary.readyReports)}
+                />
+                <MetricCard
+                  label="In review"
+                  trend="Awaiting validation"
+                  value={String(reportSummary.reportsInReview)}
+                />
+                <MetricCard
+                  label="Categories"
+                  trend="Coverage areas"
+                  value={String(reportSummary.categories)}
+                />
+              </section>
 
-            <DataTable
-              ariaLabel="Reports overview"
-              className="reports-table"
-              columns={reportColumns}
-              data={reports}
-              emptyMessage="No reports found."
-              getRowKey={(report) => report.id}
-              headerRowClassName="reports-row reports-row-header"
-              rowClassName="reports-row"
-            />
-          </Card>
+              <Card labelledBy="report-list-title">
+                <SectionHeader
+                  eyebrow="Report catalog"
+                  title="Reports overview"
+                  titleId="report-list-title"
+                />
+
+                <DataTable
+                  ariaLabel="Reports overview"
+                  className="reports-table"
+                  columns={reportColumns}
+                  data={reports}
+                  emptyMessage="No reports found."
+                  getRowKey={(report) => report.id}
+                  headerRowClassName="reports-row reports-row-header"
+                  rowClassName="reports-row"
+                />
+              </Card>
+            </>
+          )}
         </>
       )}
     </div>
