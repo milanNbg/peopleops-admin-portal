@@ -1,0 +1,54 @@
+.not-found-page {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.not-found-card {
+  display: grid;
+  max-width: 40rem;
+  gap: 0.875rem;
+}
+
+.not-found-card h3,
+.not-found-card p {
+  margin: 0;
+}
+
+.not-found-card h3 {
+  color: var(--color-heading);
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+
+.not-found-card p {
+  color: var(--color-muted);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.not-found-action {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.25rem;
+  padding: 0 0.875rem;
+  border-radius: 0.4375rem;
+  color: var(--color-on-accent);
+  font-size: 0.875rem;
+  font-weight: 750;
+  text-decoration: none;
+  background: var(--color-accent-strong);
+}
+
+.not-found-action:hover,
+.not-found-action:focus-visible {
+  background: var(--color-accent);
+}
+
+@media (max-width: 40rem) {
+  .not-found-page {
+    gap: 1rem;
+  }
+}
