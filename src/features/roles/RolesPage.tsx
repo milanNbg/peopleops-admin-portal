@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import {
   Card,
   DataTable,
@@ -9,6 +9,7 @@ import {
   SectionHeader,
 } from '@/components/ui'
 import { getRoles } from '@/services/rolesService'
+import { useAsyncData } from '@/hooks/useAsyncData'
 import type { DataTableColumn } from '@/components/ui'
 import type { Role, RoleStatus } from '@/types/role'
 
@@ -65,9 +66,14 @@ const roleColumns: DataTableColumn<Role>[] = [
 ]
 
 export const RolesPage = () => {
-  const [roles, setRoles] = useState<Role[]>([])
-  const [error, setError] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const {
+    data: roles,
+    error,
+    isLoading,
+  } = useAsyncData(getRoles, {
+    errorMessage: 'Role data could not be loaded. Please try again later.',
+    initialData: [],
+  })
 
   const roleSummary = useMemo(() => {
     const assignedEmployees = roles.reduce(
@@ -87,35 +93,6 @@ export const RolesPage = () => {
       totalRoles: roles.length,
     }
   }, [roles])
-
-  useEffect(() => {
-    let isMounted = true
-
-    const loadRoles = async () => {
-      try {
-        const roleData = await getRoles()
-
-        if (isMounted) {
-          setRoles(roleData)
-          setError(null)
-        }
-      } catch {
-        if (isMounted) {
-          setError('Role data could not be loaded. Please try again later.')
-        }
-      } finally {
-        if (isMounted) {
-          setIsLoading(false)
-        }
-      }
-    }
-
-    loadRoles()
-
-    return () => {
-      isMounted = false
-    }
-  }, [])
 
   return (
     <div className="roles-page">

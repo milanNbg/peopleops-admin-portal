@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import {
   Card,
   ErrorState,
@@ -7,6 +7,7 @@ import {
   SectionHeader,
 } from '@/components/ui'
 import { getEmployees } from '@/services/employeesService'
+import { useAsyncData } from '@/hooks/useAsyncData'
 import type { Employee } from '@/types/employee'
 import { EmployeeDetailPanel } from './components/EmployeeDetailPanel'
 import { EmployeeEmptyState } from './components/EmployeeEmptyState'
@@ -16,10 +17,15 @@ import { useEmployeeFilters } from './hooks/useEmployeeFilters'
 import './EmployeesPage.scss'
 
 export const EmployeesPage = () => {
-  const [employees, setEmployees] = useState<Employee[]>([])
-  const [error, setError] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null)
+  const {
+    data: employees,
+    error,
+    isLoading,
+  } = useAsyncData(getEmployees, {
+    errorMessage: 'Employee records could not be loaded. Please try again later.',
+    initialData: [],
+  })
 
   const {
     departments,
@@ -29,35 +35,6 @@ export const EmployeesPage = () => {
     statuses,
     totalEmployees,
   } = useEmployeeFilters(employees)
-
-  useEffect(() => {
-    let isMounted = true
-
-    const loadEmployees = async () => {
-      try {
-        const employeeData = await getEmployees()
-
-        if (isMounted) {
-          setEmployees(employeeData)
-          setError(null)
-        }
-      } catch {
-        if (isMounted) {
-          setError('Employee records could not be loaded. Please try again later.')
-        }
-      } finally {
-        if (isMounted) {
-          setIsLoading(false)
-        }
-      }
-    }
-
-    loadEmployees()
-
-    return () => {
-      isMounted = false
-    }
-  }, [])
 
   return (
     <div className="employees-page">

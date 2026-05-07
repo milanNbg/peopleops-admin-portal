@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import {
   Card,
   DataTable,
@@ -9,6 +9,7 @@ import {
   SectionHeader,
 } from '@/components/ui'
 import { getReports } from '@/services/reportsService'
+import { useAsyncData } from '@/hooks/useAsyncData'
 import type { DataTableColumn } from '@/components/ui'
 import type { Report, ReportStatus } from '@/types/report'
 
@@ -60,9 +61,14 @@ const reportColumns: DataTableColumn<Report>[] = [
 ]
 
 export const ReportsPage = () => {
-  const [reports, setReports] = useState<Report[]>([])
-  const [error, setError] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const {
+    data: reports,
+    error,
+    isLoading,
+  } = useAsyncData(getReports, {
+    errorMessage: 'Report data could not be loaded. Please try again later.',
+    initialData: [],
+  })
 
   const reportSummary = useMemo(() => {
     const readyReports = reports.filter(
@@ -80,35 +86,6 @@ export const ReportsPage = () => {
       totalReports: reports.length,
     }
   }, [reports])
-
-  useEffect(() => {
-    let isMounted = true
-
-    const loadReports = async () => {
-      try {
-        const reportData = await getReports()
-
-        if (isMounted) {
-          setReports(reportData)
-          setError(null)
-        }
-      } catch {
-        if (isMounted) {
-          setError('Report data could not be loaded. Please try again later.')
-        }
-      } finally {
-        if (isMounted) {
-          setIsLoading(false)
-        }
-      }
-    }
-
-    loadReports()
-
-    return () => {
-      isMounted = false
-    }
-  }, [])
 
   return (
     <div className="reports-page">

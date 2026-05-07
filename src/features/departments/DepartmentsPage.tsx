@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import {
   Card,
   DataTable,
@@ -9,6 +9,7 @@ import {
   SectionHeader,
 } from '@/components/ui'
 import { getDepartments } from '@/services/departmentsService'
+import { useAsyncData } from '@/hooks/useAsyncData'
 import type { DataTableColumn } from '@/components/ui'
 import type { Department, DepartmentStatus } from '@/types/department'
 
@@ -60,9 +61,14 @@ const departmentColumns: DataTableColumn<Department>[] = [
 ]
 
 export const DepartmentsPage = () => {
-  const [departments, setDepartments] = useState<Department[]>([])
-  const [error, setError] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const {
+    data: departments,
+    error,
+    isLoading,
+  } = useAsyncData(getDepartments, {
+    errorMessage: 'Department data could not be loaded. Please try again later.',
+    initialData: [],
+  })
 
   const departmentSummary = useMemo(() => {
     const totalHeadcount = departments.reduce(
@@ -84,35 +90,6 @@ export const DepartmentsPage = () => {
       totalHeadcount,
     }
   }, [departments])
-
-  useEffect(() => {
-    let isMounted = true
-
-    const loadDepartments = async () => {
-      try {
-        const departmentData = await getDepartments()
-
-        if (isMounted) {
-          setDepartments(departmentData)
-          setError(null)
-        }
-      } catch {
-        if (isMounted) {
-          setError('Department data could not be loaded. Please try again later.')
-        }
-      } finally {
-        if (isMounted) {
-          setIsLoading(false)
-        }
-      }
-    }
-
-    loadDepartments()
-
-    return () => {
-      isMounted = false
-    }
-  }, [])
 
   return (
     <div className="departments-page">

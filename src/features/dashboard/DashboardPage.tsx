@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import {
   Card,
   DataTable,
@@ -14,6 +13,7 @@ import {
   getRecentActivities,
   getWorkforceOverview,
 } from '@/services/dashboardService'
+import { useAsyncData } from '@/hooks/useAsyncData'
 import type { DataTableColumn } from '@/components/ui'
 import type {
   DashboardMetric,
@@ -45,54 +45,51 @@ const departmentSummaryColumns: DataTableColumn<DepartmentSummary>[] = [
   },
 ]
 
+type DashboardPageData = {
+  dashboardMetrics: DashboardMetric[]
+  departmentSummaries: DepartmentSummary[]
+  recentActivities: RecentActivity[]
+  workforceOverview: WorkforceOverviewItem[]
+}
+
+const initialDashboardData: DashboardPageData = {
+  dashboardMetrics: [],
+  departmentSummaries: [],
+  recentActivities: [],
+  workforceOverview: [],
+}
+
+const loadDashboardData = async (): Promise<DashboardPageData> => {
+  const [dashboardMetrics, workforceOverview, recentActivities, departmentSummaries] =
+    await Promise.all([
+      getDashboardMetrics(),
+      getWorkforceOverview(),
+      getRecentActivities(),
+      getDepartmentSummaries(),
+    ])
+
+  return {
+    dashboardMetrics,
+    departmentSummaries,
+    recentActivities,
+    workforceOverview,
+  }
+}
+
 export const DashboardPage = () => {
-  const [dashboardMetrics, setDashboardMetrics] = useState<DashboardMetric[]>([])
-  const [workforceOverview, setWorkforceOverview] = useState<
-    WorkforceOverviewItem[]
-  >([])
-  const [recentActivities, setRecentActivities] = useState<RecentActivity[]>([])
-  const [departmentSummaries, setDepartmentSummaries] = useState<
-    DepartmentSummary[]
-  >([])
-  const [error, setError] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    let isMounted = true
-
-    const loadDashboardData = async () => {
-      try {
-        const [metrics, overview, activities, departments] = await Promise.all([
-          getDashboardMetrics(),
-          getWorkforceOverview(),
-          getRecentActivities(),
-          getDepartmentSummaries(),
-        ])
-
-        if (isMounted) {
-          setDashboardMetrics(metrics)
-          setWorkforceOverview(overview)
-          setRecentActivities(activities)
-          setDepartmentSummaries(departments)
-          setError(null)
-        }
-      } catch {
-        if (isMounted) {
-          setError('Dashboard data could not be loaded. Please try again later.')
-        }
-      } finally {
-        if (isMounted) {
-          setIsLoading(false)
-        }
-      }
-    }
-
-    loadDashboardData()
-
-    return () => {
-      isMounted = false
-    }
-  }, [])
+  const {
+    data: {
+      dashboardMetrics,
+      departmentSummaries,
+      recentActivities,
+      workforceOverview,
+    },
+    error,
+    isLoading,
+  } = useAsyncData(loadDashboardData, {
+    errorMessage: 'Dashboard data could not be loaded. Please try again later.',
+    initialData: initialDashboardData,
+  })
 
   return (
     <div className="dashboard-page">
