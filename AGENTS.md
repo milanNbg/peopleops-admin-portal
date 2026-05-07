@@ -35,14 +35,26 @@ The project should look like a professional enterprise SaaS product and should b
 - Roles page
 - Reports page
 - React Router route structure
+- Root route redirect to `/dashboard`
+- Not Found route
+- Route-level lazy loading for secondary pages
 - Mock service layer
 - Loading and error states
+- Full-page skeleton loading states
 - Reusable UI components
 - Reusable DataTable component
+- Folder-per-component reusable UI structure with focused barrel exports
 - App-level UI context
+- Application ErrorBoundary
 - Sidebar collapse / expand state
+- Accessible layout landmarks, skip link and navigation controls
 - Light / dark theme toggle
 - Theme persistence with localStorage
+- Dynamic document titles by route
+- TypeScript `@/` path alias
+- Vitest and React Testing Library tests
+- GitHub Actions CI
+- Vercel live deployment
 - SCSS architecture with global, layout, UI and feature-level styles
 
 ## Visual Style
@@ -96,6 +108,7 @@ src/
   styles/
     base/
     utilities/
+  test/
   types/
   utils/
 ```
@@ -105,6 +118,7 @@ src/
 - Keep app-level composition minimal.
 - Keep feature-specific code inside the relevant feature folder.
 - Keep reusable UI components inside `src/components/ui`.
+- Use folder-per-component structure for reusable UI components and export public components through `src/components/ui/index.ts`.
 - Keep layout components inside `src/components/layout`.
 - Keep app-level context inside `src/context`.
 - Keep shared custom hooks inside `src/hooks`.
@@ -113,6 +127,10 @@ src/
 - Keep mock data access inside `src/services`.
 - Keep TypeScript domain types inside `src/types`.
 - Do not import mock data directly into UI components when a service exists for that data.
+- Prefer the `@/` path alias for shared app-layer imports.
+- Keep route behavior stable: `/` redirects to `/dashboard`, existing feature routes stay intact, and unknown paths use the Not Found route.
+- Preserve route-level lazy loading for secondary pages unless there is a clear UX or performance reason to change it.
+- Keep application-level safeguards such as the ErrorBoundary, route document titles and accessibility landmarks working when changing app composition.
 - Do not add backend code.
 - Do not add global state management unless there is a clear app-level need.
 
