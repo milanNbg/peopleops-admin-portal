@@ -205,6 +205,17 @@ src/
 - Keep components focused and reusable.
 - After each major change, explain what files were changed and why.
 
+## Testing Rules
+
+- Use Vitest and React Testing Library for unit and component tests.
+- Do not introduce Jest.
+- Keep tests colocated with the files they test.
+- Add or update tests for new user-facing functionality when the behavior can be meaningfully tested.
+- Add or update tests when changing hooks, routing behavior, state logic, async loading flows or accessibility behavior.
+- Focus tests on user-visible behavior rather than implementation details.
+- Do not add snapshot tests.
+- Do not test CSS implementation details.
+
 ## Commands
 
 Install dependencies:
