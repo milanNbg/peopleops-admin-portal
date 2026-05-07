@@ -1,19 +1,19 @@
 import type { ReactNode } from 'react'
 
 type SectionHeaderProps = {
-  actions?: ReactNode
-  className?: string
   eyebrow: string
   title: string
   titleId: string
+  actions?: ReactNode
+  className?: string
 }
 
 export const SectionHeader = ({
-  actions,
-  className,
   eyebrow,
   title,
   titleId,
+  actions,
+  className,
 }: SectionHeaderProps) => (
   <div className={`section-heading${className ? ` ${className}` : ''}`}>
     <div>

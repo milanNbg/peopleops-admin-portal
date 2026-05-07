@@ -2,8 +2,8 @@ import {
   useEffect,
   useMemo,
   useReducer,
-  type ReactNode,
 } from 'react'
+import type { ReactNode } from 'react'
 import {
   AppUiContext,
   appUiReducer,

@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react'
 import {
   Card,
   DataTable,
-  type DataTableColumn,
   ErrorState,
   LoadingState,
   MetricCard,
@@ -10,6 +9,7 @@ import {
   SectionHeader,
 } from '@/components/ui'
 import { getDepartments } from '@/services/departmentsService'
+import type { DataTableColumn } from '@/components/ui'
 import type { Department, DepartmentStatus } from '@/types/department'
 
 const departmentStatusClassNames: Record<DepartmentStatus, string> = {

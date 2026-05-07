@@ -12,8 +12,8 @@ import { EmployeeDetailPanel } from './components/EmployeeDetailPanel'
 import { EmployeeEmptyState } from './components/EmployeeEmptyState'
 import { EmployeeFilters } from './components/EmployeeFilters'
 import { EmployeeTable } from './components/EmployeeTable'
-import './EmployeesPage.scss'
 import { useEmployeeFilters } from './hooks/useEmployeeFilters'
+import './EmployeesPage.scss'
 
 export const EmployeesPage = () => {
   const [employees, setEmployees] = useState<Employee[]>([])
@@ -87,17 +87,17 @@ export const EmployeesPage = () => {
           <>
             <EmployeeFilters
               departments={departments}
-              dispatch={dispatch}
               filters={filters}
               statuses={statuses}
+              dispatch={dispatch}
             />
 
             {filteredEmployees.length > 0 ? (
               <>
                 <EmployeeTable
                   employees={filteredEmployees}
-                  onSelectEmployee={setSelectedEmployee}
                   selectedEmployeeId={selectedEmployee?.id}
+                  onSelectEmployee={setSelectedEmployee}
                 />
                 {selectedEmployee ? (
                   <EmployeeDetailPanel

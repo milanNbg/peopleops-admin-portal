@@ -6,12 +6,12 @@ export const DataTable = <TData,>({
   columns,
   data,
   emptyMessage,
-  getRowKey,
-  getRowLabel,
   headerRowClassName,
-  onRowSelect,
   rowClassName,
   selectedRowKey,
+  getRowKey,
+  getRowLabel,
+  onRowSelect,
 }: DataTableProps<TData>) => (
   <div
     className={className}

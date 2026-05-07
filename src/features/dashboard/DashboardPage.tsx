@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import {
   Card,
   DataTable,
-  type DataTableColumn,
   ErrorState,
   LoadingState,
   MetricCard,
@@ -15,6 +14,7 @@ import {
   getRecentActivities,
   getWorkforceOverview,
 } from '@/services/dashboardService'
+import type { DataTableColumn } from '@/components/ui'
 import type {
   DashboardMetric,
   DepartmentSummary,

@@ -1,14 +1,11 @@
-import {
-  DataTable,
-  type DataTableColumn,
-  StatusBadge,
-} from '@/components/ui'
+import { DataTable, StatusBadge } from '@/components/ui'
+import type { DataTableColumn } from '@/components/ui'
 import type { Employee } from '@/types/employee'
 
 type EmployeeTableProps = {
   employees: Employee[]
-  onSelectEmployee: (employee: Employee) => void
   selectedEmployeeId?: string
+  onSelectEmployee: (employee: Employee) => void
 }
 
 const employeeColumns: DataTableColumn<Employee>[] = [
@@ -51,8 +48,8 @@ const employeeColumns: DataTableColumn<Employee>[] = [
 
 export const EmployeeTable = ({
   employees,
-  onSelectEmployee,
   selectedEmployeeId,
+  onSelectEmployee,
 }: EmployeeTableProps) => (
   <DataTable
     ariaLabel="Employee directory"
@@ -63,8 +60,8 @@ export const EmployeeTable = ({
     getRowLabel={(employee) => `View details for ${employee.name}`}
     getRowKey={(employee) => employee.id}
     headerRowClassName="employee-row employee-row-header"
-    onRowSelect={onSelectEmployee}
     rowClassName="employee-row employee-row-selectable"
     selectedRowKey={selectedEmployeeId}
+    onRowSelect={onSelectEmployee}
   />
 )

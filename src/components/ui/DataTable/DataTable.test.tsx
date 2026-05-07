@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { DataTable, type DataTableColumn } from '.'
+import { DataTable } from '.'
+import type { DataTableColumn } from '.'
 
 type TestEmployee = {
   department: string

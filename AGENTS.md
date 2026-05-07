@@ -145,10 +145,34 @@ src/
 - Use named exports for components and utilities where appropriate.
 - Use `export const ComponentName = () => {}` for React components.
 - Use explicit types for domain models.
+- Keep TypeScript domain types inside `src/types`.
+- Keep component-specific props/types close to the component, for example `ComponentName.types.ts`.
+- Use `import type` for imports that are only used as TypeScript types.
 - Prefer readable types over overly clever abstractions.
 - Keep component props typed.
 - Avoid `any`.
 - Do not over-engineer generic components.
+- Use generics only when they improve reusability and type safety, such as reusable table components.
+- Order component props consistently:
+  - data/content props first
+  - state/selected/active props next
+  - config/variant props next
+  - callback props such as `onClick`, `onChange`, `onSelect` last
+
+## Import Rules
+
+- Organize imports consistently in React and TypeScript files.
+- Use this import order:
+  1. React and third-party imports
+  2. Shared app imports using `@/`
+  3. Type-only imports using `import type`
+  4. Local relative imports
+  5. SCSS/style imports last
+- Keep SCSS imports as the final import group in component files.
+- Prefer `@/` path aliases over deep relative imports when importing from shared app layers.
+- Use local relative imports for files that belong to the same feature or component folder.
+- Do not create a global `src/index.ts` barrel file.
+- Barrel exports are allowed for focused public APIs such as `src/components/ui/index.ts`.
 
 ## Development Rules
 
@@ -176,13 +200,25 @@ Run the development server:
 npm run dev
 ```
 
+Run linting:
+
+```bash
+npm run lint
+```
+
+Run tests:
+
+```bash
+npm run test:run
+```
+
 Build the project:
 
 ```bash
 npm run build
 ```
 
-Preview production build:
+Preview the production build:
 
 ```bash
 npm run preview
@@ -194,6 +230,9 @@ A task is considered done when:
 
 - The app still compiles successfully.
 - TypeScript errors are resolved.
+- Linting passes successfully.
+- Tests pass successfully.
+- Production build completes successfully.
 - The UI works in the browser.
 - Existing routes still work.
 - Existing feature behavior is not broken.

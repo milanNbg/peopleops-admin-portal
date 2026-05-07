@@ -12,10 +12,10 @@ export type DataTableProps<TData> = {
   columns: DataTableColumn<TData>[]
   data: TData[]
   emptyMessage: string
-  getRowKey: (row: TData) => string
-  getRowLabel?: (row: TData) => string
   headerRowClassName: string
-  onRowSelect?: (row: TData) => void
   rowClassName: string
   selectedRowKey?: string
+  getRowKey: (row: TData) => string
+  getRowLabel?: (row: TData) => string
+  onRowSelect?: (row: TData) => void
 }

@@ -1,23 +1,23 @@
 import type { Dispatch } from 'react'
+import type { EmployeeStatus } from '@/types/employee'
 import type {
   EmployeeFiltersAction,
   EmployeeFiltersState,
   SortOption,
 } from '../hooks/useEmployeeFilters'
-import type { EmployeeStatus } from '@/types/employee'
 
 type EmployeeFiltersProps = {
   departments: string[]
-  dispatch: Dispatch<EmployeeFiltersAction>
   filters: EmployeeFiltersState
   statuses: Array<EmployeeStatus | 'All'>
+  dispatch: Dispatch<EmployeeFiltersAction>
 }
 
 export const EmployeeFilters = ({
   departments,
-  dispatch,
   filters,
   statuses,
+  dispatch,
 }: EmployeeFiltersProps) => (
   <div className="employee-controls" aria-label="Employee filters">
     <label className="field">
