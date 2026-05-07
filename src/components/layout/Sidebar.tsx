@@ -38,7 +38,11 @@ export const Sidebar = ({ navigationItems }: SidebarProps) => {
         {isSidebarCollapsed ? 'Expand' : 'Collapse'}
       </button>
 
-      <nav className="sidebar-nav" id="primary-navigation">
+      <nav
+        className="sidebar-nav"
+        id="primary-navigation"
+        aria-label="Primary"
+      >
         {navigationItems.map((item) => (
           <NavLink
             className={({ isActive }) =>

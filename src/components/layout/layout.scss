@@ -11,6 +11,28 @@
   grid-template-columns: 6rem 1fr;
 }
 
+.skip-link {
+  position: absolute;
+  z-index: 20;
+  top: 1rem;
+  left: 1rem;
+  transform: translateY(-150%);
+  border-radius: 0.4375rem;
+  padding: 0.625rem 0.875rem;
+  color: var(--color-on-accent);
+  font-size: 0.875rem;
+  font-weight: 800;
+  background: var(--color-accent-strong);
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 0.1875rem solid var(--color-focus);
+  outline-offset: 0.125rem;
+}
+
 .sidebar {
   display: flex;
   flex-direction: column;
