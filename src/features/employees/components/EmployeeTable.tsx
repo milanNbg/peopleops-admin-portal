@@ -1,5 +1,8 @@
-import { DataTable, type DataTableColumn } from '../../../components/ui/DataTable'
-import { StatusBadge } from '../../../components/ui/StatusBadge'
+import {
+  DataTable,
+  type DataTableColumn,
+  StatusBadge,
+} from '../../../components/ui'
 import type { Employee } from '../../../types/employee'
 
 type EmployeeTableProps = {

@@ -1,11 +1,14 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Card } from '../../components/ui/Card'
-import { DataTable, type DataTableColumn } from '../../components/ui/DataTable'
-import { ErrorState } from '../../components/ui/ErrorState'
-import { LoadingState } from '../../components/ui/LoadingState'
-import { MetricCard } from '../../components/ui/MetricCard'
-import { PageHeader } from '../../components/ui/PageHeader'
-import { SectionHeader } from '../../components/ui/SectionHeader'
+import {
+  Card,
+  DataTable,
+  type DataTableColumn,
+  ErrorState,
+  LoadingState,
+  MetricCard,
+  PageHeader,
+  SectionHeader,
+} from '../../components/ui'
 import { getReports } from '../../services/reportsService'
 import type { Report, ReportStatus } from '../../types/report'
 

@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
-import { Card } from '../../components/ui/Card'
-import { ErrorState } from '../../components/ui/ErrorState'
-import { LoadingState } from '../../components/ui/LoadingState'
-import { PageHeader } from '../../components/ui/PageHeader'
-import { SectionHeader } from '../../components/ui/SectionHeader'
+import {
+  Card,
+  ErrorState,
+  LoadingState,
+  PageHeader,
+  SectionHeader,
+} from '../../components/ui'
 import { getEmployees } from '../../services/employeesService'
 import type { Employee } from '../../types/employee'
 import { EmployeeDetailPanel } from './components/EmployeeDetailPanel'

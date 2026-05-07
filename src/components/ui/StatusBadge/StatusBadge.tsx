@@ -1,4 +1,4 @@
-import type { EmployeeStatus } from '../../types/employee'
+import type { EmployeeStatus } from '../../../types/employee'
 
 type StatusBadgeProps = {
   status: EmployeeStatus
