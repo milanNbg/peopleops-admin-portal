@@ -1,4 +1,5 @@
 import { useState } from 'react'
+
 import {
   Card,
   ErrorState,
@@ -9,12 +10,15 @@ import {
 } from '@/components/ui'
 import { getEmployees } from '@/services/employeesService'
 import { useAsyncData } from '@/hooks/useAsyncData'
+
 import type { Employee } from '@/types/employee'
+
 import { EmployeeDetailPanel } from './components/EmployeeDetailPanel'
 import { EmployeeEmptyState } from './components/EmployeeEmptyState'
 import { EmployeeFilters } from './components/EmployeeFilters'
 import { EmployeeTable } from './components/EmployeeTable'
 import { useEmployeeFilters } from './hooks/useEmployeeFilters'
+
 import './EmployeesPage.scss'
 
 const EmployeesSkeleton = () => (

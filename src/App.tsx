@@ -1,4 +1,5 @@
 import { BrowserRouter } from 'react-router-dom'
+
 import { AppLayout } from '@/components/layout/AppLayout'
 import { MainContent } from '@/components/layout/MainContent'
 import { Sidebar } from '@/components/layout/Sidebar'

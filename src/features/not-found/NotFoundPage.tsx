@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+
 import { Card, PageHeader } from '@/components/ui'
 
 export const NotFoundPage = () => (

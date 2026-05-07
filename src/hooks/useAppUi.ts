@@ -1,4 +1,5 @@
 import { useContext } from 'react'
+
 import { AppUiContext } from '@/context/AppUiContext'
 
 export const useAppUi = () => {

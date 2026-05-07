@@ -1,4 +1,5 @@
 import { StatusBadge } from '@/components/ui'
+
 import type { Employee } from '@/types/employee'
 
 type EmployeeDetailPanelProps = {

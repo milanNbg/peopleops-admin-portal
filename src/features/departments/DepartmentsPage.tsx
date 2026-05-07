@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+
 import {
   Card,
   DataTable,
@@ -12,6 +13,7 @@ import {
 } from '@/components/ui'
 import { getDepartments } from '@/services/departmentsService'
 import { useAsyncData } from '@/hooks/useAsyncData'
+
 import type { DataTableColumn } from '@/components/ui'
 import type { Department, DepartmentStatus } from '@/types/department'
 

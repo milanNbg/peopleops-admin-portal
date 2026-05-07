@@ -1,4 +1,5 @@
 import { DataTable, StatusBadge } from '@/components/ui'
+
 import type { DataTableColumn } from '@/components/ui'
 import type { Employee } from '@/types/employee'
 

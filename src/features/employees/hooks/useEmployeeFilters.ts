@@ -1,4 +1,5 @@
 import { useMemo, useReducer } from 'react'
+
 import type { Employee, EmployeeStatus } from '@/types/employee'
 
 export type SortOption = 'name' | 'startDate'

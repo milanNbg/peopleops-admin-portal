@@ -169,6 +169,7 @@ src/
   4. Local relative imports
   5. SCSS/style imports last
 - Keep SCSS imports as the final import group in component files.
+- Separate import groups with a blank line.
 - Prefer `@/` path aliases over deep relative imports when importing from shared app layers.
 - Use local relative imports for files that belong to the same feature or component folder.
 - Do not create a global `src/index.ts` barrel file.

@@ -1,5 +1,6 @@
 import { renderHook, waitFor } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
+
 import { useAsyncData } from './useAsyncData'
 
 describe('useAsyncData', () => {

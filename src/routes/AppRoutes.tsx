@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
+
 import { LoadingState } from '@/components/ui'
 import { DashboardPage } from '@/features/dashboard/DashboardPage'
 
