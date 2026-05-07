@@ -1,6 +1,7 @@
 import { BrowserRouter } from 'react-router-dom'
 
 import { AppLayout } from '@/components/layout/AppLayout'
+import { ErrorBoundary } from '@/components/layout/ErrorBoundary'
 import { MainContent } from '@/components/layout/MainContent'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { Topbar } from '@/components/layout/Topbar'
@@ -11,16 +12,18 @@ import { AppRoutes } from '@/routes/AppRoutes'
 function App() {
   return (
     <BrowserRouter>
-      <AppUiProvider>
-        <AppLayout
-          sidebar={<Sidebar navigationItems={navigationItems} />}
-          topbar={<Topbar />}
-        >
-          <MainContent>
-            <AppRoutes />
-          </MainContent>
-        </AppLayout>
-      </AppUiProvider>
+      <ErrorBoundary>
+        <AppUiProvider>
+          <AppLayout
+            sidebar={<Sidebar navigationItems={navigationItems} />}
+            topbar={<Topbar />}
+          >
+            <MainContent>
+              <AppRoutes />
+            </MainContent>
+          </AppLayout>
+        </AppUiProvider>
+      </ErrorBoundary>
     </BrowserRouter>
   )
 }

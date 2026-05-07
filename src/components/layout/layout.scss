@@ -218,6 +218,39 @@
   padding: 2rem;
 }
 
+.app-error-boundary {
+  display: grid;
+  min-height: 100vh;
+  align-content: center;
+  justify-items: start;
+  gap: 1rem;
+  padding: 2rem;
+  background: var(--color-background);
+}
+
+.app-error-boundary-button {
+  min-height: 2.5rem;
+  border: 1px solid var(--color-accent);
+  border-radius: 0.4375rem;
+  padding: 0 0.875rem;
+  color: var(--color-surface);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 750;
+  background: var(--color-accent);
+  cursor: pointer;
+}
+
+.app-error-boundary-button:hover,
+.app-error-boundary-button:focus-visible {
+  background: var(--color-accent-strong);
+}
+
+.app-error-boundary-button:focus-visible {
+  outline: 0.1875rem solid var(--color-focus);
+  outline-offset: 0.125rem;
+}
+
 @media (max-width: 51.25rem) {
   .app-shell,
   .app-shell.sidebar-collapsed {
