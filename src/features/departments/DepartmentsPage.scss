@@ -43,8 +43,23 @@
   text-transform: uppercase;
 }
 
+.departments-skeleton {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.departments-skeleton-heading {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 1.125rem;
+}
+
 @media (max-width: 40rem) {
   .departments-page {
+    gap: 1rem;
+  }
+
+  .departments-skeleton {
     gap: 1rem;
   }
 }

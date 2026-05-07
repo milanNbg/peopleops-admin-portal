@@ -2,10 +2,12 @@ import {
   Card,
   DataTable,
   ErrorState,
-  LoadingState,
   MetricCard,
   PageHeader,
   SectionHeader,
+  SkeletonBlock,
+  SkeletonCardGrid,
+  SkeletonTable,
 } from '@/components/ui'
 import {
   getDashboardMetrics,
@@ -76,6 +78,74 @@ const loadDashboardData = async (): Promise<DashboardPageData> => {
   }
 }
 
+const DashboardSkeleton = () => (
+  <div className="dashboard-skeleton" role="status" aria-live="polite">
+    <span className="visually-hidden">Loading dashboard data...</span>
+
+    <SkeletonCardGrid />
+
+    <div className="dashboard-grid" aria-hidden="true">
+      <Card labelledBy="dashboard-skeleton-workforce-title">
+        <span className="visually-hidden" id="dashboard-skeleton-workforce-title">
+          Loading workforce overview
+        </span>
+        <div className="dashboard-skeleton-heading">
+          <SkeletonBlock className="skeleton-eyebrow" />
+          <SkeletonBlock className="skeleton-heading" />
+        </div>
+        <div className="dashboard-skeleton-list">
+          {['workforce-1', 'workforce-2', 'workforce-3', 'workforce-4'].map(
+            (item) => (
+              <div className="dashboard-skeleton-row" key={item}>
+                <SkeletonBlock className="skeleton-row-label" />
+                <SkeletonBlock className="skeleton-row-value" />
+              </div>
+            ),
+          )}
+        </div>
+      </Card>
+
+      <Card labelledBy="dashboard-skeleton-activity-title">
+        <span className="visually-hidden" id="dashboard-skeleton-activity-title">
+          Loading recent activity
+        </span>
+        <div className="dashboard-skeleton-heading">
+          <SkeletonBlock className="skeleton-eyebrow" />
+          <SkeletonBlock className="skeleton-heading" />
+        </div>
+        <div className="dashboard-skeleton-list">
+          {['activity-1', 'activity-2', 'activity-3'].map((item) => (
+            <div className="dashboard-skeleton-row" key={item}>
+              <SkeletonBlock className="skeleton-time" />
+              <SkeletonBlock className="skeleton-activity" />
+            </div>
+          ))}
+        </div>
+      </Card>
+    </div>
+
+    <Card labelledBy="dashboard-skeleton-table-title">
+      <span className="visually-hidden" id="dashboard-skeleton-table-title">
+        Loading department summary
+      </span>
+      <div className="dashboard-skeleton-heading" aria-hidden="true">
+        <SkeletonBlock className="skeleton-eyebrow" />
+        <SkeletonBlock className="skeleton-heading" />
+      </div>
+      <SkeletonTable
+        columns={[
+          'skeleton-cell-wide',
+          'skeleton-cell-short',
+          'skeleton-cell-short',
+          'skeleton-cell-medium',
+        ]}
+        rowClassName="department-row"
+        tableClassName="department-table"
+      />
+    </Card>
+  </div>
+)
+
 export const DashboardPage = () => {
   const {
     data: {
@@ -103,7 +173,7 @@ export const DashboardPage = () => {
       </PageHeader>
 
       {isLoading ? (
-        <LoadingState message="Loading dashboard data..." />
+        <DashboardSkeleton />
       ) : error ? (
         <ErrorState message={error} title="Dashboard data unavailable" />
       ) : (

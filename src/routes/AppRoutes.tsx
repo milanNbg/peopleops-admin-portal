@@ -1,12 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { LoadingState } from '@/components/ui'
-
-const DashboardPage = lazy(() =>
-  import('@/features/dashboard/DashboardPage').then((module) => ({
-    default: module.DashboardPage,
-  })),
-)
+import { DashboardPage } from '@/features/dashboard/DashboardPage'
 
 const EmployeesPage = lazy(() =>
   import('@/features/employees/EmployeesPage').then((module) => ({

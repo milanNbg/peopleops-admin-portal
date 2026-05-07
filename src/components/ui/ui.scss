@@ -103,6 +103,70 @@
   animation: spin 0.8s linear infinite;
 }
 
+.skeleton-block {
+  display: block;
+  min-height: 1rem;
+  border-radius: 0.375rem;
+  background: linear-gradient(
+    90deg,
+    var(--color-border-soft) 0%,
+    var(--color-focus) 48%,
+    var(--color-border-soft) 100%
+  );
+  background-size: 220% 100%;
+  animation: skeleton-pulse 1.3s ease-in-out infinite;
+}
+
+.skeleton-metric-card {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.skeleton-table [class*='-row']:first-child {
+  border-top: 0;
+}
+
+.skeleton-label {
+  width: 55%;
+  height: 0.875rem;
+}
+
+.skeleton-value {
+  width: 42%;
+  height: 1.875rem;
+}
+
+.skeleton-caption {
+  width: 68%;
+  height: 0.8125rem;
+}
+
+.skeleton-eyebrow {
+  width: 5.5rem;
+  height: 0.75rem;
+}
+
+.skeleton-heading {
+  width: 12rem;
+  height: 1.25rem;
+}
+
+.skeleton-cell {
+  width: 72%;
+}
+
+.skeleton-cell-wide {
+  width: 88%;
+}
+
+.skeleton-cell-medium {
+  width: 76%;
+}
+
+.skeleton-cell-short {
+  width: 54%;
+}
+
 .section-heading {
   display: flex;
   align-items: flex-start;
@@ -192,6 +256,16 @@
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes skeleton-pulse {
+  0% {
+    background-position: 100% 0;
+  }
+
+  100% {
+    background-position: -100% 0;
   }
 }
 

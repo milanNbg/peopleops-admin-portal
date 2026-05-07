@@ -3,10 +3,12 @@ import {
   Card,
   DataTable,
   ErrorState,
-  LoadingState,
   MetricCard,
   PageHeader,
   SectionHeader,
+  SkeletonBlock,
+  SkeletonCardGrid,
+  SkeletonTable,
 } from '@/components/ui'
 import { getDepartments } from '@/services/departmentsService'
 import { useAsyncData } from '@/hooks/useAsyncData'
@@ -60,6 +62,34 @@ const departmentColumns: DataTableColumn<Department>[] = [
   },
 ]
 
+const DepartmentsSkeleton = () => (
+  <div className="departments-skeleton" role="status" aria-live="polite">
+    <span className="visually-hidden">Loading department data...</span>
+    <SkeletonCardGrid />
+    <Card labelledBy="departments-skeleton-table-title">
+      <span className="visually-hidden" id="departments-skeleton-table-title">
+        Loading department overview
+      </span>
+      <div className="departments-skeleton-heading" aria-hidden="true">
+        <SkeletonBlock className="skeleton-eyebrow" />
+        <SkeletonBlock className="skeleton-heading" />
+      </div>
+      <SkeletonTable
+        columns={[
+          'skeleton-cell-wide',
+          'skeleton-cell-medium',
+          'skeleton-cell-short',
+          'skeleton-cell-short',
+          'skeleton-cell-medium',
+          'skeleton-cell-short',
+        ]}
+        rowClassName="departments-row"
+        tableClassName="departments-table"
+      />
+    </Card>
+  </div>
+)
+
 export const DepartmentsPage = () => {
   const {
     data: departments,
@@ -103,7 +133,7 @@ export const DepartmentsPage = () => {
       </PageHeader>
 
       {isLoading ? (
-        <LoadingState message="Loading department data..." />
+        <DepartmentsSkeleton />
       ) : error ? (
         <ErrorState message={error} title="Department data unavailable" />
       ) : (

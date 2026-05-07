@@ -3,10 +3,12 @@ import {
   Card,
   DataTable,
   ErrorState,
-  LoadingState,
   MetricCard,
   PageHeader,
   SectionHeader,
+  SkeletonBlock,
+  SkeletonCardGrid,
+  SkeletonTable,
 } from '@/components/ui'
 import { getReports } from '@/services/reportsService'
 import { useAsyncData } from '@/hooks/useAsyncData'
@@ -60,6 +62,34 @@ const reportColumns: DataTableColumn<Report>[] = [
   },
 ]
 
+const ReportsSkeleton = () => (
+  <div className="reports-skeleton" role="status" aria-live="polite">
+    <span className="visually-hidden">Loading report data...</span>
+    <SkeletonCardGrid />
+    <Card labelledBy="reports-skeleton-table-title">
+      <span className="visually-hidden" id="reports-skeleton-table-title">
+        Loading reports overview
+      </span>
+      <div className="reports-skeleton-heading" aria-hidden="true">
+        <SkeletonBlock className="skeleton-eyebrow" />
+        <SkeletonBlock className="skeleton-heading" />
+      </div>
+      <SkeletonTable
+        columns={[
+          'skeleton-cell-wide',
+          'skeleton-cell-medium',
+          'skeleton-cell-medium',
+          'skeleton-cell-short',
+          'skeleton-cell-medium',
+          'skeleton-cell-medium',
+        ]}
+        rowClassName="reports-row"
+        tableClassName="reports-table"
+      />
+    </Card>
+  </div>
+)
+
 export const ReportsPage = () => {
   const {
     data: reports,
@@ -95,7 +125,7 @@ export const ReportsPage = () => {
       </PageHeader>
 
       {isLoading ? (
-        <LoadingState message="Loading report data..." />
+        <ReportsSkeleton />
       ) : error ? (
         <ErrorState message={error} title="Report data unavailable" />
       ) : (

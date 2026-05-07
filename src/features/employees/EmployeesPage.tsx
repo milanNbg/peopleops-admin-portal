@@ -2,9 +2,10 @@ import { useState } from 'react'
 import {
   Card,
   ErrorState,
-  LoadingState,
   PageHeader,
   SectionHeader,
+  SkeletonBlock,
+  SkeletonTable,
 } from '@/components/ui'
 import { getEmployees } from '@/services/employeesService'
 import { useAsyncData } from '@/hooks/useAsyncData'
@@ -15,6 +16,33 @@ import { EmployeeFilters } from './components/EmployeeFilters'
 import { EmployeeTable } from './components/EmployeeTable'
 import { useEmployeeFilters } from './hooks/useEmployeeFilters'
 import './EmployeesPage.scss'
+
+const EmployeesSkeleton = () => (
+  <div className="employees-skeleton" role="status" aria-live="polite">
+    <span className="visually-hidden">Loading employee records...</span>
+    <div className="employee-controls" aria-hidden="true">
+      {['search', 'department', 'status', 'sort'].map((control) => (
+        <div className="field" key={control}>
+          <SkeletonBlock className="employees-skeleton-label" />
+          <SkeletonBlock className="employees-skeleton-control" />
+        </div>
+      ))}
+    </div>
+    <SkeletonTable
+      columns={[
+        'skeleton-cell-wide',
+        'skeleton-cell-medium',
+        'skeleton-cell-wide',
+        'skeleton-cell-medium',
+        'skeleton-cell-short',
+        'skeleton-cell-short',
+      ]}
+      rowClassName="employee-row"
+      rows={5}
+      tableClassName="employee-table"
+    />
+  </div>
+)
 
 export const EmployeesPage = () => {
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null)
@@ -57,7 +85,7 @@ export const EmployeesPage = () => {
         />
 
         {isLoading ? (
-          <LoadingState message="Loading employee records..." />
+          <EmployeesSkeleton />
         ) : error ? (
           <ErrorState message={error} title="Employee data unavailable" />
         ) : (

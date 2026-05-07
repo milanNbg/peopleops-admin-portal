@@ -3,10 +3,12 @@ import {
   Card,
   DataTable,
   ErrorState,
-  LoadingState,
   MetricCard,
   PageHeader,
   SectionHeader,
+  SkeletonBlock,
+  SkeletonCardGrid,
+  SkeletonTable,
 } from '@/components/ui'
 import { getRoles } from '@/services/rolesService'
 import { useAsyncData } from '@/hooks/useAsyncData'
@@ -65,6 +67,35 @@ const roleColumns: DataTableColumn<Role>[] = [
   },
 ]
 
+const RolesSkeleton = () => (
+  <div className="roles-skeleton" role="status" aria-live="polite">
+    <span className="visually-hidden">Loading role data...</span>
+    <SkeletonCardGrid />
+    <Card labelledBy="roles-skeleton-table-title">
+      <span className="visually-hidden" id="roles-skeleton-table-title">
+        Loading roles overview
+      </span>
+      <div className="roles-skeleton-heading" aria-hidden="true">
+        <SkeletonBlock className="skeleton-eyebrow" />
+        <SkeletonBlock className="skeleton-heading" />
+      </div>
+      <SkeletonTable
+        columns={[
+          'skeleton-cell-wide',
+          'skeleton-cell-medium',
+          'skeleton-cell-short',
+          'skeleton-cell-short',
+          'skeleton-cell-short',
+          'skeleton-cell-short',
+          'skeleton-cell-medium',
+        ]}
+        rowClassName="roles-row"
+        tableClassName="roles-table"
+      />
+    </Card>
+  </div>
+)
+
 export const RolesPage = () => {
   const {
     data: roles,
@@ -102,7 +133,7 @@ export const RolesPage = () => {
       </PageHeader>
 
       {isLoading ? (
-        <LoadingState message="Loading role data..." />
+        <RolesSkeleton />
       ) : error ? (
         <ErrorState message={error} title="Role data unavailable" />
       ) : (
