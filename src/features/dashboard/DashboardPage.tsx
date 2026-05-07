@@ -15,6 +15,7 @@ import {
   getDepartmentSummaries,
   getRecentActivities,
   getWorkforceOverview,
+  getWorkforceTrend,
 } from '@/services/dashboardService'
 import { useAsyncData } from '@/hooks/useAsyncData'
 
@@ -24,7 +25,10 @@ import type {
   DepartmentSummary,
   RecentActivity,
   WorkforceOverviewItem,
+  WorkforceTrendItem,
 } from '@/types/dashboard'
+
+import { WorkforceTrendChart } from './components/WorkforceTrendChart'
 
 const departmentSummaryColumns: DataTableColumn<DepartmentSummary>[] = [
   {
@@ -54,6 +58,7 @@ type DashboardPageData = {
   departmentSummaries: DepartmentSummary[]
   recentActivities: RecentActivity[]
   workforceOverview: WorkforceOverviewItem[]
+  workforceTrend: WorkforceTrendItem[]
 }
 
 const initialDashboardData: DashboardPageData = {
@@ -61,22 +66,30 @@ const initialDashboardData: DashboardPageData = {
   departmentSummaries: [],
   recentActivities: [],
   workforceOverview: [],
+  workforceTrend: [],
 }
 
 const loadDashboardData = async (): Promise<DashboardPageData> => {
-  const [dashboardMetrics, workforceOverview, recentActivities, departmentSummaries] =
-    await Promise.all([
-      getDashboardMetrics(),
-      getWorkforceOverview(),
-      getRecentActivities(),
-      getDepartmentSummaries(),
-    ])
+  const [
+    dashboardMetrics,
+    workforceOverview,
+    workforceTrend,
+    recentActivities,
+    departmentSummaries,
+  ] = await Promise.all([
+    getDashboardMetrics(),
+    getWorkforceOverview(),
+    getWorkforceTrend(),
+    getRecentActivities(),
+    getDepartmentSummaries(),
+  ])
 
   return {
     dashboardMetrics,
     departmentSummaries,
     recentActivities,
     workforceOverview,
+    workforceTrend,
   }
 }
 
@@ -86,6 +99,23 @@ const DashboardSkeleton = () => (
     <PageHeaderSkeleton />
 
     <SkeletonCardGrid />
+
+    <Card labelledBy="dashboard-skeleton-trend-title">
+      <span className="visually-hidden" id="dashboard-skeleton-trend-title">
+        Loading workforce trend
+      </span>
+      <div className="dashboard-skeleton-heading" aria-hidden="true">
+        <SkeletonBlock className="skeleton-eyebrow" />
+        <SkeletonBlock className="skeleton-heading" />
+      </div>
+      <div className="dashboard-skeleton-chart" aria-hidden="true">
+        {['trend-1', 'trend-2', 'trend-3', 'trend-4', 'trend-5', 'trend-6'].map(
+          (item) => (
+            <SkeletonBlock className="skeleton-chart-bar" key={item} />
+          ),
+        )}
+      </div>
+    </Card>
 
     <div className="dashboard-grid" aria-hidden="true">
       <Card labelledBy="dashboard-skeleton-workforce-title">
@@ -156,6 +186,7 @@ export const DashboardPage = () => {
       departmentSummaries,
       recentActivities,
       workforceOverview,
+      workforceTrend,
     },
     error,
     isLoading,
@@ -201,6 +232,18 @@ export const DashboardPage = () => {
               />
             ))}
           </section>
+
+          <Card labelledBy="workforce-trend-title">
+            <SectionHeader
+              eyebrow="Trend"
+              title="Workforce trend"
+              titleId="workforce-trend-title"
+            />
+            <p className="trend-summary">
+              Six-month headcount movement across the organization.
+            </p>
+            <WorkforceTrendChart workforceTrend={workforceTrend} />
+          </Card>
 
           <div className="dashboard-grid">
             <Card labelledBy="workforce-title">

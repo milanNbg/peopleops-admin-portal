@@ -3,6 +3,7 @@ import type {
   DepartmentSummary,
   RecentActivity,
   WorkforceOverviewItem,
+  WorkforceTrendItem,
 } from '@/types/dashboard'
 
 export const dashboardMetrics: DashboardMetric[] = [
@@ -17,6 +18,15 @@ export const workforceOverview: WorkforceOverviewItem[] = [
   { label: 'Contractors', value: '27' },
   { label: 'New hires this month', value: '9' },
   { label: 'Upcoming reviews', value: '34' },
+]
+
+export const workforceTrend: WorkforceTrendItem[] = [
+  { headcount: 214, label: 'Jan' },
+  { headcount: 221, label: 'Feb' },
+  { headcount: 226, label: 'Mar' },
+  { headcount: 235, label: 'Apr' },
+  { headcount: 241, label: 'May' },
+  { headcount: 248, label: 'Jun' },
 ]
 
 export const recentActivities: RecentActivity[] = [

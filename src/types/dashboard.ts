@@ -9,6 +9,11 @@ export type WorkforceOverviewItem = {
   value: string
 }
 
+export type WorkforceTrendItem = {
+  headcount: number
+  label: string
+}
+
 export type RecentActivity = {
   description: string
   time: string

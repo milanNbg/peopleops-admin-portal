@@ -8,6 +8,7 @@ import type {
   DepartmentSummary,
   RecentActivity,
   WorkforceOverviewItem,
+  WorkforceTrendItem,
 } from '@/types/dashboard'
 
 import { DashboardPage } from './DashboardPage'
@@ -17,6 +18,7 @@ vi.mock('@/services/dashboardService', () => ({
   getDepartmentSummaries: vi.fn(),
   getRecentActivities: vi.fn(),
   getWorkforceOverview: vi.fn(),
+  getWorkforceTrend: vi.fn(),
 }))
 
 const dashboardMetrics: DashboardMetric[] = [
@@ -37,6 +39,11 @@ const recentActivities: RecentActivity[] = [
 
 const workforceOverview: WorkforceOverviewItem[] = [
   { label: 'Full-time employees', value: '118' },
+]
+
+const workforceTrend: WorkforceTrendItem[] = [
+  { headcount: 118, label: 'Jan' },
+  { headcount: 132, label: 'Feb' },
 ]
 
 const createDeferred = <TData,>() => {
@@ -63,6 +70,9 @@ const mockSuccessfulDashboardServices = () => {
   vi.mocked(dashboardService.getWorkforceOverview).mockResolvedValue(
     workforceOverview,
   )
+  vi.mocked(dashboardService.getWorkforceTrend).mockResolvedValue(
+    workforceTrend,
+  )
 }
 
 describe('DashboardPage', () => {
@@ -86,6 +96,9 @@ describe('DashboardPage', () => {
     vi.mocked(dashboardService.getWorkforceOverview).mockResolvedValue(
       workforceOverview,
     )
+    vi.mocked(dashboardService.getWorkforceTrend).mockResolvedValue(
+      workforceTrend,
+    )
 
     render(<DashboardPage />)
 
@@ -108,7 +121,15 @@ describe('DashboardPage', () => {
     expect(screen.getByText('Total employees')).toBeInTheDocument()
     expect(screen.getByText('128')).toBeInTheDocument()
     expect(screen.getByText('Full-time employees')).toBeInTheDocument()
-    expect(screen.getByText('Engineering opened two new roles.')).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: 'Workforce trend' }),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText('Six-month headcount movement across the organization.'),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText('Engineering opened two new roles.'),
+    ).toBeInTheDocument()
     expect(
       screen.getByRole('table', { name: 'Department summary' }),
     ).toBeInTheDocument()
@@ -126,6 +147,9 @@ describe('DashboardPage', () => {
     )
     vi.mocked(dashboardService.getWorkforceOverview).mockResolvedValue(
       workforceOverview,
+    )
+    vi.mocked(dashboardService.getWorkforceTrend).mockResolvedValue(
+      workforceTrend,
     )
 
     render(<DashboardPage />)

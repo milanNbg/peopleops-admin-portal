@@ -52,6 +52,49 @@
   font-weight: 800;
 }
 
+.trend-summary {
+  margin: 0 0 1.25rem;
+  color: var(--color-muted);
+  font-size: 0.9375rem;
+}
+
+.workforce-trend-chart {
+  display: grid;
+  min-height: 14rem;
+  grid-template-columns: repeat(6, minmax(2.5rem, 1fr));
+  align-items: end;
+  gap: 1rem;
+}
+
+.workforce-trend-item {
+  display: grid;
+  min-width: 0;
+  gap: 0.5rem;
+  color: var(--color-muted);
+  font-size: 0.8125rem;
+  text-align: center;
+}
+
+.workforce-trend-track {
+  height: 8rem;
+  display: flex;
+  align-items: end;
+  border-radius: 0.4375rem;
+  background: var(--color-accent-soft);
+}
+
+.workforce-trend-bar {
+  width: 100%;
+  min-height: 1.5rem;
+  border-radius: 0.4375rem;
+  background: var(--color-accent);
+}
+
+.workforce-trend-item strong {
+  color: var(--color-heading);
+  font-size: 0.9375rem;
+}
+
 .department-table {
   display: grid;
   overflow-x: auto;
@@ -122,6 +165,42 @@
   width: 3.25rem;
 }
 
+.dashboard-skeleton-chart {
+  display: grid;
+  min-height: 8rem;
+  grid-template-columns: repeat(6, minmax(2.5rem, 1fr));
+  align-items: end;
+  gap: 1rem;
+}
+
+.skeleton-chart-bar {
+  width: 100%;
+}
+
+.skeleton-chart-bar:nth-child(1) {
+  height: 5.75rem;
+}
+
+.skeleton-chart-bar:nth-child(2) {
+  height: 6.25rem;
+}
+
+.skeleton-chart-bar:nth-child(3) {
+  height: 6.625rem;
+}
+
+.skeleton-chart-bar:nth-child(4) {
+  height: 7.125rem;
+}
+
+.skeleton-chart-bar:nth-child(5) {
+  height: 7.5rem;
+}
+
+.skeleton-chart-bar:nth-child(6) {
+  height: 8rem;
+}
+
 @media (max-width: 68.75rem) {
   .dashboard-grid {
     grid-template-columns: 1fr;
@@ -135,5 +214,14 @@
 
   .dashboard-skeleton {
     gap: 1rem;
+  }
+
+  .workforce-trend-chart,
+  .dashboard-skeleton-chart {
+    gap: 0.625rem;
+  }
+
+  .workforce-trend-track {
+    height: 6.5rem;
   }
 }
