@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 
 import { LoadingState } from '@/components/ui'
 import { DashboardPage } from '@/features/dashboard/DashboardPage'
+import { useRouteDocumentTitle } from '@/hooks/useRouteDocumentTitle'
 
 const EmployeesPage = lazy(() =>
   import('@/features/employees/EmployeesPage').then((module) => ({
@@ -34,16 +35,20 @@ const NotFoundPage = lazy(() =>
   })),
 )
 
-export const AppRoutes = () => (
-  <Suspense fallback={<LoadingState message="Loading page..." />}>
-    <Routes>
-      <Route element={<Navigate to="/dashboard" replace />} path="/" />
-      <Route element={<DashboardPage />} path="/dashboard" />
-      <Route element={<EmployeesPage />} path="/employees" />
-      <Route element={<DepartmentsPage />} path="/departments" />
-      <Route element={<RolesPage />} path="/roles" />
-      <Route element={<ReportsPage />} path="/reports" />
-      <Route element={<NotFoundPage />} path="*" />
-    </Routes>
-  </Suspense>
-)
+export const AppRoutes = () => {
+  useRouteDocumentTitle()
+
+  return (
+    <Suspense fallback={<LoadingState message="Loading page..." />}>
+      <Routes>
+        <Route element={<Navigate to="/dashboard" replace />} path="/" />
+        <Route element={<DashboardPage />} path="/dashboard" />
+        <Route element={<EmployeesPage />} path="/employees" />
+        <Route element={<DepartmentsPage />} path="/departments" />
+        <Route element={<RolesPage />} path="/roles" />
+        <Route element={<ReportsPage />} path="/reports" />
+        <Route element={<NotFoundPage />} path="*" />
+      </Routes>
+    </Suspense>
+  )
+}
