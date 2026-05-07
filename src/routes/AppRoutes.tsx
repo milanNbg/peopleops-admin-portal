@@ -1,19 +1,53 @@
+import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { DashboardPage } from '@/features/dashboard/DashboardPage'
-import { DepartmentsPage } from '@/features/departments/DepartmentsPage'
-import { EmployeesPage } from '@/features/employees/EmployeesPage'
-import { NotFoundPage } from '@/features/not-found/NotFoundPage'
-import { ReportsPage } from '@/features/reports/ReportsPage'
-import { RolesPage } from '@/features/roles/RolesPage'
+import { LoadingState } from '@/components/ui'
+
+const DashboardPage = lazy(() =>
+  import('@/features/dashboard/DashboardPage').then((module) => ({
+    default: module.DashboardPage,
+  })),
+)
+
+const EmployeesPage = lazy(() =>
+  import('@/features/employees/EmployeesPage').then((module) => ({
+    default: module.EmployeesPage,
+  })),
+)
+
+const DepartmentsPage = lazy(() =>
+  import('@/features/departments/DepartmentsPage').then((module) => ({
+    default: module.DepartmentsPage,
+  })),
+)
+
+const RolesPage = lazy(() =>
+  import('@/features/roles/RolesPage').then((module) => ({
+    default: module.RolesPage,
+  })),
+)
+
+const ReportsPage = lazy(() =>
+  import('@/features/reports/ReportsPage').then((module) => ({
+    default: module.ReportsPage,
+  })),
+)
+
+const NotFoundPage = lazy(() =>
+  import('@/features/not-found/NotFoundPage').then((module) => ({
+    default: module.NotFoundPage,
+  })),
+)
 
 export const AppRoutes = () => (
-  <Routes>
-    <Route element={<Navigate to="/dashboard" replace />} path="/" />
-    <Route element={<DashboardPage />} path="/dashboard" />
-    <Route element={<EmployeesPage />} path="/employees" />
-    <Route element={<DepartmentsPage />} path="/departments" />
-    <Route element={<RolesPage />} path="/roles" />
-    <Route element={<ReportsPage />} path="/reports" />
-    <Route element={<NotFoundPage />} path="*" />
-  </Routes>
+  <Suspense fallback={<LoadingState message="Loading page..." />}>
+    <Routes>
+      <Route element={<Navigate to="/dashboard" replace />} path="/" />
+      <Route element={<DashboardPage />} path="/dashboard" />
+      <Route element={<EmployeesPage />} path="/employees" />
+      <Route element={<DepartmentsPage />} path="/departments" />
+      <Route element={<RolesPage />} path="/roles" />
+      <Route element={<ReportsPage />} path="/reports" />
+      <Route element={<NotFoundPage />} path="*" />
+    </Routes>
+  </Suspense>
 )
