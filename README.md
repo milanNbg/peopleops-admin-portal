@@ -10,6 +10,20 @@ PeopleOps Admin Portal is designed as a portfolio-level React application with a
 
 View the deployed app: https://peopleops-admin-portal.vercel.app
 
+## Screenshots
+
+Dashboard light mode
+
+![Dashboard light mode](public/screenshots/dashboard-light.png)
+
+Employees light mode
+
+![Employees light mode](public/screenshots/employees-light.png)
+
+Dashboard dark mode
+
+![Dashboard dark mode](public/screenshots/dashboard-dark.png)
+
 ## Tech Stack
 
 - React
