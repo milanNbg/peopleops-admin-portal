@@ -242,6 +242,12 @@ Run tests:
 npm run test:run
 ```
 
+Run tests with coverage:
+
+```bash
+npm run test:coverage
+```
+
 Build the project:
 
 ```bash

@@ -130,6 +130,12 @@ Run the test suite:
 npm run test:run
 ```
 
+Run the test suite with coverage:
+
+```bash
+npm run test:coverage
+```
+
 Build for production:
 
 ```bash
