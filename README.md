@@ -1,5 +1,7 @@
 # PeopleOps Admin Portal
 
+[![CI](https://github.com/milanNbg/peopleops-admin-portal/actions/workflows/ci.yml/badge.svg)](https://github.com/milanNbg/peopleops-admin-portal/actions/workflows/ci.yml)
+
 A modern, responsive, front-end-only admin dashboard for People Operations and HR management workflows.
 
 PeopleOps Admin Portal is designed as a portfolio-level React application with a professional enterprise SaaS interface, feature-based architecture, mock service layer and reusable UI patterns.
