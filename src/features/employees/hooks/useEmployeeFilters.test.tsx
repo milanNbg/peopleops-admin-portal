@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from '@testing-library/react'
+import { cleanup, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, useLocation } from 'react-router-dom'
 import { afterEach, describe, expect, it } from 'vitest'
@@ -91,15 +91,17 @@ describe('useEmployeeFilters', () => {
     renderEmployeeFilters()
 
     await user.click(screen.getByRole('button', { name: 'Search Avery' }))
-    expect(screen.getByLabelText('filtered employees')).toHaveTextContent(
-      'Avery Stone',
-    )
+    await waitFor(() => {
+      expect(screen.getByLabelText('filtered employees')).toHaveTextContent(
+        /^Avery Stone$/,
+      )
+    })
 
     await user.click(screen.getByRole('button', { name: 'Finance only' }))
-    expect(screen.getByLabelText('filtered employees')).toHaveTextContent('')
+    expect(screen.getByLabelText('filtered employees')).toBeEmptyDOMElement()
 
     await user.click(screen.getByRole('button', { name: 'Active only' }))
-    expect(screen.getByLabelText('filtered employees')).toHaveTextContent('')
+    expect(screen.getByLabelText('filtered employees')).toBeEmptyDOMElement()
   })
 
   it('initializes filters from the URL query string', () => {
@@ -119,14 +121,16 @@ describe('useEmployeeFilters', () => {
     await user.click(screen.getByRole('button', { name: 'Finance only' }))
     await user.click(screen.getByRole('button', { name: 'Sort by start date' }))
 
-    expect(screen.getByLabelText('query string')).toHaveTextContent(
-      'search=avery',
-    )
-    expect(screen.getByLabelText('query string')).toHaveTextContent(
-      'department=Finance',
-    )
-    expect(screen.getByLabelText('query string')).toHaveTextContent(
-      'sort=startDate',
-    )
+    await waitFor(() => {
+      expect(screen.getByLabelText('query string')).toHaveTextContent(
+        'search=avery',
+      )
+      expect(screen.getByLabelText('query string')).toHaveTextContent(
+        'department=Finance',
+      )
+      expect(screen.getByLabelText('query string')).toHaveTextContent(
+        'sort=startDate',
+      )
+    })
   })
 })

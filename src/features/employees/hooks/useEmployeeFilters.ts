@@ -1,5 +1,7 @@
-import { useCallback, useMemo, useReducer } from 'react'
+import { useCallback, useEffect, useMemo, useReducer } from 'react'
 import { useSearchParams } from 'react-router-dom'
+
+import { useDebouncedValue } from '@/hooks/useDebouncedValue'
 
 import type { Dispatch } from 'react'
 import type { Employee, EmployeeStatus } from '@/types/employee'
@@ -117,23 +119,32 @@ export const useEmployeeFilters = (employeeList: Employee[]) => {
     searchParams,
     getEmployeeFiltersFromSearchParams,
   )
+  const debouncedSearch = useDebouncedValue(filters.search, 300)
+  const appliedFilters = useMemo(
+    () => ({
+      ...filters,
+      search: debouncedSearch,
+    }),
+    [debouncedSearch, filters],
+  )
 
   const dispatch: Dispatch<EmployeeFiltersAction> = useCallback(
     (action) => {
-      const nextFilters = employeeFiltersReducer(filters, action)
-      const nextSearchParams = setEmployeeFilterSearchParams(
-        searchParams,
-        nextFilters,
-      )
-
       baseDispatch(action)
-
-      if (nextSearchParams.toString() !== searchParams.toString()) {
-        setSearchParams(nextSearchParams, { replace: true })
-      }
     },
-    [filters, searchParams, setSearchParams],
+    [],
   )
+
+  useEffect(() => {
+    const nextSearchParams = setEmployeeFilterSearchParams(
+      searchParams,
+      appliedFilters,
+    )
+
+    if (nextSearchParams.toString() !== searchParams.toString()) {
+      setSearchParams(nextSearchParams, { replace: true })
+    }
+  }, [appliedFilters, searchParams, setSearchParams])
 
   const departments = useMemo(
     () => [
@@ -144,7 +155,7 @@ export const useEmployeeFilters = (employeeList: Employee[]) => {
   )
 
   const filteredEmployees = useMemo(() => {
-    const searchTerm = filters.search.trim().toLowerCase()
+    const searchTerm = appliedFilters.search.trim().toLowerCase()
 
     const matchesFilters = employeeList.filter((employee) => {
       const matchesSearch =
@@ -154,15 +165,16 @@ export const useEmployeeFilters = (employeeList: Employee[]) => {
         employee.location.toLowerCase().includes(searchTerm)
 
       const matchesDepartment =
-        filters.department === 'All' || employee.department === filters.department
+        appliedFilters.department === 'All' ||
+        employee.department === appliedFilters.department
       const matchesStatus =
-        filters.status === 'All' || employee.status === filters.status
+        appliedFilters.status === 'All' || employee.status === appliedFilters.status
 
       return matchesSearch && matchesDepartment && matchesStatus
     })
 
-    return sortEmployees(matchesFilters, filters.sortBy)
-  }, [employeeList, filters])
+    return sortEmployees(matchesFilters, appliedFilters.sortBy)
+  }, [employeeList, appliedFilters])
 
   return {
     departments,

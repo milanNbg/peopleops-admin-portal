@@ -158,12 +158,19 @@ describe('EmployeesPage', () => {
     await screen.findByRole('row', { name: 'View details for Maya Chen' })
     await user.type(getSearchInput(), 'lena')
 
+    expect(getSearchInput()).toHaveValue('lena')
     expect(
-      screen.getByRole('row', { name: 'View details for Lena Ortiz' }),
+      screen.getByRole('row', { name: 'View details for Maya Chen' }),
     ).toBeInTheDocument()
-    expect(
-      screen.queryByRole('row', { name: 'View details for Maya Chen' }),
-    ).not.toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole('row', { name: 'View details for Lena Ortiz' }),
+      ).toBeInTheDocument()
+      expect(
+        screen.queryByRole('row', { name: 'View details for Maya Chen' }),
+      ).not.toBeInTheDocument()
+    })
 
     await user.clear(getSearchInput())
     await user.selectOptions(
@@ -171,12 +178,14 @@ describe('EmployeesPage', () => {
       'On Leave',
     )
 
-    expect(
-      screen.getByRole('row', { name: 'View details for Avery Stone' }),
-    ).toBeInTheDocument()
-    expect(
-      screen.queryByRole('row', { name: 'View details for Lena Ortiz' }),
-    ).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(
+        screen.getByRole('row', { name: 'View details for Avery Stone' }),
+      ).toBeInTheDocument()
+      expect(
+        screen.queryByRole('row', { name: 'View details for Lena Ortiz' }),
+      ).not.toBeInTheDocument()
+    })
   })
 
   it('updates the URL query string from search, filter and sort controls', async () => {
@@ -200,18 +209,20 @@ describe('EmployeesPage', () => {
       'startDate',
     )
 
-    expect(screen.getByLabelText('query string')).toHaveTextContent(
-      'search=maya',
-    )
-    expect(screen.getByLabelText('query string')).toHaveTextContent(
-      'department=Engineering',
-    )
-    expect(screen.getByLabelText('query string')).toHaveTextContent(
-      'status=Active',
-    )
-    expect(screen.getByLabelText('query string')).toHaveTextContent(
-      'sort=startDate',
-    )
+    await waitFor(() => {
+      expect(screen.getByLabelText('query string')).toHaveTextContent(
+        'search=maya',
+      )
+      expect(screen.getByLabelText('query string')).toHaveTextContent(
+        'department=Engineering',
+      )
+      expect(screen.getByLabelText('query string')).toHaveTextContent(
+        'status=Active',
+      )
+      expect(screen.getByLabelText('query string')).toHaveTextContent(
+        'sort=startDate',
+      )
+    })
   })
 
   it('initializes filters from the URL query string on page load', async () => {
@@ -301,11 +312,13 @@ describe('EmployeesPage', () => {
     )
     await user.type(getSearchInput(), 'lena')
 
-    expect(
-      within(getEmployeeDetailPanel('Lena Ortiz')).getByText(
-        'People Operations Lead',
-      ),
-    ).toBeInTheDocument()
+    await waitFor(() => {
+      expect(
+        within(getEmployeeDetailPanel('Lena Ortiz')).getByText(
+          'People Operations Lead',
+        ),
+      ).toBeInTheDocument()
+    })
   })
 
   it('shows the empty state when filters return no employees', async () => {
@@ -317,14 +330,16 @@ describe('EmployeesPage', () => {
     await screen.findByRole('row', { name: 'View details for Maya Chen' })
     await user.type(getSearchInput(), 'no matching employee')
 
-    expect(
-      screen.getByRole('heading', { name: 'No employees found' }),
-    ).toBeInTheDocument()
-    expect(
-      screen.getByText('Adjust the search term, department, or status filter.'),
-    ).toBeInTheDocument()
-    expect(
-      screen.queryByRole('row', { name: 'View details for Maya Chen' }),
-    ).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(
+        screen.getByRole('heading', { name: 'No employees found' }),
+      ).toBeInTheDocument()
+      expect(
+        screen.getByText('Adjust the search term, department, or status filter.'),
+      ).toBeInTheDocument()
+      expect(
+        screen.queryByRole('row', { name: 'View details for Maya Chen' }),
+      ).not.toBeInTheDocument()
+    })
   })
 })
