@@ -225,6 +225,87 @@ describe('EmployeesPage', () => {
     })
   })
 
+  it('shows active filters and clears filters back to default results', async () => {
+    const user = userEvent.setup()
+    mockSuccessfulEmployeesService()
+
+    renderEmployeesPage()
+
+    await screen.findByRole('row', { name: 'View details for Maya Chen' })
+
+    expect(
+      screen.queryByRole('button', { name: 'Clear filters' }),
+    ).not.toBeInTheDocument()
+
+    await user.type(getSearchInput(), 'avery')
+    await user.selectOptions(
+      screen.getByRole('combobox', { name: 'Filter employees by status' }),
+      'On Leave',
+    )
+
+    const activeFilters = screen.getByLabelText('Active employee filters')
+
+    expect(within(activeFilters).getByText('Search')).toBeInTheDocument()
+    expect(within(activeFilters).getByText('avery')).toBeInTheDocument()
+    expect(within(activeFilters).getByText('Status')).toBeInTheDocument()
+    expect(within(activeFilters).getByText('On Leave')).toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(screen.getByText('1 of 3 employees')).toBeInTheDocument()
+      expect(
+        screen.getByRole('row', { name: 'View details for Avery Stone' }),
+      ).toBeInTheDocument()
+    })
+
+    await user.click(screen.getByRole('button', { name: 'Clear filters' }))
+
+    await waitFor(() => {
+      expect(screen.getByText('3 of 3 employees')).toBeInTheDocument()
+      expect(
+        screen.getByRole('row', { name: 'View details for Maya Chen' }),
+      ).toBeInTheDocument()
+      expect(
+        screen.getByRole('row', { name: 'View details for Lena Ortiz' }),
+      ).toBeInTheDocument()
+      expect(
+        screen.getByRole('row', { name: 'View details for Avery Stone' }),
+      ).toBeInTheDocument()
+    })
+    expect(getSearchInput()).toHaveValue('')
+    expect(
+      screen.queryByRole('button', { name: 'Clear filters' }),
+    ).not.toBeInTheDocument()
+    expect(screen.getByLabelText('query string')).toHaveTextContent(/^$/)
+  })
+
+  it('clears URL-initialized filters from the clear filters action', async () => {
+    const user = userEvent.setup()
+    mockSuccessfulEmployeesService()
+
+    renderEmployeesPage('/employees?search=avery&status=On%20Leave&sort=startDate')
+
+    expect(
+      await screen.findByRole('row', { name: 'View details for Avery Stone' }),
+    ).toBeInTheDocument()
+    expect(screen.getByLabelText('query string')).toHaveTextContent(
+      'search=avery',
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Clear filters' }))
+
+    await waitFor(() => {
+      expect(screen.getByText('3 of 3 employees')).toBeInTheDocument()
+      expect(screen.getByLabelText('query string')).toHaveTextContent(/^$/)
+    })
+    expect(getSearchInput()).toHaveValue('')
+    expect(
+      screen.getByRole('combobox', { name: 'Filter employees by status' }),
+    ).toHaveValue('All')
+    expect(screen.getByRole('combobox', { name: 'Sort employees' })).toHaveValue(
+      'name',
+    )
+  })
+
   it('initializes filters from the URL query string on page load', async () => {
     mockSuccessfulEmployeesService()
 

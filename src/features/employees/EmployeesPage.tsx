@@ -74,10 +74,12 @@ export const EmployeesPage = () => {
   })
 
   const {
+    activeFilters,
     departments,
     dispatch,
     filteredEmployees,
     filters,
+    hasActiveFilters,
     statuses,
     totalEmployees,
   } = useEmployeeFilters(employees)
@@ -119,8 +121,10 @@ export const EmployeesPage = () => {
             ) : (
               <>
                 <EmployeeFilters
+                  activeFilters={activeFilters}
                   departments={departments}
                   filters={filters}
+                  hasActiveFilters={hasActiveFilters}
                   statuses={statuses}
                   dispatch={dispatch}
                 />

@@ -23,6 +23,63 @@
   margin-bottom: 1.125rem;
 }
 
+.employee-filter-summary {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: -0.25rem 0 1.125rem;
+}
+
+.employee-filter-chips {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.employee-filter-chip {
+  display: inline-flex;
+  min-height: 2rem;
+  align-items: center;
+  gap: 0.375rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999rem;
+  padding: 0 0.625rem;
+  color: var(--color-muted);
+  font-size: 0.8125rem;
+  font-weight: 750;
+  background: var(--color-surface-muted);
+}
+
+.employee-filter-chip strong {
+  color: var(--color-heading);
+}
+
+.clear-filters-button {
+  min-height: 2rem;
+  flex: 0 0 auto;
+  border: 1px solid var(--color-border);
+  border-radius: 0.4375rem;
+  padding: 0 0.75rem;
+  color: var(--color-muted);
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  background: var(--color-surface);
+  cursor: pointer;
+}
+
+.clear-filters-button:hover,
+.clear-filters-button:focus-visible {
+  border-color: var(--color-accent);
+  color: var(--color-accent-strong);
+}
+
+.clear-filters-button:focus-visible {
+  outline-offset: 0.125rem;
+}
+
 .field {
   display: grid;
   gap: 0.375rem;
@@ -284,6 +341,10 @@
 
   .employee-controls {
     grid-template-columns: 1fr;
+  }
+
+  .employee-filter-summary {
+    flex-direction: column;
   }
 
   .employee-detail-header,

@@ -15,7 +15,13 @@ export type EmployeeFiltersState = {
   status: string
 }
 
+export type ActiveEmployeeFilter = {
+  label: string
+  value: string
+}
+
 export type EmployeeFiltersAction =
+  | { type: 'resetFilters' }
   | { type: 'setDepartment'; value: string }
   | { type: 'setSearch'; value: string }
   | { type: 'setSortBy'; value: SortOption }
@@ -35,6 +41,8 @@ const employeeFiltersReducer = (
   action: EmployeeFiltersAction,
 ): EmployeeFiltersState => {
   switch (action.type) {
+    case 'resetFilters':
+      return defaultEmployeeFilters
     case 'setDepartment':
       return { ...state, department: action.value }
     case 'setSearch':
@@ -112,6 +120,36 @@ const sortEmployees = (employeeList: Employee[], sortBy: SortOption) =>
     return firstEmployee.name.localeCompare(secondEmployee.name)
   })
 
+const sortLabels: Record<SortOption, string> = {
+  name: 'Name',
+  startDate: 'Start date',
+}
+
+const getActiveEmployeeFilters = (
+  filters: EmployeeFiltersState,
+): ActiveEmployeeFilter[] => {
+  const activeFilters: ActiveEmployeeFilter[] = []
+  const trimmedSearch = filters.search.trim()
+
+  if (trimmedSearch.length > 0) {
+    activeFilters.push({ label: 'Search', value: trimmedSearch })
+  }
+
+  if (filters.department !== defaultEmployeeFilters.department) {
+    activeFilters.push({ label: 'Department', value: filters.department })
+  }
+
+  if (filters.status !== defaultEmployeeFilters.status) {
+    activeFilters.push({ label: 'Status', value: filters.status })
+  }
+
+  if (filters.sortBy !== defaultEmployeeFilters.sortBy) {
+    activeFilters.push({ label: 'Sort', value: sortLabels[filters.sortBy] })
+  }
+
+  return activeFilters
+}
+
 export const useEmployeeFilters = (employeeList: Employee[]) => {
   const [searchParams, setSearchParams] = useSearchParams()
   const [filters, baseDispatch] = useReducer(
@@ -120,12 +158,14 @@ export const useEmployeeFilters = (employeeList: Employee[]) => {
     getEmployeeFiltersFromSearchParams,
   )
   const debouncedSearch = useDebouncedValue(filters.search, 300)
+  const appliedSearch =
+    filters.search === defaultEmployeeFilters.search ? filters.search : debouncedSearch
   const appliedFilters = useMemo(
     () => ({
       ...filters,
-      search: debouncedSearch,
+      search: appliedSearch,
     }),
-    [debouncedSearch, filters],
+    [appliedSearch, filters],
   )
 
   const dispatch: Dispatch<EmployeeFiltersAction> = useCallback(
@@ -154,6 +194,11 @@ export const useEmployeeFilters = (employeeList: Employee[]) => {
     [employeeList],
   )
 
+  const activeFilters = useMemo(
+    () => getActiveEmployeeFilters(filters),
+    [filters],
+  )
+
   const filteredEmployees = useMemo(() => {
     const searchTerm = appliedFilters.search.trim().toLowerCase()
 
@@ -177,10 +222,12 @@ export const useEmployeeFilters = (employeeList: Employee[]) => {
   }, [employeeList, appliedFilters])
 
   return {
+    activeFilters,
     departments,
     dispatch,
     filteredEmployees,
     filters,
+    hasActiveFilters: activeFilters.length > 0,
     statuses,
     totalEmployees: employeeList.length,
   }
