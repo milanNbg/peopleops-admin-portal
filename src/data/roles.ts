@@ -1,4 +1,4 @@
-import type { Role } from '@/types/role'
+import type { Role, RolePermissionsMatrix } from '@/types/role'
 
 export const roles: Role[] = [
   {
@@ -62,3 +62,94 @@ export const roles: Role[] = [
     status: 'Draft',
   },
 ]
+
+export const rolePermissionsMatrix: RolePermissionsMatrix = {
+  permissions: [
+    {
+      description: 'Review core employee profile details and directory records.',
+      id: 'employee-records',
+      label: 'Employee records',
+    },
+    {
+      description: 'Create, approve and update compensation changes.',
+      id: 'compensation',
+      label: 'Compensation',
+    },
+    {
+      description: 'Manage department staffing plans and open roles.',
+      id: 'workforce-planning',
+      label: 'Workforce planning',
+    },
+    {
+      description: 'Access reporting dashboards and export operational reports.',
+      id: 'reports',
+      label: 'Reports',
+    },
+    {
+      description: 'Update role definitions, permissions and access reviews.',
+      id: 'role-management',
+      label: 'Role management',
+    },
+  ],
+  roles: roles.map((role) => ({
+    id: role.id,
+    name: role.name,
+  })),
+  rows: [
+    {
+      permissionId: 'employee-records',
+      roleAccess: {
+        'role-customer-success-analyst': 'View',
+        'role-employee-self-service': 'View',
+        'role-engineering-lead': 'Manage',
+        'role-executive-admin': 'Full',
+        'role-payroll-support': 'View',
+        'role-people-manager': 'Manage',
+      },
+    },
+    {
+      permissionId: 'compensation',
+      roleAccess: {
+        'role-customer-success-analyst': 'None',
+        'role-employee-self-service': 'None',
+        'role-engineering-lead': 'View',
+        'role-executive-admin': 'Full',
+        'role-payroll-support': 'Manage',
+        'role-people-manager': 'Manage',
+      },
+    },
+    {
+      permissionId: 'workforce-planning',
+      roleAccess: {
+        'role-customer-success-analyst': 'View',
+        'role-employee-self-service': 'None',
+        'role-engineering-lead': 'Manage',
+        'role-executive-admin': 'Full',
+        'role-payroll-support': 'View',
+        'role-people-manager': 'Manage',
+      },
+    },
+    {
+      permissionId: 'reports',
+      roleAccess: {
+        'role-customer-success-analyst': 'View',
+        'role-employee-self-service': 'None',
+        'role-engineering-lead': 'View',
+        'role-executive-admin': 'Full',
+        'role-payroll-support': 'Manage',
+        'role-people-manager': 'Manage',
+      },
+    },
+    {
+      permissionId: 'role-management',
+      roleAccess: {
+        'role-customer-success-analyst': 'None',
+        'role-employee-self-service': 'None',
+        'role-engineering-lead': 'View',
+        'role-executive-admin': 'Full',
+        'role-payroll-support': 'None',
+        'role-people-manager': 'Manage',
+      },
+    },
+  ],
+}

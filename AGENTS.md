@@ -33,7 +33,7 @@ The project should look like a professional enterprise SaaS product and should b
 - Dashboard workforce trend visualization
 - Employees page with table, URL-synced filtering, sorting, pagination, CSV export and detail panel
 - Departments page
-- Roles page
+- Roles page with permissions matrix
 - Reports page
 - React Router route structure
 - Root route redirect to `/dashboard`

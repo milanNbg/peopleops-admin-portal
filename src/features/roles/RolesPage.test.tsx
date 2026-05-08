@@ -3,11 +3,12 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import * as rolesService from '@/services/rolesService'
 
-import type { Role } from '@/types/role'
+import type { Role, RolePermissionsMatrix } from '@/types/role'
 
 import { RolesPage } from './RolesPage'
 
 vi.mock('@/services/rolesService', () => ({
+  getRolePermissionsMatrix: vi.fn(),
   getRoles: vi.fn(),
 }))
 
@@ -23,6 +24,47 @@ const roles: Role[] = [
     status: 'Review',
   },
 ]
+
+const permissionsMatrix: RolePermissionsMatrix = {
+  permissions: [
+    {
+      description: 'Review core employee profile details.',
+      id: 'employee-records',
+      label: 'Employee records',
+    },
+    {
+      description: 'Create and approve compensation changes.',
+      id: 'compensation',
+      label: 'Compensation',
+    },
+  ],
+  roles: [
+    {
+      id: 'role-001',
+      name: 'People Operations Lead',
+    },
+    {
+      id: 'role-002',
+      name: 'Payroll Support',
+    },
+  ],
+  rows: [
+    {
+      permissionId: 'employee-records',
+      roleAccess: {
+        'role-001': 'Manage',
+        'role-002': 'View',
+      },
+    },
+    {
+      permissionId: 'compensation',
+      roleAccess: {
+        'role-001': 'Manage',
+        'role-002': 'Full',
+      },
+    },
+  ],
+}
 
 const createDeferred = <TData,>() => {
   let resolve!: (value: TData) => void
@@ -41,8 +83,12 @@ describe('RolesPage', () => {
 
   it('shows the role skeleton while data is loading', () => {
     const rolesRequest = createDeferred<Role[]>()
+    const permissionsRequest = createDeferred<RolePermissionsMatrix>()
 
     vi.mocked(rolesService.getRoles).mockReturnValue(rolesRequest.promise)
+    vi.mocked(rolesService.getRolePermissionsMatrix).mockReturnValue(
+      permissionsRequest.promise,
+    )
 
     render(<RolesPage />)
 
@@ -52,10 +98,14 @@ describe('RolesPage', () => {
     ).not.toBeInTheDocument()
 
     rolesRequest.resolve(roles)
+    permissionsRequest.resolve(permissionsMatrix)
   })
 
-  it('shows role content after data loads successfully', async () => {
+  it('shows role content and permissions matrix after data loads successfully', async () => {
     vi.mocked(rolesService.getRoles).mockResolvedValue(roles)
+    vi.mocked(rolesService.getRolePermissionsMatrix).mockResolvedValue(
+      permissionsMatrix,
+    )
 
     render(<RolesPage />)
 
@@ -64,15 +114,26 @@ describe('RolesPage', () => {
     ).toBeInTheDocument()
     expect(screen.getByText('Assigned employees')).toBeInTheDocument()
     expect(screen.getByText('Across active roles')).toBeInTheDocument()
-    expect(screen.getByText('People Operations Lead')).toBeInTheDocument()
+    expect(screen.getAllByText('People Operations Lead')[0]).toBeInTheDocument()
     expect(
       screen.getByRole('table', { name: 'Roles overview' }),
     ).toBeInTheDocument()
+    expect(
+      screen.getByRole('table', { name: 'Role permissions matrix' }),
+    ).toBeInTheDocument()
+    expect(screen.getByText('Employee records')).toBeInTheDocument()
+    expect(screen.getByText('Compensation')).toBeInTheDocument()
+    expect(screen.getByText('Payroll Support')).toBeInTheDocument()
+    expect(screen.getAllByText('Manage')).toHaveLength(2)
+    expect(screen.getByText('Full')).toBeInTheDocument()
   })
 
   it('shows the role error state when data loading fails', async () => {
     vi.mocked(rolesService.getRoles).mockRejectedValue(
       new Error('Unable to load roles'),
+    )
+    vi.mocked(rolesService.getRolePermissionsMatrix).mockResolvedValue(
+      permissionsMatrix,
     )
 
     render(<RolesPage />)

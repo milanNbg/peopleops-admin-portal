@@ -12,11 +12,17 @@ import {
   SkeletonCardGrid,
   SkeletonTable,
 } from '@/components/ui'
-import { getRoles } from '@/services/rolesService'
+import { getRolePermissionsMatrix, getRoles } from '@/services/rolesService'
 import { useAsyncData } from '@/hooks/useAsyncData'
 
 import type { DataTableColumn } from '@/components/ui'
-import type { Role, RoleStatus } from '@/types/role'
+import type {
+  Role,
+  RolePermissionsMatrix as RolePermissionsMatrixData,
+  RoleStatus,
+} from '@/types/role'
+
+import { RolePermissionsMatrix } from './components/RolePermissionsMatrix'
 
 const roleStatusClassNames: Record<RoleStatus, string> = {
   Active: 'active',
@@ -97,17 +103,64 @@ const RolesSkeleton = () => (
         tableClassName="roles-table"
       />
     </Card>
+    <Card labelledBy="roles-skeleton-permissions-title">
+      <span className="visually-hidden" id="roles-skeleton-permissions-title">
+        Loading role permissions matrix
+      </span>
+      <div className="roles-skeleton-heading" aria-hidden="true">
+        <SkeletonBlock className="skeleton-eyebrow" />
+        <SkeletonBlock className="skeleton-heading" />
+      </div>
+      <SkeletonTable
+        columns={[
+          'skeleton-cell-wide',
+          'skeleton-cell-short',
+          'skeleton-cell-short',
+          'skeleton-cell-short',
+          'skeleton-cell-short',
+        ]}
+        rowClassName="role-permissions-skeleton-row"
+        rows={5}
+        tableClassName="role-permissions-skeleton-table"
+      />
+    </Card>
   </div>
 )
 
+type RolesPageData = {
+  permissionsMatrix: RolePermissionsMatrixData
+  roles: Role[]
+}
+
+const initialRolesPageData: RolesPageData = {
+  permissionsMatrix: {
+    permissions: [],
+    roles: [],
+    rows: [],
+  },
+  roles: [],
+}
+
+const loadRolesPageData = async (): Promise<RolesPageData> => {
+  const [roles, permissionsMatrix] = await Promise.all([
+    getRoles(),
+    getRolePermissionsMatrix(),
+  ])
+
+  return {
+    permissionsMatrix,
+    roles,
+  }
+}
+
 export const RolesPage = () => {
   const {
-    data: roles,
+    data: { permissionsMatrix, roles },
     error,
     isLoading,
-  } = useAsyncData(getRoles, {
+  } = useAsyncData(loadRolesPageData, {
     errorMessage: 'Role data could not be loaded. Please try again later.',
-    initialData: [],
+    initialData: initialRolesPageData,
   })
 
   const roleSummary = useMemo(() => {
@@ -184,6 +237,19 @@ export const RolesPage = () => {
                   headerRowClassName="roles-row roles-row-header"
                   rowClassName="roles-row"
                 />
+              </Card>
+
+              <Card labelledBy="role-permissions-title">
+                <SectionHeader
+                  eyebrow="Permissions"
+                  title="Role permissions matrix"
+                  titleId="role-permissions-title"
+                />
+                <p className="role-permissions-intro">
+                  Compare role access across core PeopleOps permissions.
+                </p>
+
+                <RolePermissionsMatrix matrix={permissionsMatrix} />
               </Card>
             </>
           )}

@@ -43,7 +43,7 @@ Dashboard dark mode
 - Dashboard overview with summary metrics, workforce trend visualization and operational activity.
 - Employees page with table-based browsing, URL-synced filters, debounced search, sorting, pagination, active filter summary, CSV export and an employee detail panel.
 - Departments overview page with summary cards and department data.
-- Roles overview page with role, access and permission information.
+- Roles overview page with role, access and permissions matrix information.
 - Reports overview page with reporting categories and generated report details.
 - Responsive app shell with sidebar navigation, top header and semantic layout landmarks.
 - Sidebar collapse / expand preference with accessible navigation labels and active route state.
