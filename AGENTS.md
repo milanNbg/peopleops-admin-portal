@@ -34,7 +34,7 @@ The project should look like a professional enterprise SaaS product and should b
 - Employees page with table, URL-synced filtering, sorting, pagination, CSV export and detail panel
 - Departments page
 - Roles page with permissions matrix
-- Reports page
+- Reports page with report detail panel and CSV download action
 - React Router route structure
 - Root route redirect to `/dashboard`
 - Not Found route

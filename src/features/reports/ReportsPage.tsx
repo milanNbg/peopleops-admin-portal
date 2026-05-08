@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import {
   Card,
@@ -14,9 +14,12 @@ import {
 } from '@/components/ui'
 import { getReports } from '@/services/reportsService'
 import { useAsyncData } from '@/hooks/useAsyncData'
+import { createCsv } from '@/utils/csv'
 
 import type { DataTableColumn } from '@/components/ui'
 import type { Report, ReportStatus } from '@/types/report'
+
+import { ReportDetailPanel } from './components/ReportDetailPanel'
 
 const reportStatusClassNames: Record<ReportStatus, string> = {
   Ready: 'ready',
@@ -94,7 +97,35 @@ const ReportsSkeleton = () => (
   </div>
 )
 
+const createReportCsv = (report: Report) =>
+  createCsv([
+    [
+      'Report name',
+      'Category',
+      'Owner',
+      'Status',
+      'Last generated',
+      'Schedule',
+      'Period',
+      'Description',
+    ],
+    [
+      report.name,
+      report.category,
+      report.owner,
+      report.status,
+      report.generatedDate,
+      report.schedule,
+      report.period,
+      report.description,
+    ],
+  ])
+
+const getReportFileName = (report: Report) =>
+  `${report.id.replaceAll(/[^a-z0-9-]/gi, '-').toLowerCase()}.csv`
+
 export const ReportsPage = () => {
+  const [selectedReport, setSelectedReport] = useState<Report | null>(null)
   const {
     data: reports,
     error,
@@ -120,6 +151,30 @@ export const ReportsPage = () => {
       totalReports: reports.length,
     }
   }, [reports])
+  const selectedVisibleReport = selectedReport
+    ? reports.find((report) => report.id === selectedReport.id)
+    : null
+  const handleExportReport = useCallback(() => {
+    if (!selectedVisibleReport) {
+      return
+    }
+
+    const csv = createReportCsv(selectedVisibleReport)
+    const csvBlob = new Blob([csv], { type: 'text/csv;charset=utf-8' })
+    const csvUrl = URL.createObjectURL(csvBlob)
+    const downloadLink = document.createElement('a')
+
+    downloadLink.href = csvUrl
+    downloadLink.download = getReportFileName(selectedVisibleReport)
+    document.body.append(downloadLink)
+
+    try {
+      downloadLink.click()
+    } finally {
+      downloadLink.remove()
+      URL.revokeObjectURL(csvUrl)
+    }
+  }, [selectedVisibleReport])
 
   return (
     <div className="reports-page">
@@ -173,9 +228,20 @@ export const ReportsPage = () => {
                   data={reports}
                   emptyMessage="No reports found."
                   getRowKey={(report) => report.id}
+                  getRowLabel={(report) => `View details for ${report.name}`}
                   headerRowClassName="reports-row reports-row-header"
-                  rowClassName="reports-row"
+                  rowClassName="reports-row reports-row-selectable"
+                  selectedRowKey={selectedVisibleReport?.id}
+                  onRowSelect={setSelectedReport}
                 />
+
+                {selectedVisibleReport ? (
+                  <ReportDetailPanel
+                    report={selectedVisibleReport}
+                    onClose={() => setSelectedReport(null)}
+                    onExportReport={handleExportReport}
+                  />
+                ) : null}
               </Card>
             </>
           )}
