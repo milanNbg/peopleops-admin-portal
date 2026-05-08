@@ -40,7 +40,7 @@ Dashboard dark mode
 
 ## Features
 
-- Dashboard overview with summary metrics and operational activity.
+- Dashboard overview with summary metrics, workforce trend visualization and operational activity.
 - Employees page with table-based browsing, filtering, sorting and an employee detail panel.
 - Departments overview page with summary cards and department data.
 - Roles overview page with role, access and permission information.
@@ -80,6 +80,11 @@ Tests use Vitest and React Testing Library for reusable UI components, app-level
 ## Project Structure
 
 ```txt
+.github/
+  workflows/
+e2e/
+public/
+  screenshots/
 src/
   assets/
   components/

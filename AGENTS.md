@@ -30,6 +30,7 @@ The project should look like a professional enterprise SaaS product and should b
 ## Current Implemented Features
 
 - Dashboard overview page
+- Dashboard workforce trend visualization
 - Employees page with table, filtering, sorting and detail panel
 - Departments page
 - Roles page
@@ -90,6 +91,11 @@ Avoid:
 ## Project Structure
 
 ```txt
+.github/
+  workflows/
+e2e/
+public/
+  screenshots/
 src/
   assets/
   components/
@@ -101,6 +107,7 @@ src/
     dashboard/
     departments/
     employees/
+    not-found/
     reports/
     roles/
   hooks/
@@ -212,6 +219,7 @@ src/
 - Use Playwright for focused end-to-end smoke tests of primary application flows.
 - Do not introduce Jest.
 - Keep tests colocated with the files they test.
+- Keep Playwright tests in `e2e`.
 - Add or update tests for new user-facing functionality when the behavior can be meaningfully tested.
 - Add or update tests when changing hooks, routing behavior, state logic, async loading flows or accessibility behavior.
 - Focus tests on user-visible behavior rather than implementation details.

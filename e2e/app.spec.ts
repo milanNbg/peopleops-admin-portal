@@ -19,7 +19,9 @@ test('user can navigate from Dashboard to Employees', async ({ page }) => {
   await page.getByRole('link', { name: 'Employees' }).click()
 
   await expect(page).toHaveURL(/\/employees$/)
-  await expect(page.getByRole('heading', { name: 'Employees' })).toBeVisible()
+  await expect(
+    page.getByRole('heading', { level: 2, name: 'Employees' }),
+  ).toBeVisible()
   await expect(
     page.getByRole('table', { name: 'Employee directory' }),
   ).toBeVisible()

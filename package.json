@@ -2,6 +2,7 @@
   "name": "peopleops-admin-portal",
   "private": true,
   "version": "0.0.0",
+  "description": "Portfolio-ready People Operations admin dashboard built with React, TypeScript, Vite, SCSS, Vitest and Playwright.",
   "type": "module",
   "scripts": {
     "dev": "vite",
