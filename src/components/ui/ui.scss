@@ -25,6 +25,7 @@
 
 .metric-card,
 .dashboard-card {
+  min-width: 0;
   border: 1px solid var(--color-border);
   border-radius: 0.5rem;
   background: var(--color-surface);
@@ -190,6 +191,7 @@
 
 .section-heading {
   display: flex;
+  min-width: 0;
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
@@ -198,6 +200,10 @@
 
 .section-heading > div {
   min-width: 0;
+}
+
+.section-heading > div + * {
+  flex: 0 0 auto;
 }
 
 .section-heading h3 {
@@ -317,6 +323,7 @@
 
   .section-heading {
     flex-direction: column;
+    gap: 0.75rem;
   }
 
   .intro {

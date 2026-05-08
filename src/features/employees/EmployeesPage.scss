@@ -147,6 +147,7 @@
   padding-bottom: 0.25rem;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
+  scrollbar-gutter: stable;
 }
 
 .employee-row {
@@ -232,6 +233,7 @@
 
 .employee-pagination-actions {
   display: inline-flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
 }
 
@@ -427,6 +429,10 @@
 
   .employee-filter-summary {
     flex-direction: column;
+  }
+
+  .employee-section-actions {
+    justify-content: flex-start;
   }
 
   .employee-pagination {
