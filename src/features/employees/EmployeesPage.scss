@@ -16,6 +16,14 @@
   font-weight: 700;
 }
 
+.employee-section-actions {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
 .employee-controls {
   display: grid;
   grid-template-columns: minmax(13.75rem, 1.4fr) repeat(4, minmax(8.5rem, 1fr));
@@ -70,13 +78,36 @@
   cursor: pointer;
 }
 
+.export-csv-button {
+  min-height: 2rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.4375rem;
+  padding: 0 0.75rem;
+  color: var(--color-muted);
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  background: var(--color-surface);
+  cursor: pointer;
+}
+
 .clear-filters-button:hover,
-.clear-filters-button:focus-visible {
+.clear-filters-button:focus-visible,
+.export-csv-button:hover,
+.export-csv-button:focus-visible {
   border-color: var(--color-accent);
   color: var(--color-accent-strong);
 }
 
-.clear-filters-button:focus-visible {
+.export-csv-button:disabled {
+  border-color: var(--color-border-soft);
+  color: var(--color-subtle);
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.clear-filters-button:focus-visible,
+.export-csv-button:focus-visible {
   outline-offset: 0.125rem;
 }
 

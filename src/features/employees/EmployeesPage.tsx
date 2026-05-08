@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import {
   Card,
@@ -11,6 +11,7 @@ import {
 } from '@/components/ui'
 import { getEmployees } from '@/services/employeesService'
 import { useAsyncData } from '@/hooks/useAsyncData'
+import { createCsv } from '@/utils/csv'
 
 import type { Employee } from '@/types/employee'
 
@@ -63,6 +64,34 @@ const EmployeesSkeleton = () => (
   </div>
 )
 
+const employeeCsvHeaders = [
+  'Name',
+  'Email',
+  'Department',
+  'Role',
+  'Location',
+  'Status',
+  'Employment type',
+  'Manager',
+  'Start date',
+]
+
+const createEmployeeCsv = (employees: Employee[]) =>
+  createCsv([
+    employeeCsvHeaders,
+    ...employees.map((employee) => [
+      employee.name,
+      employee.email,
+      employee.department,
+      employee.role,
+      employee.location,
+      employee.status,
+      employee.employmentType,
+      employee.manager,
+      employee.startDate,
+    ]),
+  ])
+
 export const EmployeesPage = () => {
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null)
   const {
@@ -92,6 +121,27 @@ export const EmployeesPage = () => {
   const selectedFilteredEmployee = selectedEmployee
     ? paginatedEmployees.find((employee) => employee.id === selectedEmployee.id)
     : null
+  const handleExportEmployees = useCallback(() => {
+    if (filteredEmployees.length === 0) {
+      return
+    }
+
+    const csv = createEmployeeCsv(filteredEmployees)
+    const csvBlob = new Blob([csv], { type: 'text/csv;charset=utf-8' })
+    const csvUrl = URL.createObjectURL(csvBlob)
+    const downloadLink = document.createElement('a')
+
+    downloadLink.href = csvUrl
+    downloadLink.download = 'peopleops-employees.csv'
+    document.body.append(downloadLink)
+
+    try {
+      downloadLink.click()
+    } finally {
+      downloadLink.remove()
+      URL.revokeObjectURL(csvUrl)
+    }
+  }, [filteredEmployees])
 
   return (
     <div className="employees-page">
@@ -111,9 +161,19 @@ export const EmployeesPage = () => {
           <Card labelledBy="employee-table-title">
             <SectionHeader
               actions={
-                <span className="result-count">
-                  {filteredEmployees.length} of {totalEmployees} employees
-                </span>
+                <div className="employee-section-actions">
+                  <span className="result-count">
+                    {filteredEmployees.length} of {totalEmployees} employees
+                  </span>
+                  <button
+                    className="export-csv-button"
+                    type="button"
+                    disabled={filteredEmployees.length === 0}
+                    onClick={handleExportEmployees}
+                  >
+                    Export CSV
+                  </button>
+                </div>
               }
               className="employees-heading"
               eyebrow="People records"

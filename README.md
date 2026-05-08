@@ -41,7 +41,7 @@ Dashboard dark mode
 ## Features
 
 - Dashboard overview with summary metrics, workforce trend visualization and operational activity.
-- Employees page with table-based browsing, URL-synced filters, debounced search, sorting, pagination and an employee detail panel.
+- Employees page with table-based browsing, URL-synced filters, debounced search, sorting, pagination, active filter summary, CSV export and an employee detail panel.
 - Departments overview page with summary cards and department data.
 - Roles overview page with role, access and permission information.
 - Reports overview page with reporting categories and generated report details.

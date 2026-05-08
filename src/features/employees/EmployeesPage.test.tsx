@@ -128,9 +128,33 @@ const getSearchInput = () =>
 const getVisibleEmployeeRows = () =>
   screen.getAllByRole('row').filter((row) => row.getAttribute('aria-label'))
 
+const mockCsvDownload = () => {
+  const createObjectURL = vi.fn((blob: Blob) => {
+    void blob
+
+    return 'blob:peopleops-employees'
+  })
+  const revokeObjectURL = vi.fn()
+  const click = vi
+    .spyOn(HTMLAnchorElement.prototype, 'click')
+    .mockImplementation(() => undefined)
+
+  Object.defineProperty(URL, 'createObjectURL', {
+    configurable: true,
+    value: createObjectURL,
+  })
+  Object.defineProperty(URL, 'revokeObjectURL', {
+    configurable: true,
+    value: revokeObjectURL,
+  })
+
+  return { click, createObjectURL, revokeObjectURL }
+}
+
 describe('EmployeesPage', () => {
   afterEach(() => {
     cleanup()
+    vi.restoreAllMocks()
     vi.clearAllMocks()
   })
 
@@ -167,6 +191,38 @@ describe('EmployeesPage', () => {
     ).toBeInTheDocument()
     expect(screen.getByText('6 of 6 employees')).toBeInTheDocument()
     expect(screen.getByText('Page 1 of 2 - 6 results')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Export CSV' })).toBeEnabled()
+  })
+
+  it('exports visible employee data as CSV', async () => {
+    const { click, createObjectURL, revokeObjectURL } = mockCsvDownload()
+
+    mockSuccessfulEmployeesService()
+
+    renderEmployeesPage()
+
+    await screen.findByRole('row', { name: 'View details for Maya Chen' })
+    await userEvent.click(screen.getByRole('button', { name: 'Export CSV' }))
+
+    const csvBlob = createObjectURL.mock.calls.at(0)?.[0]
+
+    if (!csvBlob) {
+      throw new Error('Expected CSV export to create a Blob.')
+    }
+
+    const csvText = await csvBlob.text()
+
+    expect(click).toHaveBeenCalled()
+    expect(revokeObjectURL).toHaveBeenCalledWith('blob:peopleops-employees')
+    expect(csvText).toContain(
+      'Name,Email,Department,Role,Location,Status,Employment type,Manager,Start date',
+    )
+    expect(csvText).toContain(
+      'Maya Chen,maya@example.com,Engineering,Senior Frontend Engineer,"San Francisco, CA",Active,Full-time,Nina Patel,"Jan 16, 2023"',
+    )
+    expect(csvText).toContain(
+      'Zoe Kim,zoe@example.com,Engineering,Platform Engineer,"Seattle, WA",Inactive,Contractor,Nina Patel,"Apr 12, 2020"',
+    )
   })
 
   it('shows the employee error state when data loading fails', async () => {
@@ -346,6 +402,39 @@ describe('EmployeesPage', () => {
       screen.getByRole('row', { name: 'View details for Avery Stone' }),
     ).toBeInTheDocument()
     expect(screen.getByLabelText('query string')).toHaveTextContent(/^$/)
+  })
+
+  it('exports the current filtered and sorted employee results', async () => {
+    const user = userEvent.setup()
+    const { createObjectURL } = mockCsvDownload()
+
+    mockSuccessfulEmployeesService()
+
+    renderEmployeesPage()
+
+    await screen.findByRole('row', { name: 'View details for Maya Chen' })
+    await user.selectOptions(
+      screen.getByRole('combobox', { name: 'Filter employees by department' }),
+      'Engineering',
+    )
+    await user.selectOptions(
+      screen.getByRole('combobox', { name: 'Sort employees' }),
+      'startDate',
+    )
+    await user.click(screen.getByRole('button', { name: 'Export CSV' }))
+
+    const csvBlob = createObjectURL.mock.calls.at(0)?.[0]
+
+    if (!csvBlob) {
+      throw new Error('Expected CSV export to create a Blob.')
+    }
+
+    const csvText = await csvBlob.text()
+
+    expect(csvText).toContain('Maya Chen')
+    expect(csvText).toContain('Zoe Kim')
+    expect(csvText).not.toContain('Lena Ortiz')
+    expect(csvText.indexOf('Maya Chen')).toBeLessThan(csvText.indexOf('Zoe Kim'))
   })
 
   it('hides the detail panel when pagination moves the selected employee out of view', async () => {
@@ -572,6 +661,7 @@ describe('EmployeesPage', () => {
       expect(
         screen.queryByRole('row', { name: 'View details for Maya Chen' }),
       ).not.toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'Export CSV' })).toBeDisabled()
     })
   })
 })

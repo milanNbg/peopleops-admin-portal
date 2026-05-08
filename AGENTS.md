@@ -31,7 +31,7 @@ The project should look like a professional enterprise SaaS product and should b
 
 - Dashboard overview page
 - Dashboard workforce trend visualization
-- Employees page with table, URL-synced filtering, sorting, pagination and detail panel
+- Employees page with table, URL-synced filtering, sorting, pagination, CSV export and detail panel
 - Departments page
 - Roles page
 - Reports page
