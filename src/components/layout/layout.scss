@@ -43,7 +43,7 @@
   gap: 2rem;
   padding: 1.75rem 1.25rem;
   border-right: 1px solid var(--color-border);
-  background: var(--color-surface);
+  background: var(--color-surface-raised);
 }
 
 .sidebar-collapsed .sidebar {
@@ -60,6 +60,13 @@
   padding: 0 0.5rem;
   border-radius: 0.4375rem;
   text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.brand:hover {
+  background: var(--color-surface-muted);
 }
 
 .brand:focus-visible {
@@ -82,6 +89,7 @@
   color: var(--color-on-accent);
   font-size: 0.875rem;
   font-weight: 800;
+  box-shadow: 0 0.625rem 1.25rem color-mix(in srgb, var(--color-accent) 22%, transparent);
 }
 
 .brand-name,
@@ -129,6 +137,11 @@
   font-weight: 750;
   background: var(--color-surface);
   cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .sidebar-toggle {
@@ -149,6 +162,7 @@
 .theme-toggle:hover,
 .theme-toggle:focus-visible {
   border-color: var(--color-accent);
+  background: var(--color-accent-soft);
   color: var(--color-accent-strong);
 }
 
@@ -187,6 +201,10 @@
   font-size: 0.9375rem;
   font-weight: 650;
   text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .nav-initial {
@@ -218,6 +236,10 @@
   color: var(--color-accent-strong);
 }
 
+.nav-link.active {
+  box-shadow: inset 0.1875rem 0 0 var(--color-accent);
+}
+
 .workspace {
   min-width: 0;
   max-width: 100%;
@@ -235,7 +257,8 @@
   gap: 1.5rem;
   padding: 1.25rem 2rem;
   border-bottom: 1px solid var(--color-border);
-  background: var(--color-surface);
+  background: var(--color-surface-raised);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--color-border-soft) 70%, transparent);
 }
 
 .top-header > div:first-child {
@@ -271,7 +294,7 @@
   color: var(--color-muted);
   font-size: 0.875rem;
   font-weight: 650;
-  background: var(--color-surface);
+  background: var(--color-surface-muted);
 }
 
 .status-dot {
@@ -309,11 +332,15 @@
   font-weight: 750;
   background: var(--color-accent);
   cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .app-error-boundary-button:hover,
 .app-error-boundary-button:focus-visible {
   background: var(--color-accent-strong);
+  box-shadow: var(--shadow-interactive);
 }
 
 .app-error-boundary-button:focus-visible {

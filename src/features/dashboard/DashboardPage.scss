@@ -13,7 +13,6 @@
 
 .overview-list {
   display: grid;
-  gap: 0.875rem;
 }
 
 .overview-row {
@@ -21,8 +20,15 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  padding: 0.875rem 0;
+  border-top: 1px solid var(--color-border-soft);
   color: var(--color-muted);
   font-size: 0.9375rem;
+}
+
+.overview-row:first-child {
+  padding-top: 0;
+  border-top: 0;
 }
 
 .overview-row strong {
@@ -31,7 +37,6 @@
 
 .activity-list {
   display: grid;
-  gap: 1rem;
   padding: 0;
   margin: 0;
   list-style: none;
@@ -45,8 +50,15 @@
   display: grid;
   grid-template-columns: 3.25rem 1fr;
   gap: 0.75rem;
+  padding: 0.875rem 0;
+  border-top: 1px solid var(--color-border-soft);
   color: var(--color-muted);
   font-size: 0.9375rem;
+}
+
+.activity-list li:first-child {
+  padding-top: 0;
+  border-top: 0;
 }
 
 .activity-list span {
@@ -66,7 +78,8 @@
   min-height: 14rem;
   grid-template-columns: repeat(6, minmax(2.5rem, 1fr));
   align-items: end;
-  gap: 1rem;
+  gap: 0.875rem;
+  padding-top: 0.25rem;
 }
 
 .workforce-trend-item {
@@ -84,13 +97,15 @@
   align-items: end;
   border-radius: 0.4375rem;
   background: var(--color-accent-soft);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-accent) 8%, transparent);
 }
 
 .workforce-trend-bar {
   width: 100%;
   min-height: 1.5rem;
   border-radius: 0.4375rem;
-  background: var(--color-accent);
+  background: linear-gradient(180deg, var(--color-accent) 0%, var(--color-accent-strong) 100%);
+  box-shadow: 0 0.375rem 0.875rem color-mix(in srgb, var(--color-accent) 18%, transparent);
 }
 
 .workforce-trend-item strong {
@@ -116,10 +131,15 @@
     minmax(11.25rem, 1.3fr) repeat(2, minmax(6.875rem, 0.7fr))
     minmax(10rem, 1fr);
   min-width: 42.5rem;
-  padding: 0.875rem 0;
+  padding: 0.9375rem 0.5rem;
   border-top: 1px solid var(--color-border-soft);
+  border-radius: 0.375rem;
   color: var(--color-muted);
   font-size: 0.9375rem;
+}
+
+.department-row:not(.department-row-header):hover {
+  background: var(--color-row-hover);
 }
 
 .department-row span {
@@ -134,6 +154,7 @@
 .department-row-header {
   padding-top: 0;
   border-top: 0;
+  border-radius: 0;
   color: var(--color-subtle);
   font-size: 0.8125rem;
   font-weight: 800;

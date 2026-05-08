@@ -23,10 +23,15 @@
     repeat(2, minmax(6.875rem, 0.7fr)) minmax(6.875rem, 0.8fr)
     minmax(8.75rem, 0.9fr);
   min-width: 61.25rem;
-  padding: 0.875rem 0;
+  padding: 0.9375rem 0.5rem;
   border-top: 1px solid var(--color-border-soft);
+  border-radius: 0.375rem;
   color: var(--color-muted);
   font-size: 0.9375rem;
+}
+
+.roles-row:not(.roles-row-header):hover {
+  background: var(--color-row-hover);
 }
 
 .roles-row span {
@@ -43,9 +48,11 @@
 .roles-row-header {
   padding-top: 0;
   border-top: 0;
+  border-radius: 0;
   color: var(--color-subtle);
   font-size: 0.8125rem;
   font-weight: 800;
+  letter-spacing: 0.035em;
   text-transform: uppercase;
 }
 
@@ -70,7 +77,7 @@
 .role-permissions-matrix-wrap {
   max-width: 100%;
   overflow-x: auto;
-  padding: 0.25rem 0 0.375rem;
+  padding: 0.375rem 0 0.5rem;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
   scrollbar-gutter: stable;
@@ -85,19 +92,24 @@
 .role-permissions-matrix th,
 .role-permissions-matrix td {
   border-top: 1px solid var(--color-border-soft);
-  padding: 0.875rem 0.75rem;
+  padding: 0.9375rem 0.875rem;
   text-align: left;
   vertical-align: middle;
 }
 
 .role-permissions-matrix thead th {
-  padding-top: 0.625rem;
+  padding-top: 0.875rem;
   padding-bottom: 1rem;
   border-top: 0;
   color: var(--color-subtle);
   font-size: 0.75rem;
   font-weight: 800;
+  letter-spacing: 0.035em;
   text-transform: uppercase;
+}
+
+.role-permissions-matrix tbody tr:hover {
+  background: var(--color-row-hover);
 }
 
 .role-permissions-matrix tbody tr:first-child th,
@@ -128,6 +140,8 @@
 .permission-level {
   display: inline-flex;
   min-width: 4.5rem;
+  min-height: 1.625rem;
+  align-items: center;
   justify-content: center;
   border: 1px solid var(--color-border);
   border-radius: 999rem;

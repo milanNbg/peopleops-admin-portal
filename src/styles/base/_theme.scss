@@ -2,7 +2,9 @@
   color-scheme: light;
   --color-page-bg: #f6f8fb;
   --color-surface: #ffffff;
+  --color-surface-raised: #ffffff;
   --color-surface-muted: #f8fafc;
+  --color-row-hover: #f4f7fb;
   --color-border: #dce3ee;
   --color-border-soft: #e8edf5;
   --color-text: #172033;
@@ -24,13 +26,16 @@
   --color-danger-surface: #fffafa;
   --shadow-panel: 0 1.125rem 2.8125rem rgba(15, 23, 42, 0.06);
   --shadow-card: 0 0.75rem 2rem rgba(15, 23, 42, 0.05);
+  --shadow-interactive: 0 0.875rem 1.75rem rgba(15, 23, 42, 0.08);
 }
 
 :root[data-theme='dark'] {
   color-scheme: dark;
   --color-page-bg: #0f172a;
   --color-surface: #111827;
+  --color-surface-raised: #172033;
   --color-surface-muted: #1f2937;
+  --color-row-hover: #1b2535;
   --color-border: #334155;
   --color-border-soft: #263244;
   --color-text: #e5e7eb;
@@ -52,4 +57,5 @@
   --color-danger-surface: #2a1216;
   --shadow-panel: 0 1.125rem 2.8125rem rgba(0, 0, 0, 0.22);
   --shadow-card: 0 0.75rem 2rem rgba(0, 0, 0, 0.2);
+  --shadow-interactive: 0 0.875rem 1.75rem rgba(0, 0, 0, 0.28);
 }
