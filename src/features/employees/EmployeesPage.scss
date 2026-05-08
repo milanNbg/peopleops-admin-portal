@@ -18,7 +18,7 @@
 
 .employee-controls {
   display: grid;
-  grid-template-columns: minmax(13.75rem, 1.4fr) repeat(3, minmax(9.375rem, 1fr));
+  grid-template-columns: minmax(13.75rem, 1.4fr) repeat(4, minmax(8.5rem, 1fr));
   gap: 0.875rem;
   margin-bottom: 1.125rem;
 }
@@ -183,6 +183,57 @@
   text-transform: uppercase;
 }
 
+.employee-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border-soft);
+}
+
+.employee-pagination p {
+  margin: 0;
+  color: var(--color-subtle);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.employee-pagination-actions {
+  display: inline-flex;
+  gap: 0.5rem;
+}
+
+.employee-pagination-actions button {
+  min-height: 2rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.4375rem;
+  padding: 0 0.75rem;
+  color: var(--color-muted);
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  background: var(--color-surface);
+  cursor: pointer;
+}
+
+.employee-pagination-actions button:hover,
+.employee-pagination-actions button:focus-visible {
+  border-color: var(--color-accent);
+  color: var(--color-accent-strong);
+}
+
+.employee-pagination-actions button:disabled {
+  border-color: var(--color-border-soft);
+  color: var(--color-subtle);
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.employee-pagination-actions button:focus-visible {
+  outline-offset: 0.125rem;
+}
+
 .empty-state {
   padding: 2rem;
   border: 1px dashed var(--color-border);
@@ -344,6 +395,11 @@
   }
 
   .employee-filter-summary {
+    flex-direction: column;
+  }
+
+  .employee-pagination {
+    align-items: flex-start;
     flex-direction: column;
   }
 

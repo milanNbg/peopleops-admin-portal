@@ -12,6 +12,7 @@ type EmployeeFiltersProps = {
   departments: string[]
   filters: EmployeeFiltersState
   hasActiveFilters: boolean
+  pageSizeOptions: number[]
   statuses: Array<EmployeeStatus | 'All'>
   dispatch: Dispatch<EmployeeFiltersAction>
 }
@@ -21,6 +22,7 @@ export const EmployeeFilters = ({
   departments,
   filters,
   hasActiveFilters,
+  pageSizeOptions,
   statuses,
   dispatch,
 }: EmployeeFiltersProps) => (
@@ -87,6 +89,23 @@ export const EmployeeFilters = ({
         >
           <option value="name">Name</option>
           <option value="startDate">Start date</option>
+        </select>
+      </label>
+
+      <label className="field">
+        <span>Page size</span>
+        <select
+          aria-label="Employees per page"
+          onChange={(event) =>
+            dispatch({ type: 'setPageSize', value: Number(event.target.value) })
+          }
+          value={filters.pageSize}
+        >
+          {pageSizeOptions.map((pageSize) => (
+            <option key={pageSize} value={pageSize}>
+              {pageSize}
+            </option>
+          ))}
         </select>
       </label>
     </div>

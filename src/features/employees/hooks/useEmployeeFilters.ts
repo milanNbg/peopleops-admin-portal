@@ -10,6 +10,8 @@ export type SortOption = 'name' | 'startDate'
 
 export type EmployeeFiltersState = {
   department: string
+  page: number
+  pageSize: number
   search: string
   sortBy: SortOption
   status: string
@@ -23,18 +25,38 @@ export type ActiveEmployeeFilter = {
 export type EmployeeFiltersAction =
   | { type: 'resetFilters' }
   | { type: 'setDepartment'; value: string }
+  | { type: 'setPage'; value: number }
+  | { type: 'setPageSize'; value: number }
   | { type: 'setSearch'; value: string }
   | { type: 'setSortBy'; value: SortOption }
   | { type: 'setStatus'; value: string }
 
 export const defaultEmployeeFilters: EmployeeFiltersState = {
   department: 'All',
+  page: 1,
+  pageSize: 5,
   search: '',
   sortBy: 'name',
   status: 'All',
 }
 
+export const employeePageSizeOptions = [5, 10, 20]
+
 const sortOptions: SortOption[] = ['name', 'startDate']
+
+const getValidPage = (value: string | null) => {
+  const page = Number(value)
+
+  return Number.isInteger(page) && page >= 1 ? page : defaultEmployeeFilters.page
+}
+
+const getValidPageSize = (value: string | null) => {
+  const pageSize = Number(value)
+
+  return employeePageSizeOptions.includes(pageSize)
+    ? pageSize
+    : defaultEmployeeFilters.pageSize
+}
 
 const employeeFiltersReducer = (
   state: EmployeeFiltersState,
@@ -44,13 +66,23 @@ const employeeFiltersReducer = (
     case 'resetFilters':
       return defaultEmployeeFilters
     case 'setDepartment':
-      return { ...state, department: action.value }
+      return { ...state, department: action.value, page: 1 }
+    case 'setPage':
+      return { ...state, page: action.value }
+    case 'setPageSize':
+      return {
+        ...state,
+        page: 1,
+        pageSize: employeePageSizeOptions.includes(action.value)
+          ? action.value
+          : defaultEmployeeFilters.pageSize,
+      }
     case 'setSearch':
-      return { ...state, search: action.value }
+      return { ...state, page: 1, search: action.value }
     case 'setSortBy':
-      return { ...state, sortBy: action.value }
+      return { ...state, page: 1, sortBy: action.value }
     case 'setStatus':
-      return { ...state, status: action.value }
+      return { ...state, page: 1, status: action.value }
   }
 }
 
@@ -73,6 +105,8 @@ export const getEmployeeFiltersFromSearchParams = (
 
   return {
     department: getSearchParamValue(searchParams, 'department'),
+    page: getValidPage(searchParams.get('page')),
+    pageSize: getValidPageSize(searchParams.get('pageSize')),
     search: getSearchParamValue(searchParams, 'search'),
     sortBy: sortOptions.includes(sortBy as SortOption)
       ? (sortBy as SortOption)
@@ -102,6 +136,12 @@ export const setEmployeeFilterSearchParams = (
   }
 
   updateParam('department', filters.department, defaultEmployeeFilters.department)
+  updateParam('page', String(filters.page), String(defaultEmployeeFilters.page))
+  updateParam(
+    'pageSize',
+    String(filters.pageSize),
+    String(defaultEmployeeFilters.pageSize),
+  )
   updateParam('search', filters.search, defaultEmployeeFilters.search)
   updateParam('sort', filters.sortBy, defaultEmployeeFilters.sortBy)
   updateParam('status', filters.status, defaultEmployeeFilters.status)
@@ -150,7 +190,7 @@ const getActiveEmployeeFilters = (
   return activeFilters
 }
 
-export const useEmployeeFilters = (employeeList: Employee[]) => {
+export const useEmployeeFilters = (employeeList: Employee[], isReady = true) => {
   const [searchParams, setSearchParams] = useSearchParams()
   const [filters, baseDispatch] = useReducer(
     employeeFiltersReducer,
@@ -221,13 +261,36 @@ export const useEmployeeFilters = (employeeList: Employee[]) => {
     return sortEmployees(matchesFilters, appliedFilters.sortBy)
   }, [employeeList, appliedFilters])
 
+  const pageCount = Math.max(
+    1,
+    Math.ceil(filteredEmployees.length / appliedFilters.pageSize),
+  )
+  const currentPage = isReady
+    ? Math.min(appliedFilters.page, pageCount)
+    : appliedFilters.page
+  const pageStartIndex = (currentPage - 1) * appliedFilters.pageSize
+  const paginatedEmployees = filteredEmployees.slice(
+    pageStartIndex,
+    pageStartIndex + appliedFilters.pageSize,
+  )
+
+  useEffect(() => {
+    if (isReady && filters.page !== currentPage) {
+      baseDispatch({ type: 'setPage', value: currentPage })
+    }
+  }, [currentPage, filters.page, isReady, baseDispatch])
+
   return {
     activeFilters,
+    currentPage,
     departments,
     dispatch,
     filteredEmployees,
     filters,
     hasActiveFilters: activeFilters.length > 0,
+    pageCount,
+    pageSizeOptions: employeePageSizeOptions,
+    paginatedEmployees,
     statuses,
     totalEmployees: employeeList.length,
   }

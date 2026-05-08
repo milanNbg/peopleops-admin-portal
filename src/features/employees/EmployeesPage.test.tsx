@@ -50,6 +50,42 @@ const testEmployees: Employee[] = [
     startDate: 'Nov 13, 2023',
     status: 'On Leave',
   },
+  {
+    department: 'Finance',
+    email: 'ben@example.com',
+    employmentType: 'Full-time',
+    id: 'emp-004',
+    location: 'Chicago, IL',
+    manager: 'Priya Shah',
+    name: 'Ben Carter',
+    role: 'Finance Analyst',
+    startDate: 'Sep 10, 2023',
+    status: 'Active',
+  },
+  {
+    department: 'Sales',
+    email: 'omar@example.com',
+    employmentType: 'Full-time',
+    id: 'emp-005',
+    location: 'New York, NY',
+    manager: 'Camila Reyes',
+    name: 'Omar Davis',
+    role: 'Account Executive',
+    startDate: 'Jul 20, 2022',
+    status: 'Active',
+  },
+  {
+    department: 'Engineering',
+    email: 'zoe@example.com',
+    employmentType: 'Contractor',
+    id: 'emp-006',
+    location: 'Seattle, WA',
+    manager: 'Nina Patel',
+    name: 'Zoe Kim',
+    role: 'Platform Engineer',
+    startDate: 'Apr 12, 2020',
+    status: 'Inactive',
+  },
 ]
 
 const createDeferred = <TData,>() => {
@@ -129,7 +165,8 @@ describe('EmployeesPage', () => {
     expect(
       screen.getByRole('row', { name: 'View details for Maya Chen' }),
     ).toBeInTheDocument()
-    expect(screen.getByText('3 of 3 employees')).toBeInTheDocument()
+    expect(screen.getByText('6 of 6 employees')).toBeInTheDocument()
+    expect(screen.getByText('Page 1 of 2 - 6 results')).toBeInTheDocument()
   })
 
   it('shows the employee error state when data loading fails', async () => {
@@ -251,7 +288,7 @@ describe('EmployeesPage', () => {
     expect(within(activeFilters).getByText('On Leave')).toBeInTheDocument()
 
     await waitFor(() => {
-      expect(screen.getByText('1 of 3 employees')).toBeInTheDocument()
+      expect(screen.getByText('1 of 6 employees')).toBeInTheDocument()
       expect(
         screen.getByRole('row', { name: 'View details for Avery Stone' }),
       ).toBeInTheDocument()
@@ -260,7 +297,7 @@ describe('EmployeesPage', () => {
     await user.click(screen.getByRole('button', { name: 'Clear filters' }))
 
     await waitFor(() => {
-      expect(screen.getByText('3 of 3 employees')).toBeInTheDocument()
+      expect(screen.getByText('6 of 6 employees')).toBeInTheDocument()
       expect(
         screen.getByRole('row', { name: 'View details for Maya Chen' }),
       ).toBeInTheDocument()
@@ -276,6 +313,116 @@ describe('EmployeesPage', () => {
       screen.queryByRole('button', { name: 'Clear filters' }),
     ).not.toBeInTheDocument()
     expect(screen.getByLabelText('query string')).toHaveTextContent(/^$/)
+  })
+
+  it('renders pagination and changes visible employees with next and previous controls', async () => {
+    const user = userEvent.setup()
+    mockSuccessfulEmployeesService()
+
+    renderEmployeesPage()
+
+    await screen.findByRole('row', { name: 'View details for Avery Stone' })
+
+    expect(screen.getByText('Page 1 of 2 - 6 results')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Previous page' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'Next page' })).toBeEnabled()
+    expect(
+      screen.queryByRole('row', { name: 'View details for Zoe Kim' }),
+    ).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Next page' }))
+
+    expect(screen.getByText('Page 2 of 2 - 6 results')).toBeInTheDocument()
+    expect(
+      screen.getByRole('row', { name: 'View details for Zoe Kim' }),
+    ).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Next page' })).toBeDisabled()
+    expect(screen.getByLabelText('query string')).toHaveTextContent('page=2')
+
+    await user.click(screen.getByRole('button', { name: 'Previous page' }))
+
+    expect(screen.getByText('Page 1 of 2 - 6 results')).toBeInTheDocument()
+    expect(
+      screen.getByRole('row', { name: 'View details for Avery Stone' }),
+    ).toBeInTheDocument()
+    expect(screen.getByLabelText('query string')).toHaveTextContent(/^$/)
+  })
+
+  it('hides the detail panel when pagination moves the selected employee out of view', async () => {
+    const user = userEvent.setup()
+    mockSuccessfulEmployeesService()
+
+    renderEmployeesPage()
+
+    await user.click(
+      await screen.findByRole('row', { name: 'View details for Avery Stone' }),
+    )
+
+    expect(getEmployeeDetailPanel('Avery Stone')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Next page' }))
+
+    expect(
+      screen.queryByRole('complementary', { name: 'Avery Stone' }),
+    ).not.toBeInTheDocument()
+  })
+
+  it('resets to page one when filters change', async () => {
+    const user = userEvent.setup()
+    mockSuccessfulEmployeesService()
+
+    renderEmployeesPage('/employees?page=2')
+
+    expect(
+      await screen.findByRole('row', { name: 'View details for Zoe Kim' }),
+    ).toBeInTheDocument()
+
+    await user.selectOptions(
+      screen.getByRole('combobox', { name: 'Filter employees by status' }),
+      'On Leave',
+    )
+
+    await waitFor(() => {
+      expect(screen.getByText('Page 1 of 1 - 1 result')).toBeInTheDocument()
+      expect(
+        screen.getByRole('row', { name: 'View details for Avery Stone' }),
+      ).toBeInTheDocument()
+      expect(screen.getByLabelText('query string')).toHaveTextContent(
+        'status=On+Leave',
+      )
+      expect(screen.getByLabelText('query string')).not.toHaveTextContent(
+        'page=',
+      )
+    })
+  })
+
+  it('initializes page and page size from the URL query string', async () => {
+    mockSuccessfulEmployeesService()
+
+    renderEmployeesPage('/employees?page=2&pageSize=5')
+
+    expect(
+      await screen.findByRole('row', { name: 'View details for Zoe Kim' }),
+    ).toBeInTheDocument()
+    expect(screen.getByText('Page 2 of 2 - 6 results')).toBeInTheDocument()
+    expect(
+      screen.getByRole('combobox', { name: 'Employees per page' }),
+    ).toHaveValue('5')
+  })
+
+  it('handles invalid URL page values safely', async () => {
+    mockSuccessfulEmployeesService()
+
+    renderEmployeesPage('/employees?page=99&pageSize=5')
+
+    expect(
+      await screen.findByRole('row', { name: 'View details for Zoe Kim' }),
+    ).toBeInTheDocument()
+    expect(screen.getByText('Page 2 of 2 - 6 results')).toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(screen.getByLabelText('query string')).toHaveTextContent('page=2')
+    })
   })
 
   it('clears URL-initialized filters from the clear filters action', async () => {
@@ -294,7 +441,7 @@ describe('EmployeesPage', () => {
     await user.click(screen.getByRole('button', { name: 'Clear filters' }))
 
     await waitFor(() => {
-      expect(screen.getByText('3 of 3 employees')).toBeInTheDocument()
+      expect(screen.getByText('6 of 6 employees')).toBeInTheDocument()
       expect(screen.getByLabelText('query string')).toHaveTextContent(/^$/)
     })
     expect(getSearchInput()).toHaveValue('')
@@ -334,8 +481,10 @@ describe('EmployeesPage', () => {
     expect(getVisibleEmployeeRows().map((row) => row.getAttribute('aria-label')))
       .toEqual([
         'View details for Avery Stone',
+        'View details for Ben Carter',
         'View details for Lena Ortiz',
         'View details for Maya Chen',
+        'View details for Omar Davis',
       ])
 
     await user.selectOptions(
@@ -346,7 +495,9 @@ describe('EmployeesPage', () => {
     expect(getVisibleEmployeeRows().map((row) => row.getAttribute('aria-label')))
       .toEqual([
         'View details for Avery Stone',
+        'View details for Ben Carter',
         'View details for Maya Chen',
+        'View details for Omar Davis',
         'View details for Lena Ortiz',
       ])
   })

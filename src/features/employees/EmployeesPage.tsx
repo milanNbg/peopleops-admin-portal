@@ -17,6 +17,7 @@ import type { Employee } from '@/types/employee'
 import { EmployeeDetailPanel } from './components/EmployeeDetailPanel'
 import { EmployeeEmptyState } from './components/EmployeeEmptyState'
 import { EmployeeFilters } from './components/EmployeeFilters'
+import { EmployeePagination } from './components/EmployeePagination'
 import { EmployeeTable } from './components/EmployeeTable'
 import { useEmployeeFilters } from './hooks/useEmployeeFilters'
 
@@ -38,7 +39,7 @@ const EmployeesSkeleton = () => (
         <SkeletonBlock className="employees-skeleton-count" />
       </div>
       <div className="employee-controls" aria-hidden="true">
-        {['search', 'department', 'status', 'sort'].map((control) => (
+        {['search', 'department', 'status', 'sort', 'page-size'].map((control) => (
           <div className="field" key={control}>
             <SkeletonBlock className="employees-skeleton-label" />
             <SkeletonBlock className="employees-skeleton-control" />
@@ -80,12 +81,16 @@ export const EmployeesPage = () => {
     filteredEmployees,
     filters,
     hasActiveFilters,
+    currentPage,
+    pageCount,
+    pageSizeOptions,
+    paginatedEmployees,
     statuses,
     totalEmployees,
-  } = useEmployeeFilters(employees)
+  } = useEmployeeFilters(employees, !isLoading)
 
   const selectedFilteredEmployee = selectedEmployee
-    ? filteredEmployees.find((employee) => employee.id === selectedEmployee.id)
+    ? paginatedEmployees.find((employee) => employee.id === selectedEmployee.id)
     : null
 
   return (
@@ -125,6 +130,7 @@ export const EmployeesPage = () => {
                   departments={departments}
                   filters={filters}
                   hasActiveFilters={hasActiveFilters}
+                  pageSizeOptions={pageSizeOptions}
                   statuses={statuses}
                   dispatch={dispatch}
                 />
@@ -132,9 +138,15 @@ export const EmployeesPage = () => {
                 {filteredEmployees.length > 0 ? (
                   <>
                     <EmployeeTable
-                      employees={filteredEmployees}
+                      employees={paginatedEmployees}
                       selectedEmployeeId={selectedFilteredEmployee?.id}
                       onSelectEmployee={setSelectedEmployee}
+                    />
+                    <EmployeePagination
+                      currentPage={currentPage}
+                      pageCount={pageCount}
+                      totalResults={filteredEmployees.length}
+                      dispatch={dispatch}
                     />
                     {selectedFilteredEmployee ? (
                       <EmployeeDetailPanel
