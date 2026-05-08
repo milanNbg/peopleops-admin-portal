@@ -12,9 +12,11 @@
 
 #root {
   min-height: 100vh;
+  max-width: 100%;
 }
 
 body {
+  min-width: 0;
   margin: 0;
   background: var(--color-page-bg);
 }

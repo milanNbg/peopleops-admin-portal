@@ -1,10 +1,14 @@
 .reports-page {
   display: grid;
+  min-width: 0;
   gap: 1.5rem;
 }
 
 .reports-table {
   display: grid;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
   overflow-x: auto;
   padding-bottom: 0.25rem;
   -webkit-overflow-scrolling: touch;
@@ -26,6 +30,7 @@
 
 .reports-row span {
   display: flex;
+  min-width: 0;
   align-items: center;
 }
 
@@ -45,6 +50,7 @@
 
 .reports-row-selectable {
   width: 100%;
+  max-width: 100%;
   border-right: 0;
   border-bottom: 0;
   border-left: 0;
@@ -66,6 +72,7 @@
 
 .report-detail-panel {
   display: grid;
+  min-width: 0;
   gap: 1.25rem;
   margin-top: 1.25rem;
   padding: 1.5rem;
@@ -76,6 +83,7 @@
 
 .report-detail-header {
   display: flex;
+  min-width: 0;
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
@@ -148,6 +156,7 @@
 
 .report-detail-actions {
   display: flex;
+  min-width: 0;
   justify-content: flex-end;
 }
 
@@ -176,6 +185,7 @@
 
 .reports-skeleton {
   display: grid;
+  min-width: 0;
   gap: 1.5rem;
 }
 
@@ -219,8 +229,14 @@
   .reports-row span[role='cell'] {
     display: grid;
     grid-template-columns: minmax(6.5rem, 0.45fr) minmax(0, 1fr);
+    min-width: 0;
     align-items: start;
     gap: 0.5rem;
+  }
+
+  .reports-row span[role='cell'] > * {
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   .reports-row span[role='cell']::before {

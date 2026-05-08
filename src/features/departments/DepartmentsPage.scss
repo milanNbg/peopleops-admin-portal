@@ -1,10 +1,14 @@
 .departments-page {
   display: grid;
+  min-width: 0;
   gap: 1.5rem;
 }
 
 .departments-table {
   display: grid;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
   overflow-x: auto;
   padding-bottom: 0.25rem;
   -webkit-overflow-scrolling: touch;
@@ -27,6 +31,7 @@
 
 .departments-row span {
   display: flex;
+  min-width: 0;
   align-items: center;
 }
 
@@ -46,6 +51,7 @@
 
 .departments-row-selectable {
   width: 100%;
+  max-width: 100%;
   border-right: 0;
   border-bottom: 0;
   border-left: 0;
@@ -67,6 +73,7 @@
 
 .department-insights {
   display: grid;
+  min-width: 0;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
 }
@@ -101,6 +108,7 @@
 
 .department-detail-panel {
   display: grid;
+  min-width: 0;
   gap: 1.25rem;
   margin-top: 1.25rem;
   padding: 1.5rem;
@@ -111,6 +119,7 @@
 
 .department-detail-header {
   display: flex;
+  min-width: 0;
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
@@ -183,6 +192,7 @@
 
 .departments-skeleton {
   display: grid;
+  min-width: 0;
   gap: 1.5rem;
 }
 
@@ -227,8 +237,14 @@
   .departments-row span[role='cell'] {
     display: grid;
     grid-template-columns: minmax(6.5rem, 0.45fr) minmax(0, 1fr);
+    min-width: 0;
     align-items: start;
     gap: 0.5rem;
+  }
+
+  .departments-row span[role='cell'] > * {
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   .departments-row span[role='cell']::before {
