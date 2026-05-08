@@ -196,6 +196,68 @@
     gap: 1rem;
   }
 
+  .reports-table {
+    overflow-x: visible;
+    gap: 0.75rem;
+    padding-bottom: 0;
+  }
+
+  .reports-row-header {
+    display: none;
+  }
+
+  .reports-row {
+    min-width: 0;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 1rem;
+    border: 1px solid var(--color-border-soft);
+    border-radius: 0.5rem;
+    background: var(--color-surface);
+  }
+
+  .reports-row span[role='cell'] {
+    display: grid;
+    grid-template-columns: minmax(6.5rem, 0.45fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 0.5rem;
+  }
+
+  .reports-row span[role='cell']::before {
+    color: var(--color-subtle);
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .reports-row span[role='cell']:nth-child(1)::before {
+    content: 'Report';
+  }
+
+  .reports-row span[role='cell']:nth-child(2)::before {
+    content: 'Category';
+  }
+
+  .reports-row span[role='cell']:nth-child(3)::before {
+    content: 'Owner';
+  }
+
+  .reports-row span[role='cell']:nth-child(4)::before {
+    content: 'Status';
+  }
+
+  .reports-row span[role='cell']:nth-child(5)::before {
+    content: 'Generated';
+  }
+
+  .reports-row span[role='cell']:nth-child(6)::before {
+    content: 'Period';
+  }
+
+  .reports-row span[role='cell'].data-table-empty-cell::before {
+    content: none;
+  }
+
   .reports-skeleton {
     gap: 1rem;
   }

@@ -451,6 +451,72 @@
 }
 
 @media (max-width: 40rem) {
+  .employee-table {
+    overflow-x: visible;
+    gap: 0.75rem;
+    padding-bottom: 0;
+  }
+
+  .employee-row-header {
+    display: none;
+  }
+
+  .employee-row {
+    min-width: 0;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 1rem;
+    border: 1px solid var(--color-border-soft);
+    border-radius: 0.5rem;
+    background: var(--color-surface);
+  }
+
+  .employee-row span[role='cell'] {
+    display: grid;
+    grid-template-columns: minmax(6.5rem, 0.45fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 0.5rem;
+  }
+
+  .employee-row span[role='cell']::before {
+    color: var(--color-subtle);
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .employee-row span[role='cell']:nth-child(1)::before {
+    content: 'Employee';
+  }
+
+  .employee-row span[role='cell']:nth-child(2)::before {
+    content: 'Department';
+  }
+
+  .employee-row span[role='cell']:nth-child(3)::before {
+    content: 'Role';
+  }
+
+  .employee-row span[role='cell']:nth-child(4)::before {
+    content: 'Location';
+  }
+
+  .employee-row span[role='cell']:nth-child(5)::before {
+    content: 'Status';
+  }
+
+  .employee-row span[role='cell']:nth-child(6)::before {
+    content: 'Start date';
+  }
+
+  .employee-row span:first-child small {
+    grid-column: 2;
+  }
+
+  .employee-row span[role='cell'].data-table-empty-cell::before {
+    content: none;
+  }
+
   .employee-detail-panel,
   .empty-state {
     padding: 1.125rem;
