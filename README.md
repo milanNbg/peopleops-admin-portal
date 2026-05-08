@@ -159,7 +159,7 @@ npm run preview
 
 GitHub Actions runs the project validation workflow on pushes and pull requests targeting `main`.
 
-The CI workflow installs dependencies with `npm ci`, then runs linting, the Vitest test suite and the production build.
+The CI workflow installs dependencies with `npm ci`, then runs linting, the Vitest test suite, the production build and Playwright E2E smoke tests.
 
 ## Purpose
 
