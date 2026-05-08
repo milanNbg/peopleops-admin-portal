@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
 import {
   Card,
@@ -17,6 +17,8 @@ import { useAsyncData } from '@/hooks/useAsyncData'
 
 import type { DataTableColumn } from '@/components/ui'
 import type { Department, DepartmentStatus } from '@/types/department'
+
+import { DepartmentDetailPanel } from './components/DepartmentDetailPanel'
 
 const departmentStatusClassNames: Record<DepartmentStatus, string> = {
   Active: 'active',
@@ -95,6 +97,8 @@ const DepartmentsSkeleton = () => (
 )
 
 export const DepartmentsPage = () => {
+  const [selectedDepartment, setSelectedDepartment] =
+    useState<Department | null>(null)
   const {
     data: departments,
     error,
@@ -116,14 +120,32 @@ export const DepartmentsPage = () => {
     const hiringDepartments = departments.filter(
       (department) => department.status === 'Hiring',
     ).length
+    const highPriorityDepartments = departments.filter(
+      (department) => department.hiringPriority === 'High',
+    ).length
+    const largestHiringNeed = departments.reduce<Department | null>(
+      (largestDepartment, department) => {
+        if (!largestDepartment || department.openRoles > largestDepartment.openRoles) {
+          return department
+        }
+
+        return largestDepartment
+      },
+      null,
+    )
 
     return {
+      highPriorityDepartments,
       hiringDepartments,
+      largestHiringNeed,
       openRoles,
       totalDepartments: departments.length,
       totalHeadcount,
     }
   }, [departments])
+  const selectedVisibleDepartment = selectedDepartment
+    ? departments.find((department) => department.id === selectedDepartment.id)
+    : null
 
   return (
     <div className="departments-page">
@@ -167,6 +189,45 @@ export const DepartmentsPage = () => {
                 />
               </section>
 
+              <Card labelledBy="department-insights-title">
+                <SectionHeader
+                  eyebrow="Staffing"
+                  title="Staffing insights"
+                  titleId="department-insights-title"
+                />
+                <div className="department-insights">
+                  <div className="department-insight">
+                    <span>Highest open-role demand</span>
+                    <strong>
+                      {departmentSummary.largestHiringNeed?.name ?? 'No demand'}
+                    </strong>
+                    <p>
+                      {departmentSummary.largestHiringNeed
+                        ? `${departmentSummary.largestHiringNeed.openRoles} open roles`
+                        : 'No open roles currently tracked'}
+                    </p>
+                  </div>
+                  <div className="department-insight">
+                    <span>High-priority hiring</span>
+                    <strong>{departmentSummary.highPriorityDepartments}</strong>
+                    <p>Departments marked high priority</p>
+                  </div>
+                  <div className="department-insight">
+                    <span>Open-role density</span>
+                    <strong>
+                      {departmentSummary.totalHeadcount > 0
+                        ? `${Math.round(
+                            (departmentSummary.openRoles /
+                              departmentSummary.totalHeadcount) *
+                              100,
+                          )}%`
+                        : '0%'}
+                    </strong>
+                    <p>Open roles relative to headcount</p>
+                  </div>
+                </div>
+              </Card>
+
               <Card labelledBy="department-list-title">
                 <SectionHeader
                   eyebrow="Structure"
@@ -181,9 +242,21 @@ export const DepartmentsPage = () => {
                   data={departments}
                   emptyMessage="No departments found."
                   getRowKey={(department) => department.id}
+                  getRowLabel={(department) =>
+                    `View details for ${department.name}`
+                  }
                   headerRowClassName="departments-row departments-row-header"
-                  rowClassName="departments-row"
+                  rowClassName="departments-row departments-row-selectable"
+                  selectedRowKey={selectedVisibleDepartment?.id}
+                  onRowSelect={setSelectedDepartment}
                 />
+
+                {selectedVisibleDepartment ? (
+                  <DepartmentDetailPanel
+                    department={selectedVisibleDepartment}
+                    onClose={() => setSelectedDepartment(null)}
+                  />
+                ) : null}
               </Card>
             </>
           )}
