@@ -34,6 +34,7 @@ export default defineConfig({
       reporter: ['text', 'html', 'json', 'clover'],
     },
     environment: 'jsdom',
+    include: ['src/**/*.test.{ts,tsx}'],
     setupFiles: './src/test/setup.ts',
   },
 })

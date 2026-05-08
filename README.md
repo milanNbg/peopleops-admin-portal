@@ -34,6 +34,7 @@ Dashboard dark mode
 - ESLint
 - Vitest
 - React Testing Library
+- Playwright
 - GitHub Actions
 - Vercel
 
@@ -74,7 +75,7 @@ Styling uses SCSS with a global entry point in `src/styles`, base/theme/accessib
 
 The route layer keeps `/dashboard` as the dashboard route, redirects `/` to `/dashboard`, lazy-loads secondary pages and updates the browser title for each application route.
 
-Tests use Vitest and React Testing Library for reusable UI components, app-level context, hooks, filters and the application ErrorBoundary.
+Tests use Vitest and React Testing Library for reusable UI components, app-level context, hooks, filters and the application ErrorBoundary. Playwright covers focused end-to-end smoke tests for the primary app flows.
 
 ## Project Structure
 
@@ -134,6 +135,12 @@ Run the test suite with coverage:
 
 ```bash
 npm run test:coverage
+```
+
+Run the end-to-end smoke tests:
+
+```bash
+npm run test:e2e
 ```
 
 Build for production:

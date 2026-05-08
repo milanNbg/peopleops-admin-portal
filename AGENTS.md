@@ -53,6 +53,7 @@ The project should look like a professional enterprise SaaS product and should b
 - Dynamic document titles by route
 - TypeScript `@/` path alias
 - Vitest and React Testing Library tests
+- Playwright end-to-end smoke tests
 - GitHub Actions CI
 - Vercel live deployment
 - SCSS architecture with global, layout, UI and feature-level styles
@@ -208,6 +209,7 @@ src/
 ## Testing Rules
 
 - Use Vitest and React Testing Library for unit and component tests.
+- Use Playwright for focused end-to-end smoke tests of primary application flows.
 - Do not introduce Jest.
 - Keep tests colocated with the files they test.
 - Add or update tests for new user-facing functionality when the behavior can be meaningfully tested.
@@ -246,6 +248,12 @@ Run tests with coverage:
 
 ```bash
 npm run test:coverage
+```
+
+Run end-to-end smoke tests:
+
+```bash
+npm run test:e2e
 ```
 
 Build the project:
