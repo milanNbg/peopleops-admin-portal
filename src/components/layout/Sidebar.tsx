@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 import { useAppUi } from '@/hooks/useAppUi'
 
@@ -13,7 +13,7 @@ export const Sidebar = ({ navigationItems }: SidebarProps) => {
 
   return (
     <aside className="sidebar" aria-label="Primary navigation">
-      <div className="brand">
+      <Link className="brand" to="/dashboard" aria-label="Go to dashboard">
         <div className="brand-mark" aria-hidden="true">
           PO
         </div>
@@ -21,7 +21,7 @@ export const Sidebar = ({ navigationItems }: SidebarProps) => {
           <p className="brand-name">PeopleOps</p>
           <p className="brand-subtitle">Admin Portal</p>
         </div>
-      </div>
+      </Link>
 
       <button
         className="sidebar-toggle"

@@ -39,6 +39,15 @@ describe('Sidebar', () => {
     expect(screen.getByRole('link', { name: 'Reports' })).toBeInTheDocument()
   })
 
+  it('renders the brand as a dashboard link', () => {
+    renderSidebar()
+
+    expect(screen.getByRole('link', { name: 'Go to dashboard' })).toHaveAttribute(
+      'href',
+      '/dashboard',
+    )
+  })
+
   it('marks the active route as the current page', () => {
     renderSidebar('/employees')
 
