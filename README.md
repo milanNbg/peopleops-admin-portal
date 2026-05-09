@@ -71,6 +71,8 @@ Mobile employee experience
 
 The application is front-end only and does not include backend code or real API calls. Data is stored as mock data in `src/data` and accessed through a mock service layer in `src/services`.
 
+For a deeper explanation of the architecture, tradeoffs and testing strategy, read the [technical case study](docs/case-study.md).
+
 The project uses a feature-based structure so each major page keeps its page-specific components, hooks and styles close to the feature. Shared layout components live in `src/components/layout`, reusable UI components live in folder-per-component structure under `src/components/ui`, app-level provider composition lives in `src/providers`, and domain types live in `src/types`.
 
 Imports use the `@/` TypeScript path alias for shared app layers, which keeps feature and service imports readable as the project grows.
