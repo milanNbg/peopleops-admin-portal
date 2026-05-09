@@ -5,17 +5,10 @@ import {
 } from 'react'
 import { useLocation } from 'react-router-dom'
 
+import { navigationItems } from '@/data/navigation'
 import { useAppUi } from '@/hooks/useAppUi'
 
 import { CommandPalette } from './CommandPalette'
-
-const routeTitles: Record<string, string> = {
-  '/dashboard': 'Dashboard',
-  '/employees': 'Employees',
-  '/departments': 'Departments',
-  '/roles': 'Roles',
-  '/reports': 'Reports',
-}
 
 export const Topbar = () => {
   const {
@@ -27,7 +20,9 @@ export const Topbar = () => {
   const { pathname } = useLocation()
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false)
   const nextThemeLabel = themeMode === 'light' ? 'Dark mode' : 'Light mode'
-  const pageTitle = routeTitles[pathname] ?? 'Dashboard'
+  const pageTitle =
+    navigationItems.find((item) => item.path === pathname)?.label ??
+    'Page not found'
   const closeCommandPalette = useCallback(() => {
     setIsCommandPaletteOpen(false)
   }, [])

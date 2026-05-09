@@ -44,6 +44,28 @@ describe('Topbar', () => {
     ).toBeInTheDocument()
   })
 
+  it.each([
+    ['/dashboard', 'Dashboard'],
+    ['/employees', 'Employees'],
+    ['/departments', 'Departments'],
+    ['/roles', 'Roles'],
+    ['/reports', 'Reports'],
+  ])('shows %s as %s in the topbar', (route, title) => {
+    renderTopbar(route)
+
+    expect(
+      screen.getByRole('heading', { level: 1, name: title }),
+    ).toBeInTheDocument()
+  })
+
+  it('shows a sensible fallback for unknown routes', () => {
+    renderTopbar('/missing-page')
+
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Page not found' }),
+    ).toBeInTheDocument()
+  })
+
   it('toggles theme mode with a clear pressed state', async () => {
     const user = userEvent.setup()
 
