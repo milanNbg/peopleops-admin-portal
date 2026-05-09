@@ -111,6 +111,7 @@ src/
     reports/
     roles/
   hooks/
+  providers/
   routes/
   services/
   styles/

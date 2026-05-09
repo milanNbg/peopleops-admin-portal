@@ -5,27 +5,24 @@ import { ErrorBoundary } from '@/components/layout/ErrorBoundary'
 import { MainContent } from '@/components/layout/MainContent'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { Topbar } from '@/components/layout/Topbar'
-import { AppUiProvider } from '@/context/AppUiProvider'
-import { ToastProvider } from '@/context/ToastProvider'
 import { navigationItems } from '@/data/navigation'
+import { AppProviders } from '@/providers/AppProviders'
 import { AppRoutes } from '@/routes/AppRoutes'
 
 function App() {
   return (
     <BrowserRouter>
       <ErrorBoundary>
-        <AppUiProvider>
-          <ToastProvider>
-            <AppLayout
-              sidebar={<Sidebar navigationItems={navigationItems} />}
-              topbar={<Topbar />}
-            >
-              <MainContent>
-                <AppRoutes />
-              </MainContent>
-            </AppLayout>
-          </ToastProvider>
-        </AppUiProvider>
+        <AppProviders>
+          <AppLayout
+            sidebar={<Sidebar navigationItems={navigationItems} />}
+            topbar={<Topbar />}
+          >
+            <MainContent>
+              <AppRoutes />
+            </MainContent>
+          </AppLayout>
+        </AppProviders>
       </ErrorBoundary>
     </BrowserRouter>
   )
