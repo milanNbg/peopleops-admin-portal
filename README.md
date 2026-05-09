@@ -46,6 +46,7 @@ Dashboard dark mode
 - Roles overview page with role, access and permissions matrix information.
 - Reports overview page with reporting categories, generated report details, detail panel and CSV download action.
 - Responsive app shell with sidebar navigation, top header and semantic layout landmarks.
+- Global command palette for quick keyboard-based navigation across the app.
 - Sidebar collapse / expand preference with accessible navigation labels and active route state.
 - Light and dark theme toggle with localStorage persistence.
 - Mock async data flows through a service layer.

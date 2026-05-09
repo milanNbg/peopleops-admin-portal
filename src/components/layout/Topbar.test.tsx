@@ -1,17 +1,27 @@
 import { cleanup, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { MemoryRouter } from 'react-router-dom'
+import {
+  MemoryRouter,
+  useLocation,
+} from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 import { AppUiProvider } from '@/context/AppUiProvider'
 
 import { Topbar } from './Topbar'
 
+const LocationProbe = () => {
+  const { pathname } = useLocation()
+
+  return <span data-testid="current-path">{pathname}</span>
+}
+
 const renderTopbar = (initialEntry = '/employees') =>
   render(
     <MemoryRouter initialEntries={[initialEntry]}>
       <AppUiProvider>
         <Topbar />
+        <LocationProbe />
       </AppUiProvider>
     </MemoryRouter>,
   )
@@ -51,5 +61,90 @@ describe('Topbar', () => {
       screen.getByRole('button', { name: 'Switch to Light mode' }),
     ).toHaveAttribute('aria-pressed', 'true')
     expect(document.documentElement).toHaveAttribute('data-theme', 'dark')
+  })
+
+  it('opens the command palette from the topbar', async () => {
+    const user = userEvent.setup()
+
+    renderTopbar()
+
+    await user.click(screen.getByRole('button', { name: /search/i }))
+
+    expect(
+      screen.getByRole('dialog', { name: 'Command palette' }),
+    ).toBeInTheDocument()
+    expect(screen.getByRole('searchbox')).toHaveFocus()
+  })
+
+  it('opens the command palette with Ctrl+K', async () => {
+    const user = userEvent.setup()
+
+    renderTopbar()
+
+    await user.keyboard('{Control>}k{/Control}')
+
+    expect(
+      screen.getByRole('dialog', { name: 'Command palette' }),
+    ).toBeInTheDocument()
+  })
+
+  it('opens the command palette with Cmd+K', async () => {
+    const user = userEvent.setup()
+
+    renderTopbar()
+
+    await user.keyboard('{Meta>}k{/Meta}')
+
+    expect(
+      screen.getByRole('dialog', { name: 'Command palette' }),
+    ).toBeInTheDocument()
+  })
+
+  it('filters command results as the user types', async () => {
+    const user = userEvent.setup()
+
+    renderTopbar()
+
+    await user.click(screen.getByRole('button', { name: /search/i }))
+    await user.type(screen.getByRole('searchbox'), 'rep')
+
+    expect(screen.getByRole('option', { name: /reports/i })).toBeInTheDocument()
+    expect(
+      screen.queryByRole('option', { name: /employees/i }),
+    ).not.toBeInTheDocument()
+  })
+
+  it('closes the command palette with Escape', async () => {
+    const user = userEvent.setup()
+
+    renderTopbar()
+
+    await user.click(screen.getByRole('button', { name: /search/i }))
+    await user.keyboard('{Escape}')
+
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  })
+
+  it('selecting a command navigates to the expected route', async () => {
+    const user = userEvent.setup()
+
+    renderTopbar()
+
+    await user.click(screen.getByRole('button', { name: /search/i }))
+    await user.click(screen.getByRole('option', { name: /roles/i }))
+
+    expect(screen.getByTestId('current-path')).toHaveTextContent('/roles')
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  })
+
+  it('shows a no results state when no command matches', async () => {
+    const user = userEvent.setup()
+
+    renderTopbar()
+
+    await user.click(screen.getByRole('button', { name: /search/i }))
+    await user.type(screen.getByRole('searchbox'), 'unknown page')
+
+    expect(screen.getByText('No matching pages found.')).toBeInTheDocument()
   })
 })
