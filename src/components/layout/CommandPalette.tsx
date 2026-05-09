@@ -9,24 +9,104 @@ import { useNavigate } from 'react-router-dom'
 import { navigationItems } from '@/data/navigation'
 
 type CommandPaletteProps = {
+  isSidebarCollapsed: boolean
   onClose: () => void
+  onToggleSidebar: () => void
+  onToggleTheme: () => void
 }
 
-export const CommandPalette = ({ onClose }: CommandPaletteProps) => {
+type PaletteCommandGroup = {
+  commands: Array<{
+    description: string
+    id: string
+    label: string
+    shortLabel: string
+    onSelect: () => void
+  }>
+  label: string
+}
+
+export const CommandPalette = ({
+  isSidebarCollapsed,
+  onClose,
+  onToggleSidebar,
+  onToggleTheme,
+}: CommandPaletteProps) => {
   const [query, setQuery] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
-  const filteredCommands = useMemo(() => {
+  const commandGroups = useMemo<PaletteCommandGroup[]>(() => {
+    const handleNavigate = (path: string) => {
+      navigate(path)
+      onClose()
+    }
+    const handleAction = (action: () => void) => {
+      action()
+      onClose()
+    }
+    const sidebarLabel = isSidebarCollapsed
+      ? 'Expand sidebar'
+      : 'Collapse sidebar'
+
+    return [
+      {
+        commands: navigationItems.map((item) => ({
+          description: item.path,
+          id: item.path,
+          label: item.label,
+          onSelect: () => handleNavigate(item.path),
+          shortLabel: item.shortLabel,
+        })),
+        label: 'Navigation',
+      },
+      {
+        commands: [
+          {
+            description: 'Switch between light and dark mode',
+            id: 'toggle-theme',
+            label: 'Toggle theme',
+            onSelect: () => handleAction(onToggleTheme),
+            shortLabel: 'THM',
+          },
+          {
+            description: 'Adjust the primary navigation width',
+            id: 'toggle-sidebar',
+            label: sidebarLabel,
+            onSelect: () => handleAction(onToggleSidebar),
+            shortLabel: isSidebarCollapsed ? 'EXP' : 'COL',
+          },
+        ],
+        label: 'Actions',
+      },
+    ]
+  }, [
+    isSidebarCollapsed,
+    navigate,
+    onClose,
+    onToggleSidebar,
+    onToggleTheme,
+  ])
+  const filteredCommandGroups = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase()
 
     if (!normalizedQuery) {
-      return navigationItems
+      return commandGroups
     }
 
-    return navigationItems.filter((item) =>
-      item.label.toLowerCase().includes(normalizedQuery),
-    )
-  }, [query])
+    return commandGroups
+      .map((group) => ({
+        ...group,
+        commands: group.commands.filter((command) =>
+          `${command.label} ${command.description}`
+            .toLowerCase()
+            .includes(normalizedQuery),
+        ),
+      }))
+      .filter((group) => group.commands.length > 0)
+  }, [commandGroups, query])
+  const hasResults = filteredCommandGroups.some(
+    (group) => group.commands.length > 0,
+  )
 
   useEffect(() => {
     inputRef.current?.focus()
@@ -43,11 +123,6 @@ export const CommandPalette = ({ onClose }: CommandPaletteProps) => {
 
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [onClose])
-
-  const handleNavigate = (path: string) => {
-    navigate(path)
-    onClose()
-  }
 
   return (
     <div className="command-palette-overlay" role="presentation">
@@ -83,24 +158,34 @@ export const CommandPalette = ({ onClose }: CommandPaletteProps) => {
           />
         </label>
 
-        <div className="command-palette-results" role="listbox">
-          {filteredCommands.length > 0 ? (
-            filteredCommands.map((item) => (
-              <button
-                className="command-palette-item"
-                key={item.path}
-                role="option"
-                type="button"
-                onClick={() => handleNavigate(item.path)}
-              >
-                <span className="command-palette-shortcut" aria-hidden="true">
-                  {item.shortLabel}
-                </span>
-                <span>
-                  <strong>{item.label}</strong>
-                  <small>{item.path}</small>
-                </span>
-              </button>
+        <div className="command-palette-results">
+          {hasResults ? (
+            filteredCommandGroups.map((group) => (
+              <section className="command-palette-group" key={group.label}>
+                <h3>{group.label}</h3>
+                <div role="listbox" aria-label={`${group.label} commands`}>
+                  {group.commands.map((command) => (
+                    <button
+                      className="command-palette-item"
+                      key={command.id}
+                      role="option"
+                      type="button"
+                      onClick={command.onSelect}
+                    >
+                      <span
+                        className="command-palette-shortcut"
+                        aria-hidden="true"
+                      >
+                        {command.shortLabel}
+                      </span>
+                      <span>
+                        <strong>{command.label}</strong>
+                        <small>{command.description}</small>
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </section>
             ))
           ) : (
             <p className="command-palette-empty">No matching pages found.</p>

@@ -108,9 +108,80 @@ describe('Topbar', () => {
     await user.click(screen.getByRole('button', { name: /search/i }))
     await user.type(screen.getByRole('searchbox'), 'rep')
 
-    expect(screen.getByRole('option', { name: /reports/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole('option', { name: /reports/i }),
+    ).toBeInTheDocument()
     expect(
       screen.queryByRole('option', { name: /employees/i }),
+    ).not.toBeInTheDocument()
+  })
+
+  it('shows quick action commands', async () => {
+    const user = userEvent.setup()
+
+    renderTopbar()
+
+    await user.click(screen.getByRole('button', { name: /search/i }))
+
+    expect(
+      screen.getByRole('heading', { level: 3, name: 'Navigation' }),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { level: 3, name: 'Actions' }),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('option', { name: /toggle theme/i }),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('option', { name: /collapse sidebar/i }),
+    ).toBeInTheDocument()
+  })
+
+  it('selecting Toggle theme changes the theme state', async () => {
+    const user = userEvent.setup()
+
+    renderTopbar()
+
+    await user.click(screen.getByRole('button', { name: /search/i }))
+    await user.click(screen.getByRole('option', { name: /toggle theme/i }))
+
+    expect(
+      screen.getByRole('button', { name: 'Switch to Light mode' }),
+    ).toHaveAttribute('aria-pressed', 'true')
+    expect(document.documentElement).toHaveAttribute('data-theme', 'dark')
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  })
+
+  it('selecting Collapse or Expand sidebar changes sidebar state', async () => {
+    const user = userEvent.setup()
+
+    renderTopbar()
+
+    await user.click(screen.getByRole('button', { name: /search/i }))
+    await user.click(screen.getByRole('option', { name: /collapse sidebar/i }))
+
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: /search/i }))
+
+    expect(
+      screen.getByRole('option', { name: /expand sidebar/i }),
+    ).toBeInTheDocument()
+  })
+
+  it('filters across navigation and action commands', async () => {
+    const user = userEvent.setup()
+
+    renderTopbar()
+
+    await user.click(screen.getByRole('button', { name: /search/i }))
+    await user.type(screen.getByRole('searchbox'), 'theme')
+
+    expect(
+      screen.getByRole('option', { name: /toggle theme/i }),
+    ).toBeInTheDocument()
+    expect(
+      screen.queryByRole('option', { name: /dashboard/i }),
     ).not.toBeInTheDocument()
   })
 
@@ -131,7 +202,7 @@ describe('Topbar', () => {
     renderTopbar()
 
     await user.click(screen.getByRole('button', { name: /search/i }))
-    await user.click(screen.getByRole('option', { name: /roles/i }))
+    await user.click(screen.getByRole('option', { name: /^roles/i }))
 
     expect(screen.getByTestId('current-path')).toHaveTextContent('/roles')
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()

@@ -18,7 +18,12 @@ const routeTitles: Record<string, string> = {
 }
 
 export const Topbar = () => {
-  const { themeMode, toggleTheme } = useAppUi()
+  const {
+    isSidebarCollapsed,
+    themeMode,
+    toggleSidebar,
+    toggleTheme,
+  } = useAppUi()
   const { pathname } = useLocation()
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false)
   const nextThemeLabel = themeMode === 'light' ? 'Dark mode' : 'Light mode'
@@ -74,7 +79,12 @@ export const Topbar = () => {
       </div>
 
       {isCommandPaletteOpen ? (
-        <CommandPalette onClose={closeCommandPalette} />
+        <CommandPalette
+          isSidebarCollapsed={isSidebarCollapsed}
+          onClose={closeCommandPalette}
+          onToggleSidebar={toggleSidebar}
+          onToggleTheme={toggleTheme}
+        />
       ) : null}
     </header>
   )
