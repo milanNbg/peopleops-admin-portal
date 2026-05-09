@@ -219,6 +219,9 @@ export const ReportsPage = () => {
                   getRowKey={(report) => report.id}
                   getRowLabel={(report) => `View details for ${report.name}`}
                   headerRowClassName="reports-row reports-row-header"
+                  rowControlsId={
+                    selectedVisibleReport ? 'report-detail-panel' : undefined
+                  }
                   rowClassName="reports-row reports-row-selectable"
                   selectedRowKey={selectedVisibleReport?.id}
                   onRowSelect={setSelectedReport}

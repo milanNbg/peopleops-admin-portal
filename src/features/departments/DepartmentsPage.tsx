@@ -235,6 +235,11 @@ export const DepartmentsPage = () => {
                     `View details for ${department.name}`
                   }
                   headerRowClassName="departments-row departments-row-header"
+                  rowControlsId={
+                    selectedVisibleDepartment
+                      ? 'department-detail-panel'
+                      : undefined
+                  }
                   rowClassName="departments-row departments-row-selectable"
                   selectedRowKey={selectedVisibleDepartment?.id}
                   onRowSelect={setSelectedDepartment}

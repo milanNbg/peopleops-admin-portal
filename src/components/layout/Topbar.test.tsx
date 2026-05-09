@@ -212,10 +212,13 @@ describe('Topbar', () => {
 
     renderTopbar()
 
-    await user.click(screen.getByRole('button', { name: /search/i }))
+    const commandPaletteTrigger = screen.getByRole('button', { name: /search/i })
+
+    await user.click(commandPaletteTrigger)
     await user.keyboard('{Escape}')
 
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(commandPaletteTrigger).toHaveFocus()
   })
 
   it('selecting a command navigates to the expected route', async () => {

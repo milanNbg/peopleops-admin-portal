@@ -13,6 +13,7 @@ export type DataTableProps<TData> = {
   data: TData[]
   emptyMessage: string
   headerRowClassName: string
+  rowControlsId?: string
   rowClassName: string
   selectedRowKey?: string
   getRowKey: (row: TData) => string

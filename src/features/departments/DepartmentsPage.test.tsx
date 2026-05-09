@@ -114,7 +114,9 @@ describe('DepartmentsPage', () => {
     await user.click(
       await screen.findByRole('row', { name: 'View details for Engineering' }),
     )
-    await user.click(screen.getByRole('button', { name: 'Close' }))
+    await user.click(
+      screen.getByRole('button', { name: 'Close details for Engineering' }),
+    )
 
     expect(
       screen.queryByRole('complementary', { name: 'Engineering' }),

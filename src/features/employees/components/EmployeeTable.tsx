@@ -61,6 +61,7 @@ export const EmployeeTable = ({
     getRowLabel={(employee) => `View details for ${employee.name}`}
     getRowKey={(employee) => employee.id}
     headerRowClassName="employee-row employee-row-header"
+    rowControlsId={selectedEmployeeId ? 'employee-detail-panel' : undefined}
     rowClassName="employee-row employee-row-selectable"
     selectedRowKey={selectedEmployeeId}
     onRowSelect={onSelectEmployee}

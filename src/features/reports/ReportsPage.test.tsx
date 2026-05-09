@@ -130,7 +130,11 @@ describe('ReportsPage', () => {
         name: 'View details for Workforce Snapshot',
       }),
     )
-    await user.click(screen.getByRole('button', { name: 'Close' }))
+    await user.click(
+      screen.getByRole('button', {
+        name: 'Close details for Workforce Snapshot',
+      }),
+    )
 
     expect(
       screen.queryByRole('complementary', { name: 'Workforce Snapshot' }),

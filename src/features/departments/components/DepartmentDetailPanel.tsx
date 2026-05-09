@@ -19,7 +19,7 @@ export const DepartmentDetailPanel = ({
 }: DepartmentDetailPanelProps) => (
   <aside
     className="department-detail-panel"
-    aria-label={department.name}
+    id="department-detail-panel"
     aria-labelledby="department-detail-title"
   >
     <div className="department-detail-header">
@@ -27,7 +27,12 @@ export const DepartmentDetailPanel = ({
         <p className="eyebrow">Department detail</p>
         <h3 id="department-detail-title">{department.name}</h3>
       </div>
-      <button className="detail-close-button" type="button" onClick={onClose}>
+      <button
+        className="detail-close-button"
+        type="button"
+        onClick={onClose}
+        aria-label={`Close details for ${department.name}`}
+      >
         Close
       </button>
     </div>

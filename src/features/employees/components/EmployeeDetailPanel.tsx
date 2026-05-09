@@ -21,7 +21,11 @@ export const EmployeeDetailPanel = ({
   employee,
   onClose,
 }: EmployeeDetailPanelProps) => (
-  <aside className="employee-detail-panel" aria-labelledby="employee-detail-title">
+  <aside
+    className="employee-detail-panel"
+    id="employee-detail-panel"
+    aria-labelledby="employee-detail-title"
+  >
     <div className="employee-detail-header">
       <div>
         <p className="eyebrow">Employee profile</p>

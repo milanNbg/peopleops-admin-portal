@@ -7,6 +7,7 @@ export const DataTable = <TData,>({
   data,
   emptyMessage,
   headerRowClassName,
+  rowControlsId,
   rowClassName,
   selectedRowKey,
   getRowKey,
@@ -45,6 +46,10 @@ export const DataTable = <TData,>({
               role="row"
               key={rowKey}
               onClick={() => onRowSelect(row)}
+              aria-controls={rowControlsId}
+              aria-expanded={
+                rowControlsId ? selectedRowKey === rowKey : undefined
+              }
               aria-label={getRowLabel?.(row)}
               aria-selected={selectedRowKey === rowKey}
             >

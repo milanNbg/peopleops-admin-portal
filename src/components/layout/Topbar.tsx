@@ -1,6 +1,7 @@
 import {
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from 'react'
 import { useLocation } from 'react-router-dom'
@@ -19,10 +20,12 @@ export const Topbar = () => {
   } = useAppUi()
   const { pathname } = useLocation()
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false)
+  const commandPaletteTriggerRef = useRef<HTMLButtonElement>(null)
   const nextThemeLabel = themeMode === 'light' ? 'Dark mode' : 'Light mode'
   const pageTitle = getNavigationLabelByPath(pathname) ?? 'Page not found'
   const closeCommandPalette = useCallback(() => {
     setIsCommandPaletteOpen(false)
+    commandPaletteTriggerRef.current?.focus()
   }, [])
 
   useEffect(() => {
@@ -47,11 +50,17 @@ export const Topbar = () => {
 
       <div className="header-actions">
         <button
+          ref={commandPaletteTriggerRef}
           className="command-palette-trigger"
           type="button"
           onClick={() => setIsCommandPaletteOpen(true)}
+          aria-controls={
+            isCommandPaletteOpen ? 'command-palette-dialog' : undefined
+          }
           aria-haspopup="dialog"
           aria-expanded={isCommandPaletteOpen}
+          aria-keyshortcuts="Control+K Meta+K"
+          aria-label="Open command palette search"
         >
           <span>Search</span>
           <kbd>Ctrl K</kbd>

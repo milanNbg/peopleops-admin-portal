@@ -15,7 +15,7 @@ export const ReportDetailPanel = ({
 }: ReportDetailPanelProps) => (
   <aside
     className="report-detail-panel"
-    aria-label={report.name}
+    id="report-detail-panel"
     aria-labelledby="report-detail-title"
   >
     <div className="report-detail-header">
@@ -23,7 +23,12 @@ export const ReportDetailPanel = ({
         <p className="eyebrow">{report.category}</p>
         <h3 id="report-detail-title">{report.name}</h3>
       </div>
-      <button className="detail-close-button" type="button" onClick={onClose}>
+      <button
+        className="detail-close-button"
+        type="button"
+        onClick={onClose}
+        aria-label={`Close details for ${report.name}`}
+      >
         Close
       </button>
     </div>
@@ -60,7 +65,11 @@ export const ReportDetailPanel = ({
     </dl>
 
     <div className="report-detail-actions">
-      <button className="export-report-button" type="button" onClick={onExportReport}>
+      <button
+        className="export-report-button"
+        type="button"
+        onClick={onExportReport}
+      >
         Download CSV
       </button>
     </div>

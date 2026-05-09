@@ -127,6 +127,7 @@ export const CommandPalette = ({
   return (
     <div className="command-palette-overlay" role="presentation">
       <div
+        id="command-palette-dialog"
         aria-labelledby="command-palette-title"
         aria-modal="true"
         className="command-palette"
@@ -151,6 +152,7 @@ export const CommandPalette = ({
           <span className="visually-hidden">Search pages</span>
           <input
             ref={inputRef}
+            aria-controls="command-palette-results"
             type="search"
             value={query}
             placeholder="Search pages..."
@@ -158,7 +160,7 @@ export const CommandPalette = ({
           />
         </label>
 
-        <div className="command-palette-results">
+        <div className="command-palette-results" id="command-palette-results">
           {hasResults ? (
             filteredCommandGroups.map((group) => (
               <section className="command-palette-group" key={group.label}>
