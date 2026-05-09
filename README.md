@@ -45,8 +45,9 @@ Dashboard dark mode
 - Departments overview page with summary cards, staffing insights and department detail panel.
 - Roles overview page with role, access and permissions matrix information.
 - Reports overview page with reporting categories, generated report details, detail panel and CSV download action.
+- Toast notifications for CSV/download actions and app-level user feedback.
 - Responsive app shell with sidebar navigation, top header and semantic layout landmarks.
-- Global command palette for quick keyboard-based navigation across the app.
+- Global command palette for quick keyboard-based navigation and app-level actions.
 - Sidebar collapse / expand preference with accessible navigation labels and active route state.
 - Light and dark theme toggle with localStorage persistence.
 - Mock async data flows through a service layer.
@@ -62,14 +63,14 @@ Dashboard dark mode
 
 The application is front-end only and does not include backend code or real API calls. Data is stored as mock data in `src/data` and accessed through a mock service layer in `src/services`.
 
-The project uses a feature-based structure so each major page keeps its page-specific components, hooks and styles close to the feature. Shared layout components live in `src/components/layout`, reusable UI components live in folder-per-component structure under `src/components/ui`, and domain types live in `src/types`.
+The project uses a feature-based structure so each major page keeps its page-specific components, hooks and styles close to the feature. Shared layout components live in `src/components/layout`, reusable UI components live in folder-per-component structure under `src/components/ui`, app-level provider composition lives in `src/providers`, and domain types live in `src/types`.
 
 Imports use the `@/` TypeScript path alias for shared app layers, which keeps feature and service imports readable as the project grows.
 
 State management is intentionally lightweight:
 
 - `useReducer` is used for feature-level state such as employee filtering and sorting.
-- React Context is used for app-level UI preferences such as theme mode and sidebar collapsed state.
+- React Context is used for app-level UI concerns such as theme mode, sidebar collapsed state and toast notifications.
 - Feature data remains local to pages and is loaded through mock services with reusable async loading helpers.
 
 Styling uses SCSS with a global entry point in `src/styles`, base/theme/accessibility partials, layout-level styles, reusable UI styles and feature-page styles colocated with their pages.

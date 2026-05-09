@@ -58,6 +58,9 @@ The project should look like a professional enterprise SaaS product and should b
 - GitHub Actions CI
 - Vercel live deployment
 - SCSS architecture with global, layout, UI and feature-level styles
+- Global command palette with quick navigation and app-level actions
+- Toast notifications for CSV/download actions and app-level feedback
+- AppProviders composition for root-level provider nesting
 
 ## Visual Style
 
@@ -130,6 +133,7 @@ src/
 - Use folder-per-component structure for reusable UI components and export public components through `src/components/ui/index.ts`.
 - Keep layout components inside `src/components/layout`.
 - Keep app-level context inside `src/context`.
+- Keep root provider composition inside `src/providers` when multiple app-level providers need to be composed.
 - Keep shared custom hooks inside `src/hooks`.
 - Keep feature-specific hooks inside the relevant feature folder.
 - Keep mock data inside `src/data`.
@@ -147,7 +151,7 @@ src/
 
 - Use local component state for simple UI state.
 - Use `useReducer` for feature-level state with multiple related fields, such as filters, sorting and search.
-- Use React Context only for app-level UI state, such as theme mode and sidebar collapse state.
+- Use React Context only for app-level UI state and feedback, such as theme mode, sidebar collapse state and toast notifications.
 - Do not use Context for server/mock data that belongs to feature pages.
 - Do not introduce Redux, Zustand or other state libraries unless explicitly requested.
 
