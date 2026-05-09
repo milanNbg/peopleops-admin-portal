@@ -24,9 +24,19 @@
   --color-neutral-soft: #e2e8f0;
   --color-danger-border: #fecaca;
   --color-danger-surface: #fffafa;
+  --gradient-page:
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 28rem),
+    linear-gradient(180deg, #f8fbff 0%, var(--color-page-bg) 24rem);
+  --gradient-surface:
+    linear-gradient(180deg, color-mix(in srgb, var(--color-surface-raised) 96%, #ffffff), var(--color-surface-raised));
+  --radius-card: 0.625rem;
+  --radius-control: 0.5rem;
+  --radius-pill: 999rem;
   --shadow-panel: 0 1.125rem 2.8125rem rgba(15, 23, 42, 0.06);
   --shadow-card: 0 0.75rem 2rem rgba(15, 23, 42, 0.05);
+  --shadow-card-hover: 0 1rem 2.25rem rgba(15, 23, 42, 0.08);
   --shadow-interactive: 0 0.875rem 1.75rem rgba(15, 23, 42, 0.08);
+  --shadow-focus: 0 0 0 0.1875rem var(--color-focus);
 }
 
 :root[data-theme='dark'] {
@@ -55,7 +65,17 @@
   --color-neutral-soft: #334155;
   --color-danger-border: #7f1d1d;
   --color-danger-surface: #2a1216;
+  --gradient-page:
+    radial-gradient(circle at top left, rgba(96, 165, 250, 0.12), transparent 28rem),
+    linear-gradient(180deg, #0b1220 0%, var(--color-page-bg) 24rem);
+  --gradient-surface:
+    linear-gradient(180deg, color-mix(in srgb, var(--color-surface-raised) 92%, #ffffff), var(--color-surface-raised));
+  --radius-card: 0.625rem;
+  --radius-control: 0.5rem;
+  --radius-pill: 999rem;
   --shadow-panel: 0 1.125rem 2.8125rem rgba(0, 0, 0, 0.22);
   --shadow-card: 0 0.75rem 2rem rgba(0, 0, 0, 0.2);
+  --shadow-card-hover: 0 1rem 2.25rem rgba(0, 0, 0, 0.3);
   --shadow-interactive: 0 0.875rem 1.75rem rgba(0, 0, 0, 0.28);
+  --shadow-focus: 0 0 0 0.1875rem var(--color-focus);
 }

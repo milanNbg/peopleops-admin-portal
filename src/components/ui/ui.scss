@@ -1,10 +1,10 @@
 .welcome-panel {
   width: 100%;
   max-width: 47.5rem;
-  padding: 2rem;
+  padding: clamp(1.5rem, 1.25rem + 1vw, 2rem);
   border: 1px solid var(--color-border);
-  border-radius: 0.5rem;
-  background: var(--color-surface-raised);
+  border-radius: var(--radius-card);
+  background: var(--gradient-surface, var(--color-surface-raised));
   box-shadow: var(--shadow-panel);
   text-align: left;
 }
@@ -12,10 +12,10 @@
 .placeholder-page {
   width: 100%;
   max-width: 47.5rem;
-  padding: 2rem;
+  padding: clamp(1.5rem, 1.25rem + 1vw, 2rem);
   border: 1px solid var(--color-border);
-  border-radius: 0.5rem;
-  background: var(--color-surface-raised);
+  border-radius: var(--radius-card);
+  background: var(--gradient-surface, var(--color-surface-raised));
   box-shadow: var(--shadow-panel);
 }
 
@@ -30,8 +30,8 @@
   min-width: 0;
   max-width: 100%;
   border: 1px solid var(--color-border);
-  border-radius: 0.5rem;
-  background: var(--color-surface-raised);
+  border-radius: var(--radius-card);
+  background: var(--gradient-surface, var(--color-surface-raised));
   box-shadow: var(--shadow-card);
 }
 
@@ -39,6 +39,16 @@
   display: grid;
   gap: 0.625rem;
   padding: 1.375rem;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.metric-card:hover {
+  border-color: color-mix(in srgb, var(--color-accent) 28%, var(--color-border));
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-0.0625rem);
 }
 
 .metric-label,
@@ -55,7 +65,7 @@
 .metric-value {
   display: block;
   color: var(--color-heading);
-  font-size: 1.875rem;
+  font-size: clamp(1.625rem, 1.35rem + 0.8vw, 1.875rem);
   line-height: 1;
 }
 
@@ -74,7 +84,7 @@
 
 .dashboard-card {
   min-width: 0;
-  padding: 1.5rem;
+  padding: clamp(1.125rem, 1rem + 0.7vw, 1.5rem);
 }
 
 .state-card {
@@ -85,8 +95,8 @@
   gap: 0.625rem;
   padding: 1.5rem;
   border: 1px solid var(--color-border);
-  border-radius: 0.5rem;
-  background: var(--color-surface-raised);
+  border-radius: var(--radius-card);
+  background: var(--gradient-surface, var(--color-surface-raised));
   box-shadow: var(--shadow-card);
 }
 
@@ -115,13 +125,14 @@
   border-top-color: var(--color-accent);
   border-radius: 999rem;
   animation: spin 0.8s linear infinite;
+  box-shadow: 0 0.5rem 1rem color-mix(in srgb, var(--color-accent) 16%, transparent);
 }
 
 .skeleton-block {
   display: block;
   max-width: 100%;
   min-height: 1rem;
-  border-radius: 0.375rem;
+  border-radius: var(--radius-control);
   background: linear-gradient(
     90deg,
     var(--color-border-soft) 0%,
@@ -225,7 +236,7 @@
 .section-heading h3 {
   margin: 0.25rem 0 0;
   color: var(--color-heading);
-  font-size: 1.25rem;
+  font-size: clamp(1.125rem, 1rem + 0.45vw, 1.25rem);
   line-height: 1.25;
 }
 
@@ -246,7 +257,7 @@
   max-width: 35rem;
   margin: 1rem 0 0;
   color: var(--color-muted);
-  font-size: 1.125rem;
+  font-size: clamp(1rem, 0.95rem + 0.35vw, 1.125rem);
   line-height: 1.6;
 }
 

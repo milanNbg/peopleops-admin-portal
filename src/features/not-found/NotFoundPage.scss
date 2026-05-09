@@ -1,6 +1,6 @@
 .not-found-page {
   display: grid;
-  gap: 1.5rem;
+  gap: clamp(1rem, 0.85rem + 0.8vw, 1.5rem);
 }
 
 .not-found-card {
@@ -34,17 +34,24 @@
   justify-content: center;
   margin-top: 0.25rem;
   padding: 0 0.875rem;
-  border-radius: 0.4375rem;
+  border-radius: var(--radius-control);
   color: var(--color-on-accent);
   font-size: 0.875rem;
   font-weight: 750;
   text-decoration: none;
   background: var(--color-accent-strong);
+  box-shadow: var(--shadow-card);
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
 }
 
 .not-found-action:hover,
 .not-found-action:focus-visible {
   background: var(--color-accent);
+  box-shadow: var(--shadow-interactive);
+  transform: translateY(-0.0625rem);
 }
 
 @media (max-width: 40rem) {
