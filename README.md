@@ -16,13 +16,21 @@ Dashboard light mode
 
 ![Dashboard light mode](public/screenshots/dashboard-light.png)
 
-Employees light mode
+Employees workspace
 
-![Employees light mode](public/screenshots/employees-light.png)
+![Employees workspace](public/screenshots/employees-light.png)
+
+Command palette
+
+![Command palette](public/screenshots/command-palette.png)
 
 Dashboard dark mode
 
 ![Dashboard dark mode](public/screenshots/dashboard-dark.png)
+
+Mobile employee experience
+
+![Mobile employee experience](public/screenshots/mobile-employees.png)
 
 ## Tech Stack
 
