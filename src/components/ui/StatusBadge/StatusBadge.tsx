@@ -1,17 +1,44 @@
-import type { EmployeeStatus } from '@/types/employee'
+export type StatusBadgeTone =
+  | 'accent'
+  | 'neutral'
+  | 'subtle'
+  | 'success'
+  | 'warning'
 
 type StatusBadgeProps = {
-  status: EmployeeStatus
+  className?: string
+  status: string
+  tone?: StatusBadgeTone
 }
 
-const statusClassNames: Record<EmployeeStatus, string> = {
-  Active: 'active',
-  Inactive: 'inactive',
-  'On Leave': 'on-leave',
+const defaultStatusTones: Record<string, StatusBadgeTone> = {
+  Active: 'success',
+  Draft: 'neutral',
+  Full: 'accent',
+  Hiring: 'accent',
+  Inactive: 'neutral',
+  Manage: 'success',
+  None: 'subtle',
+  'On Leave': 'warning',
+  Planning: 'warning',
+  Ready: 'success',
+  Review: 'warning',
+  Scheduled: 'accent',
+  View: 'neutral',
 }
 
-export const StatusBadge = ({ status }: StatusBadgeProps) => (
-  <span className={`status-badge status-badge-${statusClassNames[status]}`}>
-    {status}
-  </span>
-)
+const getStatusTone = (status: string, tone?: StatusBadgeTone) =>
+  tone ?? defaultStatusTones[status] ?? 'neutral'
+
+export const StatusBadge = ({
+  className,
+  status,
+  tone,
+}: StatusBadgeProps) => {
+  const badgeTone = getStatusTone(status, tone)
+  const classNames = ['status-badge', `status-badge-${badgeTone}`, className]
+    .filter(Boolean)
+    .join(' ')
+
+  return <span className={classNames}>{status}</span>
+}

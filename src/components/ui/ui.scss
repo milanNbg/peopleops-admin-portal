@@ -60,9 +60,16 @@
 }
 
 .metric-trend {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 24%, transparent);
+  border-radius: 999rem;
+  padding: 0.25rem 0.625rem;
   color: var(--color-accent);
   font-size: 0.8125rem;
-  font-weight: 700;
+  font-weight: 800;
+  background: color-mix(in srgb, var(--color-accent) 9%, transparent);
 }
 
 .dashboard-card {
@@ -250,48 +257,50 @@ h2,
   overflow-wrap: anywhere;
 }
 
-.status-badge,
-.department-status,
-.role-status,
-.report-status {
+.status-badge {
   display: inline-flex;
-  min-width: 5.125rem;
+  min-width: 4.75rem;
+  min-height: 1.625rem;
   max-width: 100%;
   align-items: center;
   justify-content: center;
-  padding: 0.3125rem 0.625rem;
+  border: 1px solid transparent;
   border-radius: 999rem;
+  padding: 0.25rem 0.625rem;
   font-size: 0.75rem;
   font-weight: 800;
+  line-height: 1.2;
   text-align: center;
 }
 
-.status-badge-active,
-.department-status-active,
-.role-status-active,
-.report-status-ready {
+.status-badge-success {
+  border-color: color-mix(in srgb, var(--color-success) 32%, transparent);
   color: var(--color-success-text);
-  background: var(--color-success-soft);
+  background: color-mix(in srgb, var(--color-success-soft) 88%, var(--color-surface));
 }
 
-.status-badge-inactive,
-.role-status-draft {
+.status-badge-neutral {
+  border-color: var(--color-border);
   color: var(--color-muted);
-  background: var(--color-neutral-soft);
+  background: color-mix(in srgb, var(--color-neutral-soft) 72%, var(--color-surface));
 }
 
-.status-badge-on-leave,
-.department-status-planning,
-.role-status-review,
-.report-status-review {
+.status-badge-subtle {
+  border-color: var(--color-border-soft);
+  color: var(--color-subtle);
+  background: transparent;
+}
+
+.status-badge-warning {
+  border-color: color-mix(in srgb, var(--color-warning-text) 24%, transparent);
   color: var(--color-warning-text);
-  background: var(--color-warning-soft);
+  background: color-mix(in srgb, var(--color-warning-soft) 82%, var(--color-surface));
 }
 
-.department-status-hiring,
-.report-status-scheduled {
+.status-badge-accent {
+  border-color: color-mix(in srgb, var(--color-accent) 32%, transparent);
   color: var(--color-accent-strong);
-  background: var(--color-focus);
+  background: color-mix(in srgb, var(--color-accent-soft) 88%, var(--color-surface));
 }
 
 .data-table-empty-cell {

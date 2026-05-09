@@ -11,20 +11,15 @@ import {
   SkeletonBlock,
   SkeletonCardGrid,
   SkeletonTable,
+  StatusBadge,
 } from '@/components/ui'
 import { getDepartments } from '@/services/departmentsService'
 import { useAsyncData } from '@/hooks/useAsyncData'
 
 import type { DataTableColumn } from '@/components/ui'
-import type { Department, DepartmentStatus } from '@/types/department'
+import type { Department } from '@/types/department'
 
 import { DepartmentDetailPanel } from './components/DepartmentDetailPanel'
-
-const departmentStatusClassNames: Record<DepartmentStatus, string> = {
-  Active: 'active',
-  Hiring: 'hiring',
-  Planning: 'planning',
-}
 
 const departmentColumns: DataTableColumn<Department>[] = [
   {
@@ -56,13 +51,7 @@ const departmentColumns: DataTableColumn<Department>[] = [
     header: 'Status',
     key: 'status',
     render: (department) => (
-      <span
-        className={`department-status department-status-${
-          departmentStatusClassNames[department.status]
-        }`}
-      >
-        {department.status}
-      </span>
+      <StatusBadge className="department-status" status={department.status} />
     ),
   },
 ]

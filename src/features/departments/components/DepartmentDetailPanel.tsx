@@ -1,9 +1,17 @@
+import { StatusBadge } from '@/components/ui'
+
 import type { Department } from '@/types/department'
 
 type DepartmentDetailPanelProps = {
   department: Department
   onClose: () => void
 }
+
+const hiringPriorityTones = {
+  High: 'warning',
+  Low: 'neutral',
+  Medium: 'accent',
+} as const
 
 export const DepartmentDetailPanel = ({
   department,
@@ -45,11 +53,18 @@ export const DepartmentDetailPanel = ({
       </div>
       <div className="department-detail-item">
         <dt>Staffing status</dt>
-        <dd>{department.status}</dd>
+        <dd>
+          <StatusBadge status={department.status} />
+        </dd>
       </div>
       <div className="department-detail-item">
         <dt>Hiring priority</dt>
-        <dd>{department.hiringPriority}</dd>
+        <dd>
+          <StatusBadge
+            status={department.hiringPriority}
+            tone={hiringPriorityTones[department.hiringPriority]}
+          />
+        </dd>
       </div>
     </dl>
   </aside>

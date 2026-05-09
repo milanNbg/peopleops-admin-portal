@@ -11,6 +11,7 @@ import {
   SkeletonBlock,
   SkeletonCardGrid,
   SkeletonTable,
+  StatusBadge,
 } from '@/components/ui'
 import { getRolePermissionsMatrix, getRoles } from '@/services/rolesService'
 import { useAsyncData } from '@/hooks/useAsyncData'
@@ -19,16 +20,9 @@ import type { DataTableColumn } from '@/components/ui'
 import type {
   Role,
   RolePermissionsMatrix as RolePermissionsMatrixData,
-  RoleStatus,
 } from '@/types/role'
 
 import { RolePermissionsMatrix } from './components/RolePermissionsMatrix'
-
-const roleStatusClassNames: Record<RoleStatus, string> = {
-  Active: 'active',
-  Draft: 'draft',
-  Review: 'review',
-}
 
 const roleColumns: DataTableColumn<Role>[] = [
   {
@@ -60,13 +54,7 @@ const roleColumns: DataTableColumn<Role>[] = [
     header: 'Status',
     key: 'status',
     render: (role) => (
-      <span
-        className={`role-status role-status-${
-          roleStatusClassNames[role.status]
-        }`}
-      >
-        {role.status}
-      </span>
+      <StatusBadge className="role-status" status={role.status} />
     ),
   },
   {

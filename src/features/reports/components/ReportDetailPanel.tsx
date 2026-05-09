@@ -1,3 +1,5 @@
+import { StatusBadge } from '@/components/ui'
+
 import type { Report } from '@/types/report'
 
 type ReportDetailPanelProps = {
@@ -35,7 +37,9 @@ export const ReportDetailPanel = ({
       </div>
       <div className="report-detail-item">
         <dt>Status</dt>
-        <dd>{report.status}</dd>
+        <dd>
+          <StatusBadge status={report.status} />
+        </dd>
       </div>
       <div className="report-detail-item">
         <dt>Last generated</dt>

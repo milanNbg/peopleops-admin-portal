@@ -11,21 +11,16 @@ import {
   SkeletonBlock,
   SkeletonCardGrid,
   SkeletonTable,
+  StatusBadge,
 } from '@/components/ui'
 import { getReports } from '@/services/reportsService'
 import { useAsyncData } from '@/hooks/useAsyncData'
 import { createCsv } from '@/utils/csv'
 
 import type { DataTableColumn } from '@/components/ui'
-import type { Report, ReportStatus } from '@/types/report'
+import type { Report } from '@/types/report'
 
 import { ReportDetailPanel } from './components/ReportDetailPanel'
-
-const reportStatusClassNames: Record<ReportStatus, string> = {
-  Ready: 'ready',
-  Review: 'review',
-  Scheduled: 'scheduled',
-}
 
 const reportColumns: DataTableColumn<Report>[] = [
   {
@@ -47,13 +42,7 @@ const reportColumns: DataTableColumn<Report>[] = [
     header: 'Status',
     key: 'status',
     render: (report) => (
-      <span
-        className={`report-status report-status-${
-          reportStatusClassNames[report.status]
-        }`}
-      >
-        {report.status}
-      </span>
+      <StatusBadge className="report-status" status={report.status} />
     ),
   },
   {

@@ -1,17 +1,9 @@
-import type {
-  RolePermissionLevel,
-  RolePermissionsMatrix as RolePermissionsMatrixData,
-} from '@/types/role'
+import { StatusBadge } from '@/components/ui'
+
+import type { RolePermissionsMatrix as RolePermissionsMatrixData } from '@/types/role'
 
 type RolePermissionsMatrixProps = {
   matrix: RolePermissionsMatrixData
-}
-
-const accessClassNames: Record<RolePermissionLevel, string> = {
-  Full: 'full',
-  Manage: 'manage',
-  None: 'none',
-  View: 'view',
 }
 
 export const RolePermissionsMatrix = ({
@@ -53,13 +45,10 @@ export const RolePermissionsMatrix = ({
 
                 return (
                   <td key={role.id}>
-                    <span
-                      className={`permission-level permission-level-${
-                        accessClassNames[accessLevel]
-                      }`}
-                    >
-                      {accessLevel}
-                    </span>
+                    <StatusBadge
+                      className="permission-level"
+                      status={accessLevel}
+                    />
                   </td>
                 )
               })}
