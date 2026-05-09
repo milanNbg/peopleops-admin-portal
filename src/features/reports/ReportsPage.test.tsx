@@ -2,6 +2,7 @@ import { cleanup, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
+import { ToastProvider } from '@/context/ToastProvider'
 import * as reportsService from '@/services/reportsService'
 
 import type { Report } from '@/types/report'
@@ -58,6 +59,13 @@ const mockReportDownload = () => {
   return { click, createObjectURL, revokeObjectURL }
 }
 
+const renderReportsPage = () =>
+  render(
+    <ToastProvider>
+      <ReportsPage />
+    </ToastProvider>,
+  )
+
 describe('ReportsPage', () => {
   afterEach(() => {
     cleanup()
@@ -70,7 +78,7 @@ describe('ReportsPage', () => {
 
     vi.mocked(reportsService.getReports).mockReturnValue(reportsRequest.promise)
 
-    render(<ReportsPage />)
+    renderReportsPage()
 
     expect(screen.getByText('Loading report data...')).toBeInTheDocument()
     expect(
@@ -83,7 +91,7 @@ describe('ReportsPage', () => {
   it('shows report content after data loads successfully', async () => {
     vi.mocked(reportsService.getReports).mockResolvedValue(reports)
 
-    render(<ReportsPage />)
+    renderReportsPage()
 
     expect(
       await screen.findByRole('heading', { name: 'Reports' }),
@@ -101,7 +109,7 @@ describe('ReportsPage', () => {
 
     vi.mocked(reportsService.getReports).mockResolvedValue(reports)
 
-    render(<ReportsPage />)
+    renderReportsPage()
 
     await user.click(
       await screen.findByRole('row', {
@@ -123,7 +131,7 @@ describe('ReportsPage', () => {
 
     vi.mocked(reportsService.getReports).mockResolvedValue(reports)
 
-    render(<ReportsPage />)
+    renderReportsPage()
 
     await user.click(
       await screen.findByRole('row', {
@@ -147,7 +155,7 @@ describe('ReportsPage', () => {
 
     vi.mocked(reportsService.getReports).mockResolvedValue(reports)
 
-    render(<ReportsPage />)
+    renderReportsPage()
 
     await user.click(
       await screen.findByRole('row', {
@@ -166,6 +174,9 @@ describe('ReportsPage', () => {
 
     expect(click).toHaveBeenCalled()
     expect(revokeObjectURL).toHaveBeenCalledWith('blob:peopleops-report')
+    expect(
+      screen.getByText('Workforce Snapshot report downloaded.'),
+    ).toBeInTheDocument()
     expect(reportCsv).toContain('Workforce Snapshot')
     expect(reportCsv).toContain('Weekly on Monday')
   })
@@ -175,7 +186,7 @@ describe('ReportsPage', () => {
       new Error('Unable to load reports'),
     )
 
-    render(<ReportsPage />)
+    renderReportsPage()
 
     expect(
       await screen.findByRole('heading', { name: 'Report data unavailable' }),

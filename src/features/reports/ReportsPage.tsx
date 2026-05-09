@@ -15,6 +15,7 @@ import {
 } from '@/components/ui'
 import { getReports } from '@/services/reportsService'
 import { useAsyncData } from '@/hooks/useAsyncData'
+import { useToast } from '@/hooks/useToast'
 import { createCsv } from '@/utils/csv'
 
 import type { DataTableColumn } from '@/components/ui'
@@ -123,6 +124,7 @@ export const ReportsPage = () => {
     errorMessage: 'Report data could not be loaded. Please try again later.',
     initialData: [],
   })
+  const { showToast } = useToast()
 
   const reportSummary = useMemo(() => {
     const readyReports = reports.filter(
@@ -159,11 +161,18 @@ export const ReportsPage = () => {
 
     try {
       downloadLink.click()
+      showToast({
+        message: `${selectedVisibleReport.name} report downloaded.`,
+        variant: 'success',
+      })
     } finally {
       downloadLink.remove()
       URL.revokeObjectURL(csvUrl)
     }
-  }, [selectedVisibleReport])
+  }, [
+    selectedVisibleReport,
+    showToast,
+  ])
 
   return (
     <div className="reports-page">

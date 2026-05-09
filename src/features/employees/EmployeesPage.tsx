@@ -11,6 +11,7 @@ import {
 } from '@/components/ui'
 import { getEmployees } from '@/services/employeesService'
 import { useAsyncData } from '@/hooks/useAsyncData'
+import { useToast } from '@/hooks/useToast'
 import { createCsv } from '@/utils/csv'
 
 import type { Employee } from '@/types/employee'
@@ -102,6 +103,7 @@ export const EmployeesPage = () => {
     errorMessage: 'Employee records could not be loaded. Please try again later.',
     initialData: [],
   })
+  const { showToast } = useToast()
 
   const {
     activeFilters,
@@ -137,11 +139,18 @@ export const EmployeesPage = () => {
 
     try {
       downloadLink.click()
+      showToast({
+        message: 'Employee CSV exported successfully.',
+        variant: 'success',
+      })
     } finally {
       downloadLink.remove()
       URL.revokeObjectURL(csvUrl)
     }
-  }, [filteredEmployees])
+  }, [
+    filteredEmployees,
+    showToast,
+  ])
 
   return (
     <div className="employees-page">

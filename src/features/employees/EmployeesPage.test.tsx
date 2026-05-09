@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter, useLocation } from 'react-router-dom'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
+import { ToastProvider } from '@/context/ToastProvider'
 import * as employeesService from '@/services/employeesService'
 
 import type { Employee } from '@/types/employee'
@@ -108,8 +109,10 @@ const LocationStatus = () => {
 const renderEmployeesPage = (initialEntry = '/employees') =>
   render(
     <MemoryRouter initialEntries={[initialEntry]}>
-      <EmployeesPage />
-      <LocationStatus />
+      <ToastProvider>
+        <EmployeesPage />
+        <LocationStatus />
+      </ToastProvider>
     </MemoryRouter>,
   )
 
@@ -214,6 +217,9 @@ describe('EmployeesPage', () => {
 
     expect(click).toHaveBeenCalled()
     expect(revokeObjectURL).toHaveBeenCalledWith('blob:peopleops-employees')
+    expect(
+      screen.getByText('Employee CSV exported successfully.'),
+    ).toBeInTheDocument()
     expect(csvText).toContain(
       'Name,Email,Department,Role,Location,Status,Employment type,Manager,Start date',
     )
