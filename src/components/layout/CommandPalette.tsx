@@ -172,6 +172,7 @@ export const CommandPalette = ({
                       key={command.id}
                       role="option"
                       type="button"
+                      aria-selected="false"
                       onClick={command.onSelect}
                     >
                       <span

@@ -790,6 +790,18 @@
     width: 100%;
   }
 
+  .sidebar-toggle,
+  .command-palette-trigger,
+  .theme-toggle,
+  .workspace-status {
+    min-height: 2.75rem;
+  }
+
+  .nav-link,
+  .sidebar-collapsed .nav-link {
+    min-height: 2.75rem;
+  }
+
   .command-palette-trigger {
     justify-content: space-between;
   }
