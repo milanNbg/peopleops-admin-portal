@@ -5,7 +5,7 @@ import {
 } from 'react'
 import { useLocation } from 'react-router-dom'
 
-import { navigationItems } from '@/data/navigation'
+import { getNavigationLabelByPath } from '@/data/navigation'
 import { useAppUi } from '@/hooks/useAppUi'
 
 import { CommandPalette } from './CommandPalette'
@@ -20,9 +20,7 @@ export const Topbar = () => {
   const { pathname } = useLocation()
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false)
   const nextThemeLabel = themeMode === 'light' ? 'Dark mode' : 'Light mode'
-  const pageTitle =
-    navigationItems.find((item) => item.path === pathname)?.label ??
-    'Page not found'
+  const pageTitle = getNavigationLabelByPath(pathname) ?? 'Page not found'
   const closeCommandPalette = useCallback(() => {
     setIsCommandPaletteOpen(false)
   }, [])

@@ -11,3 +11,6 @@ export const navigationItems: NavigationItem[] = [
   { label: 'Roles', path: '/roles', shortLabel: 'ROL' },
   { label: 'Reports', path: '/reports', shortLabel: 'REP' },
 ]
+
+export const getNavigationLabelByPath = (pathname: string) =>
+  navigationItems.find((item) => item.path === pathname)?.label
